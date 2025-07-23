@@ -128,7 +128,9 @@ setup_environment() {
     fi
     
     # Carregar variáveis de ambiente
-    export $(cat config/.env | grep -v '^#' | xargs)
+    set -a  # automatically export all variables
+    source config/.env
+    set +a  # disable automatic export
 }
 
 # Criar diretórios necessários

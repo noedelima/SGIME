@@ -1,0 +1,244 @@
+# .gitignore para SGIME
+# Sistema de Gestão Integrada de Engenharia
+# Colégio Pedro II - Seção de Engenharia
+
+# ===== ARQUIVOS DE CONFIGURAÇÃO SENSÍVEL =====
+# Nunca commitar arquivos com senhas e chaves
+config/.env
+config/.env.local
+config/.env.production
+config/.env.development
+.env
+.env.*
+
+# Certificados SSL e chaves privadas
+config/nginx/ssl/*.key
+config/nginx/ssl/*.crt
+config/nginx/ssl/*.pem
+*.key
+*.crt
+*.pem
+*.p12
+*.pfx
+
+# ===== DADOS E VOLUMES =====
+# Dados do banco de dados
+data/
+postgres_data/
+redmine_data/
+redis_data/
+
+# Volumes Docker
+volumes/
+
+# ===== LOGS E ARQUIVOS TEMPORÁRIOS =====
+# Logs de todos os serviços
+logs/
+*.log
+*.log.*
+
+# Arquivos temporários
+tmp/
+temp/
+.tmp/
+cache/
+.cache/
+
+# ===== BACKUPS =====
+# Arquivos de backup (podem ser grandes)
+backups/
+*.sql
+*.sql.gz
+*.tar.gz
+*.zip
+*.backup
+
+# ===== DOCKER =====
+# Arquivos gerados pelo Docker
+.dockerignore.local
+docker-compose.override.local.yml
+
+# ===== RUBY/RAILS =====
+# Arquivos específicos do Ruby/Rails
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+# Documentação gerada
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+
+# Bundler
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# Rails
+.secret
+.rspec
+capybara-*.html
+.rvmrc
+.rbenv-version
+.ruby-version
+.ruby-gemset
+
+# ===== NODE.JS =====
+# Dependências do Node.js (se houver)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# ===== SISTEMA OPERACIONAL =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# ===== EDITORES E IDEs =====
+# VS Code
+.vscode/
+*.code-workspace
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===== FERRAMENTAS DE DESENVOLVIMENTO =====
+# Terraform (se usado para infraestrutura)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Vagrant
+.vagrant/
+
+# ===== ARQUIVOS ESPECÍFICOS DO SGIME =====
+# Uploads de usuários (podem ser grandes)
+files/
+attachments/
+uploads/
+
+# Cache do Redmine
+public/plugin_assets/
+public/themes/
+redmine_files/
+redmine_plugins/
+redmine_themes/
+
+# Arquivos de instalação temporários
+install.log
+setup.log
+update.log
+
+# Chaves de API e tokens
+api_keys.txt
+tokens.txt
+secrets.txt
+
+# ===== MONITORAMENTO E MÉTRICAS =====
+# Arquivos de métricas
+metrics/
+monitoring/
+*.metrics
+
+# ===== TESTES =====
+# Cobertura de testes
+coverage/
+.coverage
+htmlcov/
+
+# ===== DOCUMENTAÇÃO GERADA =====
+# Documentação gerada automaticamente
+docs/_build/
+docs/build/
+site/
+
+# ===== OUTROS =====
+# Arquivos de lock diversos
+*.lock
+.lock
+
+# Arquivos de PID
+*.pid
+
+# Dumps de banco de dados locais
+dump.rdb
+*.dump
+
+# Arquivos de sessão
+.session
+sessions/
+
+# Arquivos de debug
+debug/
+*.debug
+
+# Arquivos de profiling
+profile/
+*.prof
+
+# ===== CONFIGURAÇÕES LOCAIS DE DESENVOLVIMENTO =====
+# Sobrescritas locais do docker-compose
+docker-compose.local.yml
+docker-compose.dev.yml
+
+# Scripts locais de desenvolvimento
+scripts/local/
+local_scripts/
+
+# Configurações IDE específicas do projeto
+.project
+.classpath
+.settings/
+
+# ===== ARQUIVOS DE SISTEMA =====
+# Arquivos de sistema que podem ser criados
+.nfs*
