@@ -5,7 +5,7 @@
 FROM alpine:3.18
 
 # Metadados
-LABEL maintainer="Seção de Engenharia - Colégio Pedro II <engenharia@cp2.g12.br>"
+LABEL maintainer="Seção de Engenharia - Colégio Pedro II <geeng@cp2.g12.br>"
 LABEL version="1.6"
 LABEL description="Serviço de backup automatizado para SGIME"
 

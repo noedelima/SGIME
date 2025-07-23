@@ -77,8 +77,8 @@ O SGIME (Sistema de Gestão Integrada de Engenharia) é uma solução completa d
 
 ```bash
 # Clone o repositório
-git clone https://github.com/colegio-pedro-ii/sgime.git
-cd sgime
+git clone https://github.com/noedelima/SGIME.git
+cd SGIME
 
 # Execute a instalação automatizada
 chmod +x scripts/install.sh
@@ -99,8 +99,8 @@ sudo apt install -y docker.io docker-compose git curl wget
 2. **Clone e Configuração**
 ```bash
 # Clone o projeto
-git clone https://github.com/colegio-pedro-ii/sgime.git
-cd sgime
+git clone https://github.com/noedelima/SGIME.git
+cd SGIME
 
 # Copie e configure as variáveis de ambiente
 cp config/env.example config/.env
@@ -234,7 +234,7 @@ chmod +x scripts/uninstall.sh
 ### Contato e Suporte
 - **Órgão**: Colégio Pedro II
 - **Setor**: Seção de Engenharia
-- **E-mail**: engenharia@cp2.g12.br
+- **E-mail**: geeng@cp2.g12.br
 - **Documentação Online**: https://sgime.cp2.g12.br/docs
 
 ## Contribuição

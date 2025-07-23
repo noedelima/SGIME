@@ -10,7 +10,7 @@ ARG RUBY_VERSION=3.2
 FROM redmine:${REDMINE_VERSION}-alpine
 
 # Metadados do projeto
-LABEL maintainer="Seção de Engenharia - Colégio Pedro II <engenharia@cp2.g12.br>"
+LABEL maintainer="Seção de Engenharia - Colégio Pedro II <geeng@cp2.g12.br>"
 LABEL version="1.6"
 LABEL description="SGIME - Sistema de Gestão Integrada de Engenharia baseado em Redmine"
 

@@ -793,8 +793,8 @@ docker-compose exec redmine bundle exec rake redmine:check RAILS_ENV=production
 
 ### Contatos de Suporte
 
-- **E-mail Primário**: engenharia@cp2.g12.br
-- **E-mail Técnico**: ti.engenharia@cp2.g12.br
+- **E-mail Primário**: geeng@cp2.g12.br
+- **E-mail Técnico**: geeng@cp2.g12.br
 - **Telefone**: (21) 2569-1234 (Ramal: 5678)
 - **Horário de Atendimento**: Segunda a Sexta, 8h às 18h
 

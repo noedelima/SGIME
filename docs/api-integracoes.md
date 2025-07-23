@@ -588,7 +588,7 @@ X-RateLimit-Reset: 1690196400
 - **SGIME Docs**: https://sgime.cp2.g12.br/docs
 
 ### Contato Técnico
-- **E-mail**: engenharia@cp2.g12.br
+- **E-mail**: geeng@cp2.g12.br
 - **Telefone**: (21) 2569-1234 (Ramal: 5678)
 
 ### Ambiente de Testes

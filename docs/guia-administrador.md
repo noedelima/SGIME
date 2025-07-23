@@ -70,8 +70,8 @@ sudo systemctl enable docker
 
 ```bash
 # Clone do repositório
-git clone https://github.com/colegio-pedro-ii/sgime.git
-cd sgime
+git clone https://github.com/noedelima/SGIME.git
+cd SGIME
 
 # Executar instalação
 chmod +x scripts/install.sh

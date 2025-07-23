@@ -7,7 +7,7 @@ production:
     version: "1.6"
     organization_name: "<%= ENV['ORGANIZATION_NAME'] || 'Colégio Pedro II' %>"
     department_name: "<%= ENV['DEPARTMENT_NAME'] || 'Seção de Engenharia' %>"
-    contact_email: "<%= ENV['SGIME_CONTACT_EMAIL'] || 'engenharia@cp2.g12.br' %>"
+    contact_email: "<%= ENV['SGIME_CONTACT_EMAIL'] || 'geeng@cp2.g12.br' %>"
     base_url: "<%= ENV['SGIME_BASE_URL'] || 'https://sgime.cp2.g12.br' %>"
 
   # Configurações de email

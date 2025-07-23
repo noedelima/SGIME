@@ -238,20 +238,20 @@ Sim! O SGIME possui interface responsiva e funciona perfeitamente em dispositivo
 ### Como solicitar novo usuário?
 
 Entre em contato com a Seção de Engenharia:
-- **Email**: engenharia@cp2.g12.br
+- **Email**: geeng@cp2.g12.br
 - **Sistema**: https://sgime.cp2.g12.br
 
 ### O que fazer se encontrar um bug?
 
 1. Documente o problema (prints, passos para reproduzir)
 2. Crie uma **tarefa** no projeto "Suporte SGIME"
-3. Ou envie email para: engenharia@cp2.g12.br
+3. Ou envie email para: geeng@cp2.g12.br
 
 ---
 
 **Suporte Técnico**  
 Seção de Engenharia - Colégio Pedro II  
-📧 engenharia@cp2.g12.br  
+📧 geeng@cp2.g12.br  
 🌐 https://sgime.cp2.g12.br  
 
 **Versão do Manual**: 1.6  

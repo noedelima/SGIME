@@ -10,13 +10,13 @@ Redmine::Plugin.register :sgime_customizations do
   description 'Plugin com customizações específicas para o Sistema de Gestão Integrada de Engenharia'
   version '1.6.0'
   url 'https://sgime.cp2.g12.br'
-  author_url 'mailto:engenharia@cp2.g12.br'
+  author_url 'mailto:geeng@cp2.g12.br'
 
   # Definir configurações globais
   settings default: {
     'organization_name' => 'Colégio Pedro II',
     'department_name' => 'Seção de Engenharia',
-    'contact_email' => 'engenharia@cp2.g12.br',
+    'contact_email' => 'geeng@cp2.g12.br',
     'system_version' => '1.6',
     'enable_automatic_os' => true,
     'enable_pdf_reports' => true,

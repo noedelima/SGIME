@@ -232,7 +232,7 @@ module SgimeCustomizations
       
       readme += "CONTATO:\n"
       readme += "Seção de Engenharia - Colégio Pedro II\n"
-      readme += "E-mail: engenharia@cp2.g12.br\n"
+      readme += "E-mail: geeng@cp2.g12.br\n"
       readme += "Sistema: https://sgime.cp2.g12.br\n\n"
       
       readme += "---\n"

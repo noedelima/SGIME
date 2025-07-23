@@ -18,7 +18,7 @@ services:
       SGIME_ORGANIZATION: "Colégio Pedro II"
       SGIME_DEPARTMENT: "Seção de Engenharia" 
       SGIME_VERSION: "1.6"
-      SGIME_CONTACT_EMAIL: "engenharia@cp2.g12.br"
+      SGIME_CONTACT_EMAIL: "geeng@cp2.g12.br"
       
       # Configurações de performance
       RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
