@@ -1,0 +1,15 @@
+# Crontab para backups automáticos do SGIME
+# Sistema de Gestão Integrada de Engenharia
+# Colégio Pedro II - Seção de Engenharia
+
+# Backup diário do banco de dados às 02:00
+0 2 * * * /scripts/backup_db.sh
+
+# Backup semanal dos arquivos aos domingos às 03:00
+0 3 * * 0 /scripts/backup_files.sh
+
+# Limpeza de logs antigos (manter apenas 30 dias)
+0 1 * * * find /var/log/sgime -name "*.log" -type f -mtime +30 -delete
+
+# Health check a cada hora (para debug)
+0 * * * * /scripts/healthcheck.sh > /dev/null 2>&1

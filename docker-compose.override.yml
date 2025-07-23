@@ -1,0 +1,60 @@
+# Arquivo de Configuração Docker Compose Override
+# Para desenvolvimento e personalizações
+# SGIME - Sistema de Gestão Integrada de Engenharia
+# Licença: GPLv3
+
+version: '3.8'
+
+services:
+  # Configurações específicas para desenvolvimento
+  redmine:
+    environment:
+      # Configurações de desenvolvimento
+      RAILS_ENV: ${RAILS_ENV:-production}
+      REDMINE_LANG: pt-BR
+      REDMINE_DEFAULT_LANGUAGE: pt-BR
+      
+      # Configurações específicas do SGIME
+      SGIME_ORGANIZATION: "Colégio Pedro II"
+      SGIME_DEPARTMENT: "Seção de Engenharia" 
+      SGIME_VERSION: "1.6"
+      SGIME_CONTACT_EMAIL: "engenharia@cp2.g12.br"
+      
+      # Configurações de performance
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
+      
+      # Configurações de cache
+      RAILS_CACHE_STORE: redis
+      CACHE_NAMESPACE: sgime_cache
+      
+    volumes:
+      # Adicionar volumes de desenvolvimento se necessário
+      - ./logs/redmine-dev:/usr/src/redmine/log
+      
+  # Configurações específicas do PostgreSQL
+  postgres:
+    environment:
+      # Configurações de locale brasileiras
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=pt_BR.UTF-8 --data-checksums"
+      
+    # Usar configuração customizada do PostgreSQL se existir
+    volumes:
+      - ./config/postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./config/postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      
+  # Configurações do Redis para desenvolvimento
+  redis:
+    environment:
+      REDIS_APPENDONLY: "yes"
+      REDIS_MAXMEMORY: "256mb"
+      REDIS_MAXMEMORY_POLICY: "allkeys-lru"
+      
+# Configurações de rede para desenvolvimento
+networks:
+  sgime_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
