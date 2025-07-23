@@ -170,7 +170,6 @@ uploads/
 public/plugin_assets/
 public/themes/
 redmine_files/
-redmine_plugins/
 redmine_themes/
 
 # Arquivos de instalação temporários
@@ -182,6 +181,17 @@ update.log
 api_keys.txt
 tokens.txt
 secrets.txt
+
+# Logs específicos do SGIME criados durante execução
+logs/nginx/
+logs/redmine-dev/
+logs/postgres/
+logs/backup/
+logs/ssl/
+
+# Dados dos volumes Docker criados automaticamente
+redmine_plugins/
+postgres_data/
 
 # ===== MONITORAMENTO E MÉTRICAS =====
 # Arquivos de métricas
@@ -242,3 +252,34 @@ local_scripts/
 # ===== ARQUIVOS DE SISTEMA =====
 # Arquivos de sistema que podem ser criados
 .nfs*
+
+# ===== ARQUIVOS MANTIDOS =====
+# Manter estrutura de diretórios vazios mas importantes
+!logs/.gitkeep
+!backups/.gitkeep
+!tmp/.gitkeep
+!data/.gitkeep
+!config/nginx/ssl/.gitkeep
+
+# ===== ARQUIVOS DE RUNTIME ESPECÍFICOS =====
+# Arquivos criados durante execução/testes
+*.tar
+*.tgz
+*.rar
+*.7z
+*.bak
+*.orig
+*.patch
+*.diff
+
+# Estado do sistema durante desenvolvimento
+.running
+.started
+.initialized
+
+# Arquivos de lock de processo
+.setup.lock
+.install.lock
+.update.lock
+
+# ===== FIM DO .gitignore =====

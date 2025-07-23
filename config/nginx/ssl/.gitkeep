@@ -1,0 +1,2 @@
+# Este arquivo mantém o diretório config/nginx/ssl/ no repositório
+# Os certificados SSL são ignorados pelo .gitignore, mas o diretório é necessário
