@@ -312,7 +312,7 @@ show_final_info() {
     echo -e "   • Troubleshooting: ${CYAN}docs/troubleshooting.md${NC}"
     echo ""
     echo -e "${YELLOW}💬 SUPORTE:${NC}"
-    echo -e "   • Email: ${CYAN}engenharia@cp2.g12.br${NC}"
+    echo -e "   • Email: ${CYAN}geeng@cp2.g12.br${NC}"
     echo -e "   • Telefone: ${CYAN}(21) 2569-1234 (Ramal: 5678)${NC}"
     echo ""
 }

@@ -173,7 +173,7 @@ echo "
 ║  🔄 Para reinstalar:                                             ║
 ║     ./scripts/install.sh                                         ║
 ║                                                                  ║
-║  📧 Suporte: engenharia@cp2.g12.br                               ║
+║  📧 Suporte: geeng@cp2.g12.br                               ║
 ║                                                                  ║
 ╚══════════════════════════════════════════════════════════════════╝
 "

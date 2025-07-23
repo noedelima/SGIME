@@ -817,7 +817,7 @@ cat config/.env > /tmp/sgime-debug/env-config.txt  # Remover senhas!
 tar -czf sgime-debug-$(date +%Y%m%d-%H%M%S).tar.gz -C /tmp sgime-debug/
 
 echo "Arquivo de debug criado: sgime-debug-$(date +%Y%m%d-%H%M%S).tar.gz"
-echo "Envie este arquivo para engenharia@cp2.g12.br"
+echo "Envie este arquivo para geeng@cp2.g12.br"
 ```
 
 ---

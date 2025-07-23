@@ -545,14 +545,14 @@ Configure script de monitoramento:
 # Verificar se serviços estão rodando
 if ! curl -f http://localhost/health >/dev/null 2>&1; then
     echo "ALERTA: SGIME não está respondendo" | \
-    mail -s "SGIME - Sistema Indisponível" admin@cp2.g12.br
+    mail -s "SGIME - Sistema Indisponível" geeng@cp2.g12.br
 fi
 
 # Verificar espaço em disco
 DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
 if [ $DISK_USAGE -gt 85 ]; then
     echo "ALERTA: Espaço em disco: ${DISK_USAGE}%" | \
-    mail -s "SGIME - Espaço em Disco Crítico" admin@cp2.g12.br
+    mail -s "SGIME - Espaço em Disco Crítico" geeng@cp2.g12.br
 fi
 ```
 
@@ -709,7 +709,7 @@ docker-compose exec redmine bundle exec rake redmine:doctor RAILS_ENV=production
 
 **Suporte Técnico Avançado**  
 Seção de Engenharia - Colégio Pedro II  
-📧 admin-sgime@cp2.g12.br  
+📧 geeng@cp2.g12.br  
 🌐 https://sgime.cp2.g12.br/admin  
 
 **Versão do Guia**: 1.6  

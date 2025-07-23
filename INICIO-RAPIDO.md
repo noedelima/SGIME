@@ -288,7 +288,7 @@ docker-compose exec postgres psql -U sgime_user -d sgime_production -c "VACUUM A
 - **Troubleshooting:** `docs/troubleshooting.md`
 
 ### Contatos
-- **Email:** engenharia@cp2.g12.br
+- **Email:** geeng@cp2.g12.br
 - **Telefone:** (21) 2569-1234 (Ramal: 5678)
 - **Horário:** Segunda a Sexta, 8h às 18h
 
