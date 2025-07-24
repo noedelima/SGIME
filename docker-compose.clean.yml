@@ -1,8 +1,3 @@
-# Docker Compose para SGIME - Plugin Volume Strategy
-# Sistema de Gestão Integrada de Engenharia
-# Colégio Pedro II - Seção de Engenharia
-# Versão: 1.7 - Plugin Volumes
-
 version: '3.8'
 
 networks:
@@ -12,30 +7,29 @@ networks:
 volumes:
   sgime_postgres_data:
   sgime_redmine_files:
+  sgime_redmine_plugins:
 
 services:
-  # ===== BANCO DE DADOS POSTGRESQL =====
   postgres:
     image: postgres:16
     container_name: sgime-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-redmine}
-      POSTGRES_USER: ${POSTGRES_USER:-redmine}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-redmine_password}
+      POSTGRES_DB: ${POSTGRES_DB:-sgime_production}
+      POSTGRES_USER: ${POSTGRES_USER:-sgime_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sgime_senha_segura_2025!}
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C.UTF-8"
     volumes:
       - sgime_postgres_data:/var/lib/postgresql/data
     networks:
       - sgime_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-redmine} -d ${POSTGRES_DB:-redmine}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sgime_user} -d ${POSTGRES_DB:-sgime_production}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
 
-  # ===== REDMINE APPLICATION =====
   redmine:
     image: redmine:5.1
     container_name: sgime-redmine
@@ -45,25 +39,20 @@ services:
         condition: service_healthy
     environment:
       REDMINE_DB_POSTGRES: postgres
-      REDMINE_DB_USERNAME: ${POSTGRES_USER:-redmine}
-      REDMINE_DB_PASSWORD: ${POSTGRES_PASSWORD:-redmine_password}
-      REDMINE_DB_DATABASE: ${POSTGRES_DB:-redmine}
+      REDMINE_DB_USERNAME: ${POSTGRES_USER:-sgime_user}
+      REDMINE_DB_PASSWORD: ${POSTGRES_PASSWORD:-sgime_senha_segura_2025!}
+      REDMINE_DB_DATABASE: ${POSTGRES_DB:-sgime_production}
       REDMINE_DB_PORT: 5432
-      REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE:-your-secret-key-base-here-change-this-in-production}
+      REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE:-d9c3ddf1283e52e7a54ecef10e83feca68bd080745ebf26cacddafe292850c2c15d3aef2b93c6ad8c17499ab69631a8016e8fc1a16102746593c91509b022b83}
       REDMINE_PLUGINS_MIGRATE: 1
     volumes:
       - sgime_redmine_files:/usr/src/redmine/files
-      # Plugin volumes - can be mounted/unmounted dynamically
-      # Uncomment lines below to enable specific plugins:
-      - ./plugins/redmine_issue_templates:/usr/src/redmine/plugins/redmine_issue_templates
-      # - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
-      # - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
-      # - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
-      # - ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf
+      - sgime_redmine_plugins:/usr/src/redmine/plugins
+      - ./plugins:/usr/src/redmine/plugins_local
     networks:
       - sgime_network
     ports:
-      - "${REDMINE_PORT:-3000}:3000"
+      - "3000:3000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 30s
@@ -71,7 +60,6 @@ services:
       retries: 3
       start_period: 60s
 
-  # ===== NGINX PROXY =====
   nginx:
     image: nginx:1.25-alpine
     container_name: sgime-nginx
@@ -82,7 +70,6 @@ services:
     ports:
       - "${HTTP_PORT:-80}:80"
     volumes:
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/sites:/etc/nginx/conf.d
     networks:
       - sgime_network
