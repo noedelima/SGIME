@@ -35,7 +35,7 @@ services:
 
   # ===== REDMINE APPLICATION =====
   redmine:
-    image: redmine:5.1
+    image: redmine:latest
     container_name: sgime-redmine
     restart: unless-stopped
     depends_on:
@@ -53,11 +53,13 @@ services:
       - sgime_redmine_files:/usr/src/redmine/files
       # Plugin volumes - can be mounted/unmounted dynamically
       # Uncomment lines below to enable specific plugins:
-      - ./plugins/redmine_issue_templates:/usr/src/redmine/plugins/redmine_issue_templates
-      # - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
-      # - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
-      # - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
-      # - ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf
+      - ./plugins/redmine_recurring_tasks:/usr/src/redmine/plugins/redmine_recurring_tasks:Z
+      - ./plugins/simple_checklists:/usr/src/redmine/plugins/simple_checklists:Z
+      - ./plugins/redmine_issue_templates:/usr/src/redmine/plugins/redmine_issue_templates:Z
+      # - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations:Z
+      # - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists:Z
+      - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard:Z
+      # - ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf:Z
     networks:
       - sgime_network
     ports:

@@ -1,0 +1,21 @@
+# SGIME Plugins Directory
+# Os plugins são baixados automaticamente dos repositórios oficiais
+# Este arquivo garante que não sejam commitados códigos de terceiros
+
+# Ignorar todos os plugins baixados automaticamente
+redmine_dashboard/
+redmine_recurring_tasks/
+simple_checklists/
+redmine_issue_templates/
+redmine_dmsf/
+redmine_checklists/
+redmine_agile/
+
+# Manter apenas plugins customizados do SGIME
+!sgime_customizations/
+
+# Arquivos de configuração temporários
+*.tmp
+*.log
+.DS_Store
+Thumbs.db

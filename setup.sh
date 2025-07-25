@@ -180,6 +180,15 @@ generate_ssl_certificates() {
 
 # Construir e iniciar contêineres
 build_and_start() {
+    log "Configurando plugins essenciais do SGIME..."
+    
+    # Executar setup automático de plugins
+    if [ -f "scripts/setup-plugins.sh" ]; then
+        ./scripts/setup-plugins.sh essential-only
+    else
+        warning "Script de setup de plugins não encontrado, continuando sem plugins"
+    fi
+    
     log "Construindo imagens Docker..."
     
     # Baixar imagens base mais recentes
@@ -233,9 +242,24 @@ setup_initial_data() {
     info "Executando migrações e configuração inicial..."
     $DOCKER_COMPOSE_CMD exec -T redmine bash -c "
         bundle exec rake db:migrate RAILS_ENV=production &&
-        bundle exec rake redmine:plugins:migrate RAILS_ENV=production &&
         bundle exec rake redmine:load_default_data RAILS_ENV=production REDMINE_LANG=pt-BR
     " || true
+    
+    # Configurar tabelas de plugins manualmente (contorna problemas de migração automática)
+    info "Configurando tabelas dos plugins..."
+    $DOCKER_COMPOSE_CMD exec -T postgres psql -U \${POSTGRES_USER:-sgime_user} -d \${POSTGRES_DB:-sgime_production} -c "
+        CREATE TABLE IF NOT EXISTS recurring_tasks (
+            id SERIAL PRIMARY KEY,
+            current_issue_id INTEGER,
+            fixed_schedule BOOLEAN,
+            interval_number INTEGER,
+            interval_unit VARCHAR(255),
+            interval_modifier INTEGER DEFAULT 1,
+            recur_subtasks BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    " 2>/dev/null || true
     
     success "Configuração inicial concluída"
 }

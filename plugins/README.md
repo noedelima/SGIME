@@ -2,52 +2,130 @@
 
 Este diretório contém os plugins do Redmine para o sistema SGIME.
 
-## 📁 Estrutura
+## � Sistema Automatizado
+
+**IMPORTANTE**: Os plugins são baixados automaticamente dos repositórios oficiais durante a instalação. Não são armazenados no repositório do SGIME para evitar duplicação de código.
+
+## �📁 Estrutura
 
 ```
 plugins/
-├── sgime_customizations/          # Plugin customizado do SGIME
-├── redmine_checklists/           # Plugin de checklists
-├── redmine_dashboard/            # Plugin de dashboard
-├── redmine_dmsf/                 # Plugin de gerenciamento de documentos
-└── ...                           # Outros plugins
+├── .gitignore                    # Ignora plugins baixados automaticamente
+├── README.md                     # Este arquivo
+├── sgime_customizations/         # Plugin customizado do SGIME (commitado)
+├── redmine_dashboard/            # Baixado de: github.com/jgraichen/redmine_dashboard
+├── redmine_recurring_tasks/      # Baixado de: github.com/nutso/redmine-plugin-recurring-tasks
+├── simple_checklists/           # Baixado de: github.com/ggilder/redmine_simple_checklists
+├── redmine_issue_templates/     # Baixado de: github.com/akiko-pusu/redmine_issue_templates
+└── redmine_dmsf/                # Baixado de: github.com/danmunn/redmine_dmsf (opcional)
 ```
 
-## 🔧 Como Usar
+## 🚀 Instalação Automática
 
-### 1. Adicionar um Plugin
+Durante o `./setup.sh`, os plugins essenciais são automaticamente:
 
-1. Baixe o plugin para esta pasta:
+1. **Baixados** dos repositórios oficiais
+2. **Configurados** no docker-compose.yml
+3. **Habilitados** no sistema
+4. **Tabelas criadas** automaticamente
+
+### Plugins Essenciais (Habilitados por Padrão)
+
+- ✅ **redmine_dashboard** - Dashboard personalizado
+- ✅ **redmine_recurring_tasks** - Tarefas recorrentes
+- ✅ **simple_checklists** - Sistema de checklists
+- ✅ **redmine_issue_templates** - Templates de issues
+
+### Plugins Opcionais (Baixados mas Desabilitados)
+
+- ⚠️ **redmine_dmsf** - Gestão de documentos (problemas de compatibilidade)
+- 📋 **redmine_checklists** - Checklists oficiais (repositório instável)
+- 🏃 **redmine_agile** - Metodologias ágeis (comercial)
+
+## 🔧 Gerenciamento Manual
+
+### Configurar Plugin Específico
+
+```bash
+# Apenas plugins essenciais
+./scripts/setup-plugins.sh essential-only
+
+# Apenas download (sem habilitar)
+./scripts/setup-plugins.sh download-only
+
+# Status dos plugins
+./scripts/setup-plugins.sh status
+```
+
+### Habilitar/Desabilitar Plugins
+
+```bash
+# Habilitar plugin opcional
+./scripts/plugin-manager.sh enable redmine_dmsf
+
+# Desabilitar plugin
+./scripts/plugin-manager.sh disable redmine_dmsf
+
+# Listar status
+./scripts/plugin-manager.sh list
+```
+
+### Adicionar Plugin Personalizado
+
+1. **Download manual**:
    ```bash
    cd plugins
    git clone [URL_DO_PLUGIN] [nome_do_plugin]
    ```
 
-2. Adicione a linha no docker-compose.yml:
-   ```yaml
-   - ./plugins/[nome_do_plugin]:/usr/src/redmine/plugins/[nome_do_plugin]
+2. **Habilitar**:
+   ```bash
+   ./scripts/plugin-manager.sh enable [nome_do_plugin]
    ```
 
-3. Reinicie o container:
+## 📋 Repositórios dos Plugins
+
+| Plugin | Repositório | Status | Função |
+|--------|-------------|--------|---------|
+| redmine_dashboard | [jgraichen/redmine_dashboard](https://github.com/jgraichen/redmine_dashboard) | ✅ Ativo | Dashboard personalizado |
+| redmine_recurring_tasks | [nutso/redmine-plugin-recurring-tasks](https://github.com/nutso/redmine-plugin-recurring-tasks) | ✅ Ativo | Tarefas recorrentes |
+| simple_checklists | [ggilder/redmine_simple_checklists](https://github.com/ggilder/redmine_simple_checklists) | ✅ Ativo | Checklists simples |
+| redmine_issue_templates | [akiko-pusu/redmine_issue_templates](https://github.com/akiko-pusu/redmine_issue_templates) | ✅ Ativo | Templates de issues |
+| redmine_dmsf | [danmunn/redmine_dmsf](https://github.com/danmunn/redmine_dmsf) | ⚠️ Opcional | Gestão de documentos |
+
+## 🔍 Troubleshooting
+
+### Plugin não carrega
+
+1. Verificar se está habilitado:
+   ```bash
+   ./scripts/plugin-manager.sh list
+   ```
+
+2. Verificar logs:
+   ```bash
+   docker-compose logs redmine
+   ```
+
+3. Reiniciar sistema:
    ```bash
    docker-compose restart redmine
    ```
 
-### 2. Remover um Plugin
+### Erro de migração
 
-1. Comente a linha no docker-compose.yml
-2. Reinicie o container:
-   ```bash
-   docker-compose restart redmine
-   ```
+```bash
+# Executar manualmente
+docker exec -it sgime-redmine bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+```
 
-## 📋 Plugins Planejados
+### Plugin com dependências nativas
 
-- [ ] sgime_customizations (próprio)
-- [ ] redmine_checklists
-- [ ] redmine_dashboard
-- [ ] redmine_dmsf
-- [ ] redmine_agile
+Alguns plugins (como DMSF) podem ter problemas com gems nativas. Para resolver:
+
+1. Desabilite temporariamente o plugin
+2. Verifique compatibilidade com Redmine 6.0
+3. Use alternativas quando disponíveis
 - [ ] redmine_spent_time
 - [ ] redmine_contacts
 
