@@ -53,9 +53,11 @@ services:
       - sgime_redmine_files:/usr/src/redmine/files
       # Plugin volumes - can be mounted/unmounted dynamically
       # Uncomment lines below to enable specific plugins:
-      - ./plugins/redmine_recurring_tasks:/usr/src/redmine/plugins/redmine_recurring_tasks:Z
+      # - ./plugins/redmine_more_previews:/usr/src/redmine/plugins/redmine_more_previews:Z
+      # - ./plugins/redmine_recurring_tasks:/usr/src/redmine/plugins/redmine_recurring_tasks:Z
       - ./plugins/simple_checklists:/usr/src/redmine/plugins/simple_checklists:Z
       - ./plugins/redmine_issue_templates:/usr/src/redmine/plugins/redmine_issue_templates:Z
+      # - ./plugins/redmine_omniauth_azure:/usr/src/redmine/plugins/redmine_omniauth_azure:Z
       # - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations:Z
       # - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists:Z
       - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard:Z

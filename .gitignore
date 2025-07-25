@@ -4,12 +4,21 @@
 
 # ===== ARQUIVOS DE CONFIGURAÇÃO SENSÍVEL =====
 # Nunca commitar arquivos com senhas e chaves
+.env
+.env.*
+!.env.example
+
+# Configurações específicas de ambiente
 config/.env
 config/.env.local
 config/.env.production
 config/.env.development
-.env
-.env.*
+
+# Arquivos de configuração de runtime (gerados dinamicamente)
+config/redmine/database.yml
+config/redmine/configuration.yml
+config/nginx/sites-enabled/
+config/postgres/generated/
 
 # Certificados SSL e chaves privadas
 config/nginx/ssl/*.key
