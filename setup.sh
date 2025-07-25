@@ -117,10 +117,8 @@ setup_environment() {
         
         # Gerar senhas aleatórias
         POSTGRES_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
-        REDIS_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
         
         sed -i "s/sgime_senha_segura_2025!/$POSTGRES_PASSWORD/" config/.env
-        sed -i "s/redis_senha_segura_2025!/$REDIS_PASSWORD/" config/.env
         
         success "Arquivo .env criado com senhas seguras geradas automaticamente"
     else
@@ -185,7 +183,7 @@ build_and_start() {
     log "Construindo imagens Docker..."
     
     # Baixar imagens base mais recentes
-    $DOCKER_COMPOSE_CMD pull postgres redis nginx
+    $DOCKER_COMPOSE_CMD pull postgres nginx
     
     # Construir imagem customizada do Redmine
     $DOCKER_COMPOSE_CMD build --pull redmine
@@ -197,18 +195,10 @@ build_and_start() {
     info "Aguardando PostgreSQL inicializar..."
     sleep 15
     
-    # Iniciar Redis
-    $DOCKER_COMPOSE_CMD up -d redis
-    sleep 5
-    
     # Iniciar Redmine
     $DOCKER_COMPOSE_CMD up -d redmine
     info "Aguardando Redmine inicializar..."
     sleep 30
-    
-    # Iniciar Worker
-    $DOCKER_COMPOSE_CMD up -d redmine_worker
-    sleep 5
     
     # Iniciar Nginx por último
     $DOCKER_COMPOSE_CMD up -d nginx
@@ -255,7 +245,7 @@ check_services_health() {
     log "Verificando saúde dos serviços..."
     sleep 10
     
-    services=("postgres" "redis" "redmine" "nginx" "redmine_worker")
+    services=("postgres" "redmine" "nginx")
     
     for service in "${services[@]}"; do
         if $DOCKER_COMPOSE_CMD ps "$service" | grep -q "Up"; then

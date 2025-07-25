@@ -3,8 +3,6 @@
 # Colégio Pedro II - Seção de Engenharia
 # Versão: 1.7 - Plugin Volumes
 
-version: '3.8'
-
 networks:
   sgime_network:
     driver: bridge
@@ -65,15 +63,17 @@ services:
     ports:
       - "${REDMINE_PORT:-3000}:3000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "sh", "-c", "kill -0 1"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 90s
 
-  # ===== NGINX PROXY =====
+    # ===== NGINX PROXY =====
   nginx:
-    image: nginx:1.25-alpine
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     container_name: sgime-nginx
     restart: unless-stopped
     depends_on:
@@ -81,9 +81,11 @@ services:
         condition: service_healthy
     ports:
       - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
     volumes:
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/nginx/sites:/etc/nginx/conf.d
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:Z
+      - ./config/nginx/sites:/etc/nginx/conf.d:Z
+      - ./config/nginx/ssl:/etc/nginx/ssl:Z
     networks:
       - sgime_network
     healthcheck:

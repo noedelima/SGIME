@@ -72,8 +72,8 @@ RUN git clone https://github.com/mrliptontea/PurpleMine2.git sgime_theme \
 # Copiar configurações customizadas
 COPY config/redmine/ /usr/src/redmine/config/additional_config/
 
-# Copiar customizações específicas do SGIME
-COPY plugins/sgime_customizations/ /usr/src/redmine/plugins/sgime_customizations/
+# Copiar customizações específicas do SGIME (temporariamente comentado)
+# COPY plugins/sgime_customizations/ /usr/src/redmine/plugins/sgime_customizations/
 
 # Voltar ao diretório principal do Redmine
 WORKDIR /usr/src/redmine
