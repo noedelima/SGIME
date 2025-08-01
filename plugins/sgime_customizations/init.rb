@@ -20,11 +20,11 @@ Redmine::Plugin.register :sgime_customizations do
     permission :manage_sgime_customizations, {}
   end
   
-  # Menu principal
-  menu :application_menu, :sgime_dashboard,
-       { controller: 'sgime_dashboard', action: 'index' },
-       caption: 'SGIME Dashboard',
-       if: Proc.new { User.current.logged? }
+  # Menu principal será implementado futuramente
+  # menu :application_menu, :sgime_dashboard,
+  #      { controller: 'sgime_dashboard', action: 'index' },
+  #      caption: 'SGIME Dashboard',
+  #      if: Proc.new { User.current.logged? }
 end
 
 # Carregar assets customizados
@@ -33,6 +33,7 @@ Rails.application.config.assets.precompile += %w(
   cpii_brasao.css
   sgime_menu_fix.css
   sgime_contrast_max.css
+  sgime_layout_fixes.css
   sgime_custom.js
 )
 
@@ -43,6 +44,7 @@ class SgimeThemeHook < Redmine::Hook::ViewListener
     stylesheet_link_tag('cpii_brasao', plugin: 'sgime_customizations') +
     stylesheet_link_tag('sgime_menu_fix', plugin: 'sgime_customizations') +
     stylesheet_link_tag('sgime_contrast_max', plugin: 'sgime_customizations') +
+    stylesheet_link_tag('sgime_layout_fixes', plugin: 'sgime_customizations') +
     javascript_include_tag('sgime_custom', plugin: 'sgime_customizations') +
     javascript_tag(<<~JS.html_safe)
       document.addEventListener('DOMContentLoaded', function() {

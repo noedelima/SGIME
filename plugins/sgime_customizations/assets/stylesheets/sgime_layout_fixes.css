@@ -1,0 +1,109 @@
+/* 
+ * CORREÇÕES DE LAYOUT - SGIME CUSTOMIZATIONS
+ * Ajustes específicos para elementos visuais problemáticos
+ */
+
+/* ========================================
+   CORREÇÕES DE ELEMENTOS DE NOTIFICAÇÃO
+   ======================================== */
+
+/* Corrige elementos "Nova versão" e similares */
+.new-version-notice,
+.version-notice,
+.flash.notice,
+.flash.warning,
+.flash.error,
+div[class*="version"],
+div[class*="notice"] {
+  /* POSICIONAMENTO CORRETO */
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  
+  /* ESPAÇAMENTO ADEQUADO */
+  margin: 10px auto !important;
+  padding: 12px 20px !important;
+  
+  /* VISUAL INSTITUCIONAL */
+  background: linear-gradient(135deg, #B8860B 0%, #DAA520 100%) !important;
+  color: #FFFFFF !important;
+  border: 2px solid #8B6914 !important;
+  border-radius: 8px !important;
+  
+  /* TIPOGRAFIA CLARA */
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+  
+  /* SOMBRA E DESTAQUE */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  z-index: 1000 !important;
+}
+
+
+
+/* ========================================
+   CORREÇÕES SIMPLES DE CORES - SEM LAYOUT
+   ======================================== */
+
+/* CORREÇÃO ESPECÍFICA: Aba selecionada invisível */
+#main-menu ul li a.selected,
+#main-menu ul li.selected a,
+.tabs li a.selected,
+.tabs li.selected a {
+  /* APENAS CORES - sem alterar layout */
+  background: #DAA520 !important; /* Dourado claro */
+  color: #003366 !important; /* Azul escuro contrastante */
+  border-color: #003366 !important;
+}
+
+/* CORREÇÃO ESPECÍFICA: Hover dos itens do menu */
+#main-menu ul li a:hover,
+.tabs li a:hover {
+  /* APENAS CORES - sem alterar layout */
+  background: #B8860B !important; /* Dourado médio */
+  color: #FFFFFF !important; /* Branco contrastante */
+  border-color: #DAA520 !important;
+}
+
+/* CORREÇÃO ESPECÍFICA: Estado normal dos itens */
+#main-menu ul li a,
+.tabs li a {
+  /* APENAS CORES - sem alterar layout */
+  background: #8B6914 !important; /* Dourado escuro */
+  color: #FFFFFF !important; /* Branco contrastante */
+  border-color: #B8860B !important;
+}
+
+/* ========================================
+   CORREÇÕES DE BOTÕES E LINKS
+   ======================================== */
+
+/* Botões de ação */
+.button,
+input[type="submit"],
+input[type="button"],
+.btn,
+a.button {
+  /* VISUAL INSTITUCIONAL */
+  background: linear-gradient(135deg, #B8860B 0%, #DAA520 100%) !important;
+  color: #FFFFFF !important;
+  border: 2px solid #8B6914 !important;
+  
+  /* ESTRUTURA */
+  padding: 10px 20px !important;
+  border-radius: 6px !important;
+  
+  /* TIPOGRAFIA */
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  
+  /* EFEITOS */
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
