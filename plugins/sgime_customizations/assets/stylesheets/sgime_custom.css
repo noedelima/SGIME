@@ -1,0 +1,674 @@
+/* 
+ * SGIME - Sistema de Gestão Integrada de Melhorias e Eficiência
+ * Tema Personalizado - Identidade Visual Colégio Pedro II
+ * Versão 2.0 - Baseado na identidade oficial do CPII
+ */
+
+/* ================================
+ * VARIÁVEIS CSS - COLÉGIO PEDRO II
+ * ================================ */
+:root {
+  /* Cores institucionais do Colégio Pedro II */
+  --cp2-azul-institucional: #003366;
+  --cp2-azul-secundario: #004080;
+  --cp2-azul-claro: #336699;
+  --cp2-dourado: #DAA520;
+  --cp2-dourado-claro: #F4E4BC;
+  --cp2-branco: #FFFFFF;
+  --cp2-cinza-claro: #F5F5F5;
+  --cp2-cinza-medio: #E8E8E8;
+  --cp2-cinza-escuro: #666666;
+  
+  /* Mapeamento SGIME com identidade CPII */
+  --sgime-primary: var(--cp2-azul-institucional);
+  --sgime-primary-dark: #002244;
+  --sgime-primary-light: var(--cp2-azul-claro);
+  --sgime-secondary: var(--cp2-dourado);
+  --sgime-accent: var(--cp2-dourado-claro);
+  --sgime-danger: #dc3545;
+  --sgime-info: var(--cp2-azul-secundario);
+  --sgime-warning: #ffc107;
+  
+  /* Tons de cinza institucional */
+  --sgime-gray-100: var(--cp2-cinza-claro);
+  --sgime-gray-200: var(--cp2-cinza-medio);
+  --sgime-gray-300: #dee2e6;
+  --sgime-gray-400: #ced4da;
+  --sgime-gray-500: #adb5bd;
+  --sgime-gray-600: var(--cp2-cinza-escuro);
+  --sgime-gray-700: #495057;
+  --sgime-gray-800: #343a40;
+  --sgime-gray-900: #212529;
+  
+  /* Tipografia institucional */
+  --sgime-font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+  --sgime-font-size-base: 14px;
+  --sgime-line-height: 1.6;
+  
+  /* Espaçamentos */
+  --sgime-spacing-xs: 0.25rem;
+  --sgime-spacing-sm: 0.5rem;
+  --sgime-spacing-md: 1rem;
+  --sgime-spacing-lg: 1.5rem;
+  --sgime-spacing-xl: 3rem;
+  
+  /* Bordas e sombras institucionais */
+  --sgime-border-radius: 6px;
+  --sgime-border-radius-sm: 3px;
+  --sgime-border-color: var(--cp2-cinza-medio);
+  --sgime-box-shadow: 0 2px 4px rgba(0,51,102,0.1);
+  --sgime-box-shadow-lg: 0 4px 8px rgba(0,51,102,0.15);
+}
+
+/* ================================
+ * LAYOUT PRINCIPAL - COLÉGIO PEDRO II
+ * ================================ */
+
+/* Cabeçalho institucional */
+#header {
+  background: linear-gradient(135deg, var(--cp2-azul-institucional) 0%, var(--cp2-azul-secundario) 100%);
+  border-bottom: 4px solid var(--cp2-dourado);
+  box-shadow: var(--sgime-box-shadow-lg);
+  padding: var(--sgime-spacing-md) 0;
+  position: relative;
+}
+
+#header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cp2-dourado) 0%, var(--cp2-dourado-claro) 50%, var(--cp2-dourado) 100%);
+}
+
+#header h1 {
+  color: var(--cp2-branco);
+  font-weight: 600;
+  font-size: 1.6rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-family: var(--sgime-font-family);
+}
+
+#header h1::before {
+  content: "�️ ";
+  margin-right: var(--sgime-spacing-sm);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+
+#header h1::after {
+  content: " - Colégio Pedro II";
+  font-size: 0.8em;
+  font-weight: 400;
+  opacity: 0.9;
+  color: var(--cp2-dourado-claro);
+}
+
+/* Menu principal institucional */
+#top-menu {
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--sgime-border-radius);
+  margin: var(--sgime-spacing-sm) var(--sgime-spacing-md);
+  padding: var(--sgime-spacing-sm);
+  backdrop-filter: blur(5px);
+}
+
+#top-menu ul li a {
+  color: var(--cp2-branco);
+  text-decoration: none;
+  padding: var(--sgime-spacing-sm) var(--sgime-spacing-md);
+  border-radius: var(--sgime-border-radius-sm);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-family: var(--sgime-font-family);
+}
+
+#top-menu ul li a:hover {
+  background: var(--cp2-dourado);
+  color: var(--cp2-azul-institucional);
+  transform: translateY(-1px);
+  box-shadow: var(--sgime-box-shadow);
+}
+
+/* Navegação lateral institucional */
+#sidebar {
+  background: var(--cp2-cinza-claro);
+  border-right: 2px solid var(--cp2-dourado);
+  padding: var(--sgime-spacing-lg);
+}
+
+#sidebar h3 {
+  color: var(--cp2-azul-institucional);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: var(--sgime-spacing-md);
+  padding-bottom: var(--sgime-spacing-sm);
+  border-bottom: 2px solid var(--cp2-dourado);
+  font-family: var(--sgime-font-family);
+}
+
+/* ================================
+ * CONTEÚDO PRINCIPAL - COLÉGIO PEDRO II
+ * ================================ */
+
+#main {
+  background: var(--cp2-branco);
+  font-family: var(--sgime-font-family);
+  font-size: var(--sgime-font-size-base);
+  line-height: var(--sgime-line-height);
+}
+
+#content {
+  padding: var(--sgime-spacing-lg);
+}
+
+/* Títulos institucionais */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--cp2-azul-institucional);
+  font-weight: 600;
+  margin-bottom: var(--sgime-spacing-md);
+  font-family: var(--sgime-font-family);
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 3px solid var(--cp2-dourado);
+  padding-bottom: var(--sgime-spacing-sm);
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: var(--sgime-primary-dark);
+}
+
+/* ================================
+ * FORMULÁRIOS E BOTÕES - COLÉGIO PEDRO II
+ * ================================ */
+
+/* Botões institucionais */
+.button, input[type="submit"], input[type="button"], button {
+  background: var(--cp2-azul-institucional);
+  color: var(--cp2-branco);
+  border: 2px solid var(--cp2-azul-institucional);
+  padding: var(--sgime-spacing-sm) var(--sgime-spacing-lg);
+  border-radius: var(--sgime-border-radius);
+  font-weight: 500;
+  font-family: var(--sgime-font-family);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: var(--sgime-box-shadow);
+}
+
+.button:hover, input[type="submit"]:hover, input[type="button"]:hover, button:hover {
+  background: var(--cp2-dourado);
+  color: var(--cp2-azul-institucional);
+  border-color: var(--cp2-dourado);
+  transform: translateY(-1px);
+  box-shadow: var(--sgime-box-shadow-lg);
+}
+
+.button.button-positive, .button-positive {
+  background: var(--cp2-dourado);
+  color: var(--cp2-azul-institucional);
+  border-color: var(--cp2-dourado);
+}
+
+.button.button-negative, .button-negative {
+  background: var(--sgime-danger);
+  border-color: var(--sgime-danger);
+}
+
+/* Campos de entrada institucionais */
+input[type="text"], input[type="password"], input[type="email"], 
+textarea, select {
+  border: 2px solid var(--cp2-cinza-medio);
+  border-radius: var(--sgime-border-radius);
+  padding: var(--sgime-spacing-sm);
+  font-family: var(--sgime-font-family);
+  transition: border-color 0.3s ease;
+  background: var(--cp2-branco);
+}
+
+input[type="text"]:focus, input[type="password"]:focus, 
+input[type="email"]:focus, textarea:focus, select:focus {
+  border-color: var(--cp2-azul-institucional);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,51,102,0.1);
+}
+
+/* ================================
+ * TABELAS INSTITUCIONAIS
+ * ================================ */
+
+table.list {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--cp2-branco);
+  border-radius: var(--sgime-border-radius);
+  overflow: hidden;
+  box-shadow: var(--sgime-box-shadow);
+  border: 1px solid var(--cp2-cinza-medio);
+}
+
+table.list th {
+  background: var(--cp2-azul-institucional);
+  color: var(--cp2-branco);
+  padding: var(--sgime-spacing-md);
+  font-weight: 600;
+  text-align: left;
+}
+
+table.list td {
+  padding: var(--sgime-spacing-md);
+  border-bottom: 1px solid var(--sgime-gray-200);
+}
+
+table.list tr:hover {
+  background: var(--sgime-gray-100);
+}
+
+table.list tr.odd {
+  background: rgba(44, 90, 160, 0.02);
+}
+
+/* ================================
+ * CARDS E BOXES
+ * ================================ */
+
+.box {
+  background: white;
+  border: 1px solid var(--sgime-border-color);
+  border-radius: var(--sgime-border-radius);
+  padding: var(--sgime-spacing-lg);
+  margin-bottom: var(--sgime-spacing-lg);
+  box-shadow: var(--sgime-box-shadow);
+}
+
+.box h3 {
+  margin-top: 0;
+  color: var(--sgime-primary);
+}
+
+/* Issues e Cards */
+.issue {
+  background: white;
+  border-left: 4px solid var(--sgime-primary);
+  border-radius: var(--sgime-border-radius);
+  padding: var(--sgime-spacing-md);
+  margin-bottom: var(--sgime-spacing-md);
+  box-shadow: var(--sgime-box-shadow);
+  transition: transform 0.2s ease;
+}
+
+.issue:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sgime-box-shadow-lg);
+}
+
+.issue.priority-high {
+  border-left-color: var(--sgime-danger);
+}
+
+.issue.priority-normal {
+  border-left-color: var(--sgime-primary);
+}
+
+.issue.priority-low {
+  border-left-color: var(--sgime-secondary);
+}
+
+/* ================================
+ * BADGES E LABELS
+ * ================================ */
+
+.badge {
+  display: inline-block;
+  padding: var(--sgime-spacing-xs) var(--sgime-spacing-sm);
+  border-radius: var(--sgime-border-radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge.status-new {
+  background: var(--sgime-info);
+  color: white;
+}
+
+.badge.status-assigned {
+  background: var(--sgime-warning);
+  color: white;
+}
+
+.badge.status-resolved {
+  background: var(--sgime-secondary);
+  color: white;
+}
+
+.badge.status-closed {
+  background: var(--sgime-gray-500);
+  color: white;
+}
+
+/* ================================
+ * RESPONSIVIDADE
+ * ================================ */
+
+@media (max-width: 768px) {
+  #header h1 {
+    font-size: 1.2rem;
+  }
+  
+  #content {
+    padding: var(--sgime-spacing-md);
+  }
+  
+  table.list {
+    font-size: 0.9rem;
+  }
+  
+  table.list th,
+  table.list td {
+    padding: var(--sgime-spacing-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --sgime-font-size-base: 13px;
+  }
+  
+  .button, input[type="submit"], input[type="button"], button {
+    padding: var(--sgime-spacing-sm);
+    font-size: 0.9rem;
+  }
+}
+
+/* ================================
+ * ANIMAÇÕES E TRANSIÇÕES
+ * ================================ */
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ================================
+ * UTILITÁRIOS
+ * ================================ */
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--sgime-spacing-xs); }
+.mt-2 { margin-top: var(--sgime-spacing-sm); }
+.mt-3 { margin-top: var(--sgime-spacing-md); }
+.mt-4 { margin-top: var(--sgime-spacing-lg); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--sgime-spacing-xs); }
+.mb-2 { margin-bottom: var(--sgime-spacing-sm); }
+.mb-3 { margin-bottom: var(--sgime-spacing-md); }
+.mb-4 { margin-bottom: var(--sgime-spacing-lg); }
+
+.text-primary { color: var(--sgime-primary); }
+.text-secondary { color: var(--sgime-secondary); }
+.text-success { color: var(--sgime-secondary); }
+.text-danger { color: var(--sgime-danger); }
+.text-warning { color: var(--sgime-warning); }
+.text-info { color: var(--sgime-info); }
+
+/* ================================
+ * DASHBOARD ESPECÍFICO
+ * ================================ */
+
+.sgime-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--sgime-spacing-lg);
+  margin-bottom: var(--sgime-spacing-xl);
+}
+
+.sgime-widget {
+  background: white;
+  border-radius: var(--sgime-border-radius);
+  padding: var(--sgime-spacing-lg);
+  box-shadow: var(--sgime-box-shadow);
+  border-top: 4px solid var(--sgime-primary);
+}
+
+.sgime-widget h3 {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sgime-spacing-sm);
+}
+
+.sgime-widget .widget-icon {
+  font-size: 1.5rem;
+}
+
+/* ================================
+ * FOOTER INSTITUCIONAL - COLÉGIO PEDRO II
+ * ================================ */
+
+#footer {
+  background: var(--cp2-azul-institucional);
+  color: var(--cp2-dourado-claro);
+  padding: var(--sgime-spacing-lg);
+  text-align: center;
+  border-top: 4px solid var(--cp2-dourado);
+  position: relative;
+}
+
+#footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cp2-dourado) 0%, var(--cp2-dourado-claro) 50%, var(--cp2-dourado) 100%);
+}
+
+#footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* ================================
+ * ELEMENTOS ESPECÍFICOS DO COLÉGIO PEDRO II
+ * ================================ */
+
+/* Brasão institucional em CSS */
+.cpii-brasao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--cp2-dourado);
+  border: 3px solid var(--cp2-azul-institucional);
+  border-radius: 50%;
+  color: var(--cp2-azul-institucional);
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: var(--sgime-spacing-sm);
+  box-shadow: var(--sgime-box-shadow);
+}
+
+/* Header com identidade CPII */
+#header .header-identity {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sgime-spacing-lg);
+}
+
+#header .header-identity::before {
+  content: "CPII";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: var(--cp2-dourado);
+  border: 3px solid var(--cp2-branco);
+  border-radius: 50%;
+  color: var(--cp2-azul-institucional);
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: var(--sgime-spacing-md);
+  box-shadow: var(--sgime-box-shadow);
+}
+
+/* Cards com identidade institucional */
+.cpii-card {
+  background: var(--cp2-branco);
+  border: 2px solid var(--cp2-dourado);
+  border-radius: var(--sgime-border-radius);
+  padding: var(--sgime-spacing-lg);
+  margin: var(--sgime-spacing-md) 0;
+  box-shadow: var(--sgime-box-shadow);
+  position: relative;
+}
+
+.cpii-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cp2-azul-institucional) 0%, var(--cp2-dourado) 100%);
+  border-radius: var(--sgime-border-radius-sm) var(--sgime-border-radius-sm) 0 0;
+}
+
+.cpii-card h3 {
+  color: var(--cp2-azul-institucional);
+  border-bottom: 1px solid var(--cp2-dourado);
+  padding-bottom: var(--sgime-spacing-sm);
+}
+
+/* Alertas institucionais */
+.cpii-alert {
+  border-left: 4px solid var(--cp2-dourado);
+  background: var(--cp2-dourado-claro);
+  padding: var(--sgime-spacing-md);
+  margin: var(--sgime-spacing-md) 0;
+  border-radius: 0 var(--sgime-border-radius) var(--sgime-border-radius) 0;
+}
+
+.cpii-alert.info {
+  border-left-color: var(--cp2-azul-institucional);
+  background: rgba(0,51,102,0.1);
+}
+
+/* Badges institucionais */
+.cpii-badge {
+  background: var(--cp2-dourado);
+  color: var(--cp2-azul-institucional);
+  padding: var(--sgime-spacing-xs) var(--sgime-spacing-sm);
+  border-radius: var(--sgime-border-radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.cpii-badge.primary {
+  background: var(--cp2-azul-institucional);
+  color: var(--cp2-branco);
+}
+
+/* Responsividade institucional */
+@media (max-width: 768px) {
+  #header h1::after {
+    content: " - CPII";
+    font-size: 0.7em;
+  }
+  
+  #header .header-identity::before {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+/* Animações suaves */
+.cpii-fade-in {
+  animation: cpiiAnimatedentry 0.6s ease-in-out;
+}
+
+@keyframes cpiiAnimatedentry {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estados de hover melhorados */
+.cpii-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sgime-box-shadow-lg);
+  transition: all 0.3s ease;
+}
+
+/* Links institucionais */
+a {
+  color: var(--cp2-azul-institucional);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--cp2-dourado);
+  text-decoration: underline;
+}
+
+/* Customização específica para o Redmine com identidade CPII */
+body {
+  font-family: var(--sgime-font-family);
+  background: var(--cp2-cinza-claro);
+}
+
+.controller-welcome #content h1::before {
+  content: "🏛️ ";
+  margin-right: var(--sgime-spacing-sm);
+}
+
+.controller-welcome #content h1::after {
+  content: " - Sistema do Colégio Pedro II";
+  color: var(--cp2-dourado);
+  font-size: 0.7em;
+  font-weight: normal;
+  display: block;
+  margin-top: var(--sgime-spacing-xs);
+}
+
+#footer::before {
+  content: "SGIME - Sistema de Gestão Integrada de Melhorias e Eficiência";
+  display: block;
+  font-weight: 600;
+  color: white;
+  margin-bottom: var(--sgime-spacing-sm);
+}

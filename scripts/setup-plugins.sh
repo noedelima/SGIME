@@ -31,6 +31,7 @@ DOCKER_COMPOSE_FILE="docker-compose.yml"
 declare -A ESSENTIAL_PLUGINS=(
     ["redmine_dashboard"]="https://github.com/jgraichen/redmine_dashboard.git"
     ["simple_checklists"]="https://github.com/Restream/redmine_simple_checklists.git"
+    ["sgime_customizations"]="local" # Plugin customizado do SGIME
 )
 
 # Plugins com problemas de compatibilidade (não essenciais)
@@ -67,6 +68,17 @@ download_plugin() {
     local plugin_name="$1"
     local plugin_url="$2"
     local plugin_path="$PLUGINS_DIR/$plugin_name"
+    
+    # Plugin local (já existe no repositório)
+    if [ "$plugin_url" = "local" ]; then
+        if [ -d "$plugin_path" ]; then
+            info "Plugin local $plugin_name já existe"
+            return 0
+        else
+            error "Plugin local $plugin_name não encontrado em $plugin_path"
+            return 1
+        fi
+    fi
     
     if [ -d "$plugin_path" ]; then
         info "Plugin $plugin_name já existe, verificando atualizações..."
