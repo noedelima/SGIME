@@ -672,3 +672,82 @@ body {
   color: white;
   margin-bottom: var(--sgime-spacing-sm);
 }
+
+/* ================================
+ * CORREÇÕES FINAIS - IDENTIDADE CPII
+ * ================================ */
+
+/* Corrigir ícone e texto do header */
+#header h1::before {
+  content: "🏛️ " !important;
+  margin-right: var(--sgime-spacing-sm);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+
+/* Substituir "Redmine" por "SGIME" */
+#header h1 a {
+  color: var(--cp2-branco) !important;
+  text-decoration: none !important;
+  font-size: inherit;
+}
+
+#header h1 a:after {
+  content: " - Colégio Pedro II" !important;
+  font-size: 0.8em;
+  font-weight: 400;
+  opacity: 0.9;
+  color: var(--cp2-dourado-claro);
+}
+
+/* Restaurar visibilidade dos links do menu superior */
+#top-menu ul li {
+  display: inline-block !important;
+  margin-right: var(--sgime-spacing-sm);
+}
+
+#top-menu ul li a {
+  display: inline-block !important;
+  color: var(--cp2-branco) !important;
+  text-decoration: none;
+  padding: var(--sgime-spacing-sm) var(--sgime-spacing-md);
+  border-radius: var(--sgime-border-radius-sm);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-family: var(--sgime-font-family);
+}
+
+#top-menu ul li a:hover {
+  background: var(--cp2-dourado) !important;
+  color: var(--cp2-azul-institucional) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--sgime-box-shadow);
+}
+
+/* Garantir que o menu principal seja visível */
+#main-menu ul li {
+  display: inline-block !important;
+}
+
+#main-menu ul li a {
+  color: var(--cp2-branco) !important;
+  padding: var(--sgime-spacing-sm) var(--sgime-spacing-md);
+  text-decoration: none;
+  border-radius: var(--sgime-border-radius-sm);
+  transition: all 0.3s ease;
+}
+
+#main-menu ul li a:hover {
+  background: var(--cp2-dourado) !important;
+  color: var(--cp2-azul-institucional) !important;
+}
+
+/* Título da página/aba */
+title {
+  font-family: var(--sgime-font-family);
+}
+
+/* Customizar favicon */
+link[rel="shortcut icon"], 
+link[rel="icon"] {
+  href: "/plugin_assets/sgime_customizations/images/favicon.ico" !important;
+}

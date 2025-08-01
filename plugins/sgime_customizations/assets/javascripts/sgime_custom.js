@@ -748,3 +748,52 @@ document.head.appendChild(style);
   });
 
 })(jQuery);
+
+  /**
+   * Correções finais da identidade CPII
+   */
+  CPII.finalizeIdentity = function() {
+    // Substituir "Redmine" por "SGIME" no header
+    $('#header h1 a').each(function() {
+      const text = $(this).text();
+      if (text.includes('Redmine')) {
+        $(this).text(text.replace('Redmine', 'SGIME'));
+      }
+    });
+    
+    // Atualizar título da página
+    if (document.title.includes('Redmine')) {
+      document.title = document.title.replace('Redmine', 'SGIME - Colégio Pedro II');
+    } else if (!document.title.includes('SGIME')) {
+      document.title = 'SGIME - Colégio Pedro II :: ' + document.title;
+    }
+    
+    // Adicionar favicon se não existir
+    if (!$('link[rel="icon"]').length && !$('link[rel="shortcut icon"]').length) {
+      $('head').append('<link rel="icon" type="image/x-icon" href="/plugin_assets/sgime_customizations/images/favicon.ico">');
+      $('head').append('<link rel="shortcut icon" type="image/x-icon" href="/plugin_assets/sgime_customizations/images/favicon.ico">');
+    }
+    
+    // Garantir que os links do menu superior sejam visíveis
+    $('#top-menu ul li').show();
+    $('#main-menu ul li').show();
+    
+    // Adicionar ícones aos links se ainda não tiverem
+    this.enhanceNavigation();
+  };
+
+  // Executar correções quando a página carregar
+  $(document).ready(function() {
+    setTimeout(function() {
+      if (window.CPII) {
+        CPII.finalizeIdentity();
+      }
+    }, 500); // Aguardar um pouco para garantir que tudo carregou
+  });
+
+  // Executar também quando navegações AJAX terminarem
+  $(document).ajaxComplete(function() {
+    if (window.CPII) {
+      CPII.finalizeIdentity();
+    }
+  });
