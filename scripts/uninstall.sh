@@ -54,15 +54,15 @@ echo "
 # Verificar se Docker Compose está disponível
 if docker compose version &> /dev/null; then
     DOCKER_COMPOSE_CMD="docker compose"
-elif command -v docker-compose &> /dev/null; then
-    DOCKER_COMPOSE_CMD="docker-compose"
+elif command -v docker compose &> /dev/null; then
+    DOCKER_COMPOSE_CMD="docker compose"
 else
     error "Docker Compose não encontrado."
 fi
 
 # Verificar se estamos no diretório correto
-if [ ! -f "docker-compose.yml" ]; then
-    error "Arquivo docker-compose.yml não encontrado. Execute este script no diretório raiz do SGIME."
+if [ ! -f "docker compose.yml" ]; then
+    error "Arquivo docker compose.yml não encontrado. Execute este script no diretório raiz do SGIME."
 fi
 
 # Primeira confirmação

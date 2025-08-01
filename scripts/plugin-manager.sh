@@ -5,7 +5,7 @@
 set -e
 
 PLUGINS_DIR="plugins"
-DOCKER_COMPOSE_FILE="docker-compose.yml"
+DOCKER_COMPOSE_FILE="docker compose.yml"
 CONTAINER_NAME="sgime-redmine"
 
 # Cores para output
@@ -33,9 +33,9 @@ show_usage() {
     echo "  $0 disable redmine_checklists"
 }
 
-# Função para verificar se o docker-compose está rodando
+# Função para verificar se o docker compose está rodando
 check_docker_running() {
-    if ! docker-compose ps | grep -q "$CONTAINER_NAME.*Up"; then
+    if ! docker compose ps | grep -q "$CONTAINER_NAME.*Up"; then
         echo -e "${YELLOW}Aviso: Container Redmine não está rodando${NC}"
         return 1
     fi
@@ -94,14 +94,14 @@ enable_plugin() {
     if grep -q "^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name" "$DOCKER_COMPOSE_FILE"; then
         sed -i "s|^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name|      - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name|" "$DOCKER_COMPOSE_FILE"
     else
-        # Adicionar nova linha no docker-compose.yml
+        # Adicionar nova linha no docker compose.yml
         sed -i "/# Uncomment lines below to enable specific plugins:/a\\      - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name" "$DOCKER_COMPOSE_FILE"
     fi
     
     echo -e "${GREEN}Plugin $plugin_name habilitado!${NC}"
     echo -e "${YELLOW}Reiniciando container Redmine...${NC}"
     
-    docker-compose restart redmine
+    docker compose restart redmine
     
     echo -e "${GREEN}Plugin $plugin_name ativo!${NC}"
 }
@@ -124,13 +124,13 @@ disable_plugin() {
     
     echo -e "${BLUE}Desabilitando plugin $plugin_name...${NC}"
     
-    # Comentar linha no docker-compose.yml
+    # Comentar linha no docker compose.yml
     sed -i "s|^[[:space:]]*- ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name|      # - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name|" "$DOCKER_COMPOSE_FILE"
     
     echo -e "${GREEN}Plugin $plugin_name desabilitado!${NC}"
     echo -e "${YELLOW}Reiniciando container Redmine...${NC}"
     
-    docker-compose restart redmine
+    docker compose restart redmine
     
     echo -e "${GREEN}Plugin $plugin_name desativado!${NC}"
 }

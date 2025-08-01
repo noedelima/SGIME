@@ -28,14 +28,14 @@ echo "=================================="
 echo -e "${NC}"
 
 # Verificar se há containers rodando
-if ! docker-compose ps -q &>/dev/null; then
+if ! docker compose ps -q &>/dev/null; then
     warning "Nenhum container SGIME detectado rodando."
     exit 0
 fi
 
 # Mostrar status atual
 log "Status atual dos serviços:"
-docker-compose ps
+docker compose ps
 
 echo ""
 
@@ -47,13 +47,13 @@ fi
 
 # Parar serviços graciosamente
 log "Parando serviços SGIME..."
-docker-compose down
+docker compose down
 
 # Verificar se parou
 sleep 2
-if docker-compose ps -q &>/dev/null && [ $(docker-compose ps -q | wc -l) -gt 0 ]; then
+if docker compose ps -q &>/dev/null && [ $(docker compose ps -q | wc -l) -gt 0 ]; then
     warning "Alguns containers ainda estão rodando. Forçando parada..."
-    docker-compose down --remove-orphans
+    docker compose down --remove-orphans
 else
     log "Todos os serviços foram parados com sucesso."
 fi
@@ -69,7 +69,7 @@ log "Sistema SGIME parado com sucesso!"
 echo ""
 echo -e "${YELLOW}Para retomar:${NC}"
 echo "1. Execute: ./scripts/setup-environment.sh"
-echo "2. Execute: docker-compose up -d"
+echo "2. Execute: docker compose up -d"
 echo ""
 echo -e "${BLUE}Opções de shutdown:${NC}"
 echo "  --backup (-b)  Fazer backup antes de parar"

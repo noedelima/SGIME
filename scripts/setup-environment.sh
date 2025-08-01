@@ -68,9 +68,24 @@ log "Criando diretórios necessários..."
 mkdir -p {logs,backups,data/postgres,data/redmine,data/redis}
 mkdir -p config/nginx/ssl
 
+# Gerar certificados SSL se não existirem
+if [ ! -f "config/nginx/ssl/sgime.crt" ] || [ ! -f "config/nginx/ssl/sgime.key" ]; then
+    log "Gerando certificados SSL auto-assinados para desenvolvimento..."
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout config/nginx/ssl/sgime.key \
+        -out config/nginx/ssl/sgime.crt \
+        -subj "/C=BR/ST=RJ/L=Rio de Janeiro/O=Colegio Pedro II/OU=SGIME/CN=localhost" \
+        >/dev/null 2>&1
+    log "Certificados SSL criados em config/nginx/ssl/"
+    warning "ATENÇÃO: Certificados auto-assinados são apenas para desenvolvimento!"
+else
+    info "Certificados SSL já existem."
+fi
+
 # Ajustar permissões
 log "Ajustando permissões..."
 chmod +x scripts/*.sh 2>/dev/null || true
+chmod 600 config/nginx/ssl/sgime.key 2>/dev/null || true
 
 # Verificar plugins
 log "Verificando plugins..."
@@ -80,8 +95,8 @@ fi
 
 # Status dos serviços
 info "Status atual dos serviços:"
-if docker-compose ps >/dev/null 2>&1; then
-    docker-compose ps
+if docker compose ps >/dev/null 2>&1; then
+    docker compose ps
 else
     info "Nenhum serviço rodando."
 fi
@@ -91,8 +106,8 @@ log "Setup concluído!"
 echo ""
 echo -e "${YELLOW}Próximos passos:${NC}"
 echo "1. Edite o arquivo .env se necessário: nano .env"
-echo "2. Inicie os serviços: docker-compose up -d"
-echo "3. Verifique os logs: docker-compose logs -f"
+echo "2. Inicie os serviços: docker compose up -d"
+echo "3. Verifique os logs: docker compose logs -f"
 echo "4. Acesse: http://localhost:3000"
 echo ""
 echo -e "${BLUE}Comandos úteis:${NC}"

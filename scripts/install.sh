@@ -84,11 +84,11 @@ if ! command -v docker &> /dev/null; then
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
         echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         sudo apt-get update
-        sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker compose-plugin
     elif [[ "$OS" == *"Fedora"* ]]; then
         sudo dnf -y install dnf-plugins-core
         sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-        sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+        sudo dnf install -y docker-ce docker-ce-cli containerd.io docker compose-plugin
     else
         error "Sistema operacional não suportado para instalação automática do Docker."
     fi
@@ -104,11 +104,11 @@ fi
 
 # Verificar se o Docker Compose está disponível
 if ! docker compose version &> /dev/null; then
-    if ! command -v docker-compose &> /dev/null; then
-        error "Docker Compose não encontrado. Instale docker-compose e tente novamente."
+    if ! command -v docker compose &> /dev/null; then
+        error "Docker Compose não encontrado. Instale docker compose e tente novamente."
     else
-        # Usar docker-compose legacy
-        DOCKER_COMPOSE_CMD="docker-compose"
+        # Usar docker compose legacy
+        DOCKER_COMPOSE_CMD="docker compose"
     fi
 else
     DOCKER_COMPOSE_CMD="docker compose"
@@ -120,7 +120,7 @@ check_command curl
 log "Todos os pré-requisitos atendidos."
 
 # Verificar se já existe uma instalação
-if [ -f "docker-compose.yml" ]; then
+if [ -f "docker compose.yml" ]; then
     warning "Instalação existente detectada."
     read -p "Deseja continuar e sobrescrever a instalação existente? (s/N): " -n 1 -r
     echo
