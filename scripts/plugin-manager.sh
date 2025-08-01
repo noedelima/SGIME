@@ -5,7 +5,7 @@
 set -e
 
 PLUGINS_DIR="plugins"
-DOCKER_COMPOSE_FILE="docker compose.yml"
+DOCKER_COMPOSE_FILE="docker-compose.yml"
 CONTAINER_NAME="sgime-redmine"
 
 # Cores para output
