@@ -1,0 +1,133 @@
+/* 
+ * CSS de MÁXIMO CONTRASTE para o menu superior
+ * Cores sólidas e visibilidade garantida
+ */
+
+/* OVERRIDE ABSOLUTO - Máxima especificidade possível */
+html body div#wrapper div#header div#top-menu ul li a,
+html body div#wrapper div#header #top-menu ul li a,
+html body #wrapper #header #top-menu ul li a,
+body #wrapper #header #top-menu ul li a {
+  /* CORES SÓLIDAS - SEM TRANSPARÊNCIA */
+  color: #FFFFFF !important;
+  background-color: #B8860B !important; /* Dourado escuro sólido */
+  background-image: none !important;
+  background: #B8860B !important;
+  
+  /* ESTRUTURA VISÍVEL */
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  
+  /* DIMENSÕES E ESPAÇAMENTO */
+  padding: 8px 16px !important;
+  margin: 0 4px !important;
+  min-width: 60px !important;
+  height: auto !important;
+  
+  /* BORDAS E FORMATO */
+  border: 3px solid #DAA520 !important;
+  border-radius: 6px !important;
+  
+  /* TIPOGRAFIA DESTACADA */
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+  
+  /* EFEITOS VISUAIS */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.2s ease !important;
+  
+  /* POSICIONAMENTO */
+  position: relative !important;
+  z-index: 9999 !important;
+}
+
+/* HOVER com contraste extremo */
+html body div#wrapper div#header div#top-menu ul li a:hover,
+html body div#wrapper div#header #top-menu ul li a:hover,
+html body #wrapper #header #top-menu ul li a:hover,
+body #wrapper #header #top-menu ul li a:hover {
+  color: #003366 !important; /* Azul escuro */
+  background-color: #F4E4BC !important; /* Dourado claro sólido */
+  background: #F4E4BC !important;
+  border-color: #003366 !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 6px 15px rgba(0, 51, 102, 0.5) !important;
+  text-shadow: none !important;
+  font-weight: 800 !important;
+}
+
+/* Estados visitados mantém cor */
+html body div#wrapper div#header div#top-menu ul li a:visited,
+html body div#wrapper div#header #top-menu ul li a:visited,
+html body #wrapper #header #top-menu ul li a:visited,
+body #wrapper #header #top-menu ul li a:visited {
+  color: #FFFFFF !important;
+  background: #B8860B !important;
+}
+
+/* Container do menu com máximo destaque */
+html body div#wrapper div#header div#top-menu,
+html body div#wrapper div#header #top-menu,
+html body #wrapper #header #top-menu,
+body #wrapper #header #top-menu {
+  background: linear-gradient(135deg, #003366 0%, #004080 100%) !important;
+  padding: 12px !important;
+  border-radius: 10px !important;
+  margin: 8px 16px !important;
+  border: 3px solid #DAA520 !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: none !important; /* Remove blur para mais contraste */
+}
+
+/* Lista do menu */
+html body div#wrapper div#header div#top-menu ul,
+html body div#wrapper div#header #top-menu ul,
+html body #wrapper #header #top-menu ul,
+body #wrapper #header #top-menu ul {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  gap: 8px !important;
+}
+
+/* Itens da lista */
+html body div#wrapper div#header div#top-menu ul li,
+html body div#wrapper div#header #top-menu ul li,
+html body #wrapper #header #top-menu ul li,
+body #wrapper #header #top-menu ul li {
+  display: inline-block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fallback para qualquer elemento oculto */
+#top-menu,
+#top-menu ul,
+#top-menu ul li,
+#top-menu ul li a {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+#top-menu ul {
+  display: flex !important;
+}
+
+#top-menu ul li {
+  display: inline-block !important;
+}
+
+#top-menu ul li a {
+  display: inline-block !important;
+}

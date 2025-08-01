@@ -1,0 +1,101 @@
+/* 
+ * CSS de alta prioridade para garantir visibilidade dos menus
+ * Este arquivo força a visibilidade dos links mesmo com CSS conflitante
+ */
+
+/* Força visibilidade absoluta do menu superior com ALTO CONTRASTE */
+body #top-menu ul li a,
+html body #top-menu ul li a,
+html body div#top-menu ul li a {
+  color: #FFFFFF !important;
+  background: rgba(218, 165, 32, 0.8) !important; /* Dourado semi-transparente */
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 5px !important;
+  border: 2px solid #DAA520 !important; /* Borda dourada sólida */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important; /* Sombra mais forte */
+  font-weight: 600 !important; /* Mais negrito */
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  margin: 0 0.5rem !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important; /* Sombra para destaque */
+  min-width: 80px !important;
+  text-align: center !important;
+}
+
+/* Estados de hover e focus com contraste máximo */
+body #top-menu ul li a:hover,
+body #top-menu ul li a:focus,
+html body #top-menu ul li a:hover,
+html body #top-menu ul li a:focus {
+  background: #F4E4BC !important; /* Dourado claro no hover */
+  color: #003366 !important; /* Azul escuro para contraste máximo */
+  border-color: #F4E4BC !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.4) !important;
+  text-shadow: none !important;
+  font-weight: 700 !important;
+}
+
+/* Estados visited e active */
+body #top-menu ul li a:visited,
+body #top-menu ul li a:active,
+html body #top-menu ul li a:visited,
+html body #top-menu ul li a:active {
+  color: #FFFFFF !important;
+  background: rgba(218, 165, 32, 0.8) !important;
+}
+
+/* Força estrutura do menu com fundo mais contrastante */
+body #top-menu,
+html body #top-menu {
+  background: rgba(0, 51, 102, 0.9) !important; /* Azul mais forte */
+  padding: 0.8rem !important;
+  border-radius: 8px !important;
+  margin: 0.5rem 1rem !important;
+  backdrop-filter: blur(10px) !important;
+  border: 2px solid rgba(218, 165, 32, 0.5) !important; /* Borda dourada */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+body #top-menu ul,
+html body #top-menu ul {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+body #top-menu ul li,
+html body #top-menu ul li {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Override para qualquer CSS conflitante */
+#top-menu {
+  position: relative !important;
+  z-index: 1000 !important;
+}
+
+#top-menu ul {
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+#top-menu ul li {
+  position: relative !important;
+  z-index: 1002 !important;
+}
+
+#top-menu ul li a {
+  position: relative !important;
+  z-index: 1003 !important;
+}

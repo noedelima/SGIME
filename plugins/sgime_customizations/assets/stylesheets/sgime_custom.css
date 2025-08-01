@@ -89,12 +89,23 @@
   font-size: 1.6rem;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   font-family: var(--sgime-font-family);
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: var(--sgime-spacing-md) var(--sgime-spacing-lg);
 }
 
+/* Logo oficial do Colégio Pedro II */
 #header h1::before {
-  content: "�️ ";
-  margin-right: var(--sgime-spacing-sm);
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+  content: "";
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-right: var(--sgime-spacing-md);
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 100 100"><defs><radialGradient id="brasao" cx="50%" cy="50%"><stop offset="0%" stop-color="%23F4E4BC"/><stop offset="100%" stop-color="%23DAA520"/></radialGradient></defs><circle cx="50" cy="50" r="45" fill="url(%23brasao)" stroke="%23003366" stroke-width="3"/><g stroke="%23003366" stroke-width="1.5" fill="none"><circle cx="50" cy="50" r="25"/><ellipse cx="50" cy="50" rx="25" ry="15"/><ellipse cx="50" cy="50" rx="15" ry="25"/><line x1="25" y1="50" x2="75" y2="50"/><line x1="50" y1="25" x2="50" y2="75"/></g><rect x="30" y="42" width="40" height="8" fill="%23003366" rx="2"/><text x="50" y="48" font-family="Arial,sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="%23F4E4BC">COLÉGIO PEDRO II</text><g stroke="%23228B22" stroke-width="2" fill="none"><path d="M15 85 Q20 75 25 85 M30 80 Q35 70 40 80"/><path d="M85 85 Q80 75 75 85 M70 80 Q65 70 60 80"/></g></svg>') center center no-repeat;
+  background-size: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  flex-shrink: 0;
 }
 
 #header h1::after {
@@ -107,28 +118,60 @@
 
 /* Menu principal institucional */
 #top-menu {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.1) !important;
   border-radius: var(--sgime-border-radius);
   margin: var(--sgime-spacing-sm) var(--sgime-spacing-md);
   padding: var(--sgime-spacing-sm);
   backdrop-filter: blur(5px);
 }
 
+/* Garantir visibilidade total dos links do menu */
+#top-menu ul,
+#top-menu ul li,
 #top-menu ul li a {
-  color: var(--cp2-branco);
-  text-decoration: none;
-  padding: var(--sgime-spacing-sm) var(--sgime-spacing-md);
-  border-radius: var(--sgime-border-radius-sm);
-  transition: all 0.3s ease;
-  font-weight: 500;
-  font-family: var(--sgime-font-family);
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
-#top-menu ul li a:hover {
-  background: var(--cp2-dourado);
-  color: var(--cp2-azul-institucional);
-  transform: translateY(-1px);
-  box-shadow: var(--sgime-box-shadow);
+#top-menu ul {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+#top-menu ul li {
+  display: inline-block !important;
+  margin: 0 var(--sgime-spacing-xs) !important;
+  padding: 0 !important;
+}
+
+#top-menu ul li a,
+#top-menu ul li a:link,
+#top-menu ul li a:visited,
+#top-menu ul li a:active {
+  color: var(--cp2-branco) !important;
+  background: rgba(255,255,255,0.1) !important;
+  text-decoration: none !important;
+  padding: var(--sgime-spacing-sm) var(--sgime-spacing-md) !important;
+  border-radius: var(--sgime-border-radius-sm) !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+  font-family: var(--sgime-font-family) !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+#top-menu ul li a:hover,
+#top-menu ul li a:focus {
+  background: var(--cp2-dourado) !important;
+  color: var(--cp2-azul-institucional) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--sgime-box-shadow) !important;
+  border-color: var(--cp2-dourado) !important;
 }
 
 /* Navegação lateral institucional */
@@ -677,50 +720,11 @@ body {
  * CORREÇÕES FINAIS - IDENTIDADE CPII
  * ================================ */
 
-/* Corrigir ícone e texto do header */
-#header h1::before {
-  content: "🏛️ " !important;
-  margin-right: var(--sgime-spacing-sm);
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-}
-
-/* Substituir "Redmine" por "SGIME" */
+/* Substituir "Redmine" por "SGIME" via JavaScript */
 #header h1 a {
   color: var(--cp2-branco) !important;
   text-decoration: none !important;
   font-size: inherit;
-}
-
-#header h1 a:after {
-  content: " - Colégio Pedro II" !important;
-  font-size: 0.8em;
-  font-weight: 400;
-  opacity: 0.9;
-  color: var(--cp2-dourado-claro);
-}
-
-/* Restaurar visibilidade dos links do menu superior */
-#top-menu ul li {
-  display: inline-block !important;
-  margin-right: var(--sgime-spacing-sm);
-}
-
-#top-menu ul li a {
-  display: inline-block !important;
-  color: var(--cp2-branco) !important;
-  text-decoration: none;
-  padding: var(--sgime-spacing-sm) var(--sgime-spacing-md);
-  border-radius: var(--sgime-border-radius-sm);
-  transition: all 0.3s ease;
-  font-weight: 500;
-  font-family: var(--sgime-font-family);
-}
-
-#top-menu ul li a:hover {
-  background: var(--cp2-dourado) !important;
-  color: var(--cp2-azul-institucional) !important;
-  transform: translateY(-1px);
-  box-shadow: var(--sgime-box-shadow);
 }
 
 /* Garantir que o menu principal seja visível */
@@ -739,15 +743,4 @@ body {
 #main-menu ul li a:hover {
   background: var(--cp2-dourado) !important;
   color: var(--cp2-azul-institucional) !important;
-}
-
-/* Título da página/aba */
-title {
-  font-family: var(--sgime-font-family);
-}
-
-/* Customizar favicon */
-link[rel="shortcut icon"], 
-link[rel="icon"] {
-  href: "/plugin_assets/sgime_customizations/images/favicon.ico" !important;
 }

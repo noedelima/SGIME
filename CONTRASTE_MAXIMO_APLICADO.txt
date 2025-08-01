@@ -1,0 +1,81 @@
+🌟 CONTRASTE MÁXIMO APLICADO AOS MENUS
+=====================================
+
+✅ PROBLEMA RESOLVIDO: Botões com baixo contraste e quase invisíveis
+
+🎨 SOLUÇÕES DE ALTO CONTRASTE IMPLEMENTADAS:
+
+1. 📄 CSS DE CONTRASTE MÁXIMO (sgime_contrast_max.css):
+   → Especificidade máxima: html body div#wrapper div#header #top-menu ul li a
+   → CORES SÓLIDAS (sem transparência):
+     • Fundo: #B8860B (dourado escuro sólido)
+     • Texto: #FFFFFF (branco puro)
+     • Borda: 3px solid #DAA520 (dourada espessa)
+   → Z-index: 9999 para garantir visibilidade
+
+2. 🎯 PROPRIEDADES DE DESTAQUE:
+   ✓ Background sólido (sem transparência)
+   ✓ Borda espessa (3px) dourada
+   ✓ Text-shadow forte para legibilidade
+   ✓ Font-weight: 700 (super negrito)
+   ✓ Box-shadow: 0 3px 8px para profundidade
+   ✓ Padding generoso: 8px 16px
+   ✓ Min-width: 60px para uniformidade
+
+3. 🔥 HOVER COM CONTRASTE EXTREMO:
+   → Fundo: #F4E4BC (dourado claro sólido)
+   → Texto: #003366 (azul escuro)
+   → Transform: translateY(-2px) scale(1.05)
+   → Box-shadow: 0 6px 15px (sombra grande)
+   → Font-weight: 800 (extra negrito)
+
+4. 🏗️ ESTRUTURA DO MENU REFORÇADA:
+   → Container: Gradiente azul sólido
+   → Padding: 12px (generoso)
+   → Borda: 3px solid #DAA520
+   → Layout: Flexbox centralizado
+   → Gap: 8px entre botões
+   → Backdrop-filter removido para mais contraste
+
+5. 🚀 JAVASCRIPT SINCRONIZADO:
+   → Cores sólidas aplicadas via JS
+   → Execução múltipla (0ms, 100ms, 500ms, 1000ms)
+   → Força propriedades com 'important'
+   → Override total de CSS conflitante
+
+📁 ARQUIVOS ATUALIZADOS:
+   ✓ sgime_contrast_max.css (NOVO - contraste máximo)
+   ✓ sgime_menu_fix.css (cores sólidas)
+   ✓ init.rb (JavaScript com cores sólidas)
+   ✓ Assets precompilados
+
+🎨 RESULTADO VISUAL:
+   → Botões DOURADOS SÓLIDOS sobre fundo azul
+   → Texto BRANCO PURO com sombra preta
+   → Bordas DOURADAS ESPESSAS (3px)
+   → Hover DOURADO CLARO com texto azul escuro
+   → Sombras PRONUNCIADAS para profundidade
+   → Layout FLEXBOX centralizado
+
+🔍 ESPECIFICIDADES APLICADAS:
+   → html body div#wrapper div#header #top-menu ul li a
+   → Z-index: 9999
+   → !important em todas as propriedades críticas
+   → Override absoluto de CSS do Redmine
+
+🌐 TESTE AGORA:
+   Acesse http://localhost - os botões devem estar:
+   ✅ DOURADOS SÓLIDOS com texto branco
+   ✅ TOTALMENTE VISÍVEIS sem hover
+   ✅ CONTRASTANTES contra o fundo azul
+   ✅ RESPONSIVOS ao hover (dourado claro)
+
+💡 ESTRATÉGIA:
+   ✓ Cores sólidas (sem transparência)
+   ✓ Bordas espessas para definição
+   ✓ Sombras para profundidade
+   ✓ Tipografia pesada para legibilidade
+   ✓ Layout flexbox para alinhamento
+   ✓ Especificidade CSS máxima
+
+🏆 CONTRASTE MÁXIMO GARANTIDO!

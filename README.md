@@ -47,6 +47,31 @@ O SGIME (Sistema de Gestão Integrada de Engenharia) é uma solução completa d
 - **Ruby**: Ruby License e BSD-2-Clause
 - **Nginx**: BSD-2-Clause License
 
+## 🎨 Tema e Identidade Visual
+
+O SGIME implementa a **identidade visual oficial do Colégio Pedro II** através de um tema personalizado que inclui:
+
+- **🏛️ Favicon Oficial**: Baseado no brasão do CPII com cores institucionais
+- **🎨 Logo no Header**: Brasão integrado com texto "SGIME - Colégio Pedro II"
+- **🌈 Paleta Institucional**: Azul institucional (#003366) e dourado oficial (#DAA520)
+- **📱 Interface Responsiva**: Adaptação para dispositivos móveis
+- **♿ Alto Contraste**: Menu com visibilidade máxima e acessibilidade
+
+### Estrutura do Tema
+```
+plugins/sgime_customizations/
+├── assets/stylesheets/
+│   ├── sgime_custom.css         # CSS principal
+│   ├── cpii_brasao.css          # Elementos do brasão
+│   ├── sgime_menu_fix.css       # Correções de visibilidade
+│   └── sgime_contrast_max.css   # Contraste máximo
+└── assets/images/
+    ├── cpii-favicon.svg         # Favicon oficial
+    └── favicon.ico              # Fallback
+```
+
+Para mais detalhes, consulte: `plugins/sgime_customizations/README.md`
+
 ## Arquitetura Técnica
 
 - **Plataforma Base**: Redmine 5.1.x

@@ -1,0 +1,189 @@
+/* 
+ * Elementos específicos do brasão e identidade visual do Colégio Pedro II
+ * Componentes baseados nos logos oficiais fornecidos
+ */
+
+/* ================================
+ * ELEMENTOS VISUAIS DO BRASÃO CPII
+ * ================================ */
+
+/* Classe para exibir o brasão oficial em vários contextos */
+.cpii-brasao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, var(--cp2-dourado-claro) 0%, var(--cp2-dourado) 100%);
+  border: 3px solid var(--cp2-azul-institucional);
+  border-radius: 50%;
+  color: var(--cp2-azul-institucional);
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: var(--sgime-spacing-sm);
+  box-shadow: var(--sgime-box-shadow);
+  position: relative;
+}
+
+.cpii-brasao::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><g stroke="%23003366" stroke-width="0.8" fill="none"><circle cx="14" cy="14" r="10"/><ellipse cx="14" cy="14" rx="10" ry="6"/><ellipse cx="14" cy="14" rx="6" ry="10"/><line x1="4" y1="14" x2="24" y2="14"/><line x1="14" y1="4" x2="14" y2="24"/></g><rect x="8" y="11.5" width="12" height="3" fill="%23003366" rx="0.5"/><text x="14" y="14.5" font-family="Arial,sans-serif" font-size="2.5" font-weight="bold" text-anchor="middle" fill="%23F4E4BC">CPII</text></svg>') center center no-repeat;
+  background-size: contain;
+}
+
+/* Variação maior do brasão para o header */
+.cpii-brasao.large {
+  width: 50px;
+  height: 50px;
+  font-size: 16px;
+}
+
+.cpii-brasao.large::before {
+  width: 35px;
+  height: 35px;
+}
+
+/* ================================
+ * PADRÕES DECORATIVOS INSPIRADOS NO BRASÃO
+ * ================================ */
+
+/* Padrão de louros (ramos laterais do brasão) */
+.cpii-laurel-pattern {
+  position: relative;
+}
+
+.cpii-laurel-pattern::before,
+.cpii-laurel-pattern::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 30px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="30" viewBox="0 0 20 30"><g stroke="%23228B22" stroke-width="1.5" fill="none"><path d="M2 25 Q5 20 8 25 M6 20 Q9 15 12 20 M10 15 Q13 10 16 15"/><ellipse cx="4" cy="22" rx="2" ry="1" fill="%23dc143c"/><ellipse cx="8" cy="17" rx="1.5" ry="0.8" fill="%23dc143c"/><ellipse cx="12" cy="12" rx="1" ry="0.6" fill="%23dc143c"/></g></svg>') center center no-repeat;
+  background-size: contain;
+  transform: translateY(-50%);
+  opacity: 0.3;
+}
+
+.cpii-laurel-pattern::before {
+  left: -25px;
+}
+
+.cpii-laurel-pattern::after {
+  right: -25px;
+  transform: translateY(-50%) scaleX(-1);
+}
+
+/* ================================
+ * CORES DERIVADAS DO BRASÃO OFICIAL
+ * ================================ */
+
+/* Tons adicionais extraídos dos logos fornecidos */
+:root {
+  /* Cores do globo terrestre */
+  --cpii-globe-gold: #DAA520;
+  --cpii-globe-light: #F4E4BC;
+  --cpii-globe-lines: #B8860B;
+  
+  /* Tons dos ramos de louro */
+  --cpii-laurel-green: #228B22;
+  --cpii-laurel-berries: #DC143C;
+  
+  /* Gradientes oficiais */
+  --cpii-gradient-primary: linear-gradient(135deg, var(--cp2-azul-institucional) 0%, var(--cp2-azul-secundario) 100%);
+  --cpii-gradient-gold: radial-gradient(circle, var(--cp2-dourado-claro) 0%, var(--cp2-dourado) 100%);
+  --cpii-gradient-globe: conic-gradient(from 0deg, var(--cpii-globe-gold) 0deg, var(--cpii-globe-light) 90deg, var(--cpii-globe-gold) 180deg, var(--cpii-globe-light) 270deg);
+}
+
+/* ================================
+ * APLICAÇÕES ESPECÍFICAS NO HEADER
+ * ================================ */
+
+/* Melhorias no header usando elementos do brasão */
+#header {
+  background: var(--cpii-gradient-primary);
+  position: relative;
+}
+
+/* Padrão sutil de fundo inspirado no globo */
+#header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="50" viewBox="0 0 100 50" opacity="0.05"><g stroke="%23DAA520" stroke-width="0.5" fill="none"><circle cx="25" cy="25" r="15"/><circle cx="75" cy="25" r="15"/><ellipse cx="25" cy="25" rx="15" ry="8"/><ellipse cx="75" cy="25" rx="15" ry="8"/></g></svg>') repeat;
+  pointer-events: none;
+  opacity: 0.1;
+}
+
+/* ================================
+ * ELEMENTOS INTERATIVOS COM IDENTIDADE CPII
+ * ================================ */
+
+/* Botões com elementos do brasão */
+.button.cpii-style,
+.button-cpii {
+  background: var(--cpii-gradient-primary);
+  border: 2px solid var(--cp2-dourado);
+  color: var(--cp2-branco);
+  position: relative;
+  overflow: hidden;
+}
+
+.button.cpii-style::before,
+.button-cpii::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="%23F4E4BC" stroke-width="0.8"/><text x="8" y="9" font-family="Arial,sans-serif" font-size="3" font-weight="bold" text-anchor="middle" fill="%23F4E4BC">CP</text></svg>') center center no-repeat;
+  background-size: contain;
+}
+
+.button.cpii-style:hover,
+.button-cpii:hover {
+  background: var(--cpii-gradient-gold);
+  color: var(--cp2-azul-institucional);
+  border-color: var(--cp2-azul-institucional);
+}
+
+/* ================================
+ * RESPONSIVIDADE PARA ELEMENTOS VISUAIS
+ * ================================ */
+
+@media (max-width: 768px) {
+  .cpii-brasao {
+    width: 35px;
+    height: 35px;
+    font-size: 12px;
+  }
+  
+  .cpii-brasao.large {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .cpii-laurel-pattern::before,
+  .cpii-laurel-pattern::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .cpii-brasao {
+    width: 30px;
+    height: 30px;
+    font-size: 10px;
+  }
+}
