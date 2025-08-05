@@ -1,0 +1,44 @@
+# Croatian (Hrvatski) strings go here for Rails i18n
+hr:
+  activerecord:
+    attributes:
+      checklists:
+        subject: Checklist subject
+  label_checklist_plural: Checklist
+  field_checklist: Checklist
+  label_checklist_save_log: Save changes to issue log
+  label_checklist_done_ratio: Postavi postotak završenosti slučaja
+  permission_view_checklists: Prikaz liste zadataka
+  permission_done_checklists: Označi zadatak s liste završenim
+  permission_edit_checklists: Promjena zadatka na listi
+  label_checklist_template_category_plural: Kategorije predložaka
+  label_checklist_template_category_new: Nova kategorija
+  field_checklist_template_category: kategorija
+  label_checklist_templates: Predložal liste zadataka
+  label_checklist_new_checklist_template: Novi predložak liste zadataka
+  field_template_items: Stavke na predlošku
+  label_checklist_template: Predložak liste zadataka
+  label_add_checklists_from_template: Dodaj s predloška
+  label_checklists_from_template: Iz oredloška
+  label_select_template: "-- Odaberi predložak --"
+  label_checklist_category_not_specified: "-- Nije definirano --"
+  label_checklists_description: 'Dozvoljeno je više vrijednosti (jedan red za svaku vrijednost)'
+  label_checklist_item: Stavka na listi
+  label_checklist_section: Dio liste zadataka
+  label_checklist_deleted: obrisano
+  label_checklist_changed_from: promijenjeno Iz
+  label_checklist_changed_to: u
+  label_checklist_added: dodano
+  label_checklist_done: označi kao završeno
+  label_checklist_undone: označi kao Nezavršeno
+  label_checklist_updated: Stavka liste je promijenjena
+  label_checklist_status: Status liste zadataka
+  label_checklist_status_done: Završeno
+  label_checklist_status_undone: Undone
+  label_checklist_is_default: Standardno
+  field_is_for_tracker: Vrsta slučaja
+  label_checklists_must_be_completed: Sve stavke na listi slučaja moraju biti završene prije zatvaranja slučaja
+  label_checklist_block_issue_closing: Onemogući zatvaranje slučaja
+  label_checklist_show_closed: Prikaži završene
+  label_checklist_hide_closed: Sakrij završene
+  label_checklist_new_section: Novi dio

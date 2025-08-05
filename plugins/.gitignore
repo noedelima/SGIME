@@ -8,8 +8,10 @@ redmine_recurring_tasks/
 simple_checklists/
 redmine_issue_templates/
 redmine_dmsf/
-redmine_checklists/
 redmine_agile/
+
+# Plugin baixado manualmente - incluir no versionamento
+# redmine_checklists/ está incluído pois foi baixado manualmente (Light version)
 
 # Manter apenas plugins customizados do SGIME
 !sgime_customizations/

@@ -1,0 +1,44 @@
+# Traductions en français pour Rails i18n
+fr:
+  activerecord:
+    attributes:
+      checklists:
+        subject: Sujet de la checklist
+  label_checklist_plural: Checklist
+  field_checklist: Checklist
+  label_checklist_save_log: Enregistrer les modifications dans le journal des problèmes
+  label_checklist_done_ratio: Définir le taux d'avancement du problème
+  permission_view_checklists: Voir la checklist
+  permission_done_checklists: Éléments de la checklist terminés
+  permission_edit_checklists: Modifier les éléments de la checklist
+  label_checklist_template_category_plural: Catégories de modèles
+  label_checklist_template_category_new: Nouvelle catégorie
+  field_checklist_template_category: Catégorie
+  label_checklist_templates: Modèles de checklist
+  label_checklist_new_checklist_template: Nouveau modèle de checklist
+  field_template_items: Éléments de modèle
+  label_checklist_template: Modèle de checklist
+  label_add_checklists_from_template: Ajouter à partir du modèle
+  label_checklists_from_template: À partir du modèle
+  label_select_template: "-- Sélectionner un modèle --"
+  label_checklist_category_not_specified: "-- Non spécifié --"
+  label_checklists_description: 'Plusieurs valeurs autorisées (une ligne pour chaque valeur)'
+  label_checklist_item: Élément de checklist
+  label_checklist_section: Section de checklist
+  label_checklist_deleted: supprimé
+  label_checklist_changed_from: changé de
+  label_checklist_changed_to: à
+  label_checklist_added: ajouté
+  label_checklist_done: défini comme Terminé
+  label_checklist_undone: défini comme Non terminé
+  label_checklist_updated: Élément de checklist modifié
+  label_checklist_status: Statut de la checklist
+  label_checklist_status_done: Terminé
+  label_checklist_status_undone: Non terminé
+  label_checklist_is_default: Par défaut
+  field_is_for_tracker: Tracker
+  label_checklists_must_be_completed: Toutes les checklists d'un problème doivent être terminées avant la clôture
+  label_checklist_block_issue_closing: Bloquer la clôture du problème
+  label_checklist_show_closed: Afficher les éléments clos
+  label_checklist_hide_closed: Masquer les éléments clos
+  label_checklist_new_section: Nouvelle section

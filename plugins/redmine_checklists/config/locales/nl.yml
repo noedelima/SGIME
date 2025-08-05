@@ -1,0 +1,44 @@
+
+nl:
+  activerecord:
+    attributes:
+      checklists:
+        subject: Onderwerp van de checklist
+  label_checklist_plural: Checklists
+  field_checklist: Checklist
+  label_checklist_save_log: Wijzigingen in probleemlogboek opslaan
+  label_checklist_done_ratio: Stel voltooiingspercentage in
+  permission_view_checklists: View checklist
+  permission_done_checklists: Voltooide checklistitems
+  permission_edit_checklists: Bewerk checklistitems
+  label_checklist_template_category_plural: Sjabloonscategorieën
+  label_checklist_template_category_new: Nieuwe categorie
+  field_checklist_template_category: Categorie
+  label_checklist_templates: Checklistsjablonen
+  label_checklist_new_checklist_template: Nieuw checklistsjabloon
+  field_template_items: Sjabloonitems
+  label_checklist_template: Checklistsjabloon
+  label_add_checklists_from_template: Toevoegen vanuit sjabloon
+  label_checklists_from_template: Van sjabloon
+  label_select_template: -- Selecteer sjabloon --
+  label_checklist_category_not_specified: -- Niet gespecificeerd --
+  label_checklists_description: Meerdere waarden toegestaan (één regel voor elke waarde)
+  label_checklist_item: Checklistitem
+  label_checklist_section: Checklistsectie
+  label_checklist_deleted: verwijderd
+  label_checklist_changed_from: veranderd van
+  label_checklist_changed_to: naar
+  label_checklist_added: toegevoegd
+  label_checklist_done: ingesteld op Voltooid
+  label_checklist_undone: ingesteld op Niet voltooid
+  label_checklist_updated: Checklistitem bewerkt
+  label_checklist_status: Checkliststatus
+  label_checklist_status_done: Voltooid
+  label_checklist_status_undone: Niet voltooid
+  label_checklist_is_default: Standaard
+  field_is_for_tracker: Tracker
+  label_checklists_must_be_completed: Alle checklists van een probleem moeten voltooid zijn voordat het gesloten wordt
+  label_checklist_block_issue_closing: Blokkeer het sluiten van het probleem
+  label_checklist_show_closed: Gesloten weergeven
+  label_checklist_hide_closed: Gesloten verbergen
+  label_checklist_new_section: Nieuwe sectie

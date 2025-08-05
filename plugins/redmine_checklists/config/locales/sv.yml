@@ -1,0 +1,46 @@
+# Swedish strings go here for Rails i18n
+# Translation by Khedron Wilk (khedron.wilk@gmail.com)
+# Created 2014 Dec 14 Based on RedmineUP Checklist plugin (Light) ver 3.0.2
+sv:
+  activerecord:
+      attributes:
+        checklists:
+          subject: Checklista ärende
+  label_checklist_plural: Checklista
+  field_checklist: Checklista
+  label_checklist_save_log: Spara ändringar i ärendeloggen
+  label_checklist_done_ratio: 'Använd checklista för att beräkna "% Klart"'
+  permission_view_checklists: Visa checklistor
+  permission_done_checklists: Avklarade checklistepunkter
+  permission_edit_checklists: Redigera checklistepunkter
+  label_checklist_template_category_plural: Mallkategorier
+  label_checklist_template_category_new: Ny kategori
+  field_checklist_template_category: Kategori
+  label_checklist_templates: Mallar för checklistor
+  label_checklist_new_checklist_template: Ny mall
+  field_template_items: Punkter för mallen
+  label_checklist_template: Mallchecklista
+  label_add_checklists_from_template: Lägg till från mall
+  label_checklists_from_template: Från mall
+  label_select_template: "-- välj mall --"
+  label_checklist_category_not_specified: "-- ej vald --"
+  label_checklists_description: Ingående punkter (en rad per punkt)
+  label_checklist_item: Checklistepunkt # label_checklist_items: Checklistepunkter
+  label_checklist_section: Checklistesektion
+  label_checklist_deleted: borttagen
+  label_checklist_changed_from: ändrad från
+  label_checklist_changed_to: till
+  label_checklist_added: tillagd
+  label_checklist_done: satt som Avklarad
+  label_checklist_undone: satt som Ej klar
+  label_checklist_updated: Checklista punkt redigerad
+  label_checklist_status: Checklistestatus
+  label_checklist_status_done: Avklarad
+  label_checklist_status_undone: Ej klar
+  label_checklist_is_default: Vald som standard
+  field_is_for_tracker: Ärendetyp
+  label_checklists_must_be_completed: "Alla checklistor/punkter måste vara avklarade innan ett ärende kan stängas"
+  label_checklist_block_issue_closing: Blockera ärendestängning
+  label_checklist_show_closed: Visa ibockade
+  label_checklist_hide_closed: Dölj ibockade
+  label_checklist_new_section: Ny sektion

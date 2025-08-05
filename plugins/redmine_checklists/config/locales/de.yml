@@ -1,0 +1,44 @@
+# Deutsche Übersetzungen für Rails i18n
+de:
+  activerecord:
+    attributes:
+      checklists:
+        subject: Checklisten-Thema
+  label_checklist_plural: Checklist
+  field_checklist: Checklist
+  label_checklist_save_log: Änderungen im Problem-Log speichern
+  label_checklist_done_ratio: Fortschritt des Problems festlegen
+  permission_view_checklists: Checklist anzeigen
+  permission_done_checklists: Erledigte Checklistenelemente
+  permission_edit_checklists: Checklistenelemente bearbeiten
+  label_checklist_template_category_plural: Vorlagenkategorien
+  label_checklist_template_category_new: Neue Checklistenvorlage
+  field_checklist_template_category: Vorlagenelemente
+  label_checklist_templates: Checklistenvorlagen
+  label_checklist_new_checklist_template: Neue Checklistenvorlage
+  field_template_items: Vorlagenelemente
+  label_checklist_template: Checklistenvorlage
+  label_add_checklists_from_template: Von Vorlage hinzufügen
+  label_checklists_from_template: Von Vorlage
+  label_select_template: "-- Nicht angegeben --"
+  label_checklist_category_not_specified: "-- Nicht spezifiziert --"
+  label_checklists_description: Mehrere Werte erlaubt (eine Zeile für jeden Wert)
+  label_checklist_item: Checklistenelement
+  label_checklist_section: Checklistensektion
+  label_checklist_deleted: gelöscht
+  label_checklist_changed_from: geändert von
+  label_checklist_changed_to: zu
+  label_checklist_added: hinzugefügt
+  label_checklist_done: auf Erledigt gesetzt
+  label_checklist_undone: auf Nicht erledigt gesetzt
+  label_checklist_updated: Checklistenelement bearbeitet
+  label_checklist_status: Checklistestatus
+  label_checklist_status_done: Erledigt
+  label_checklist_status_undone: Nicht erledigt
+  label_checklist_is_default: Standardmäßig
+  field_is_for_tracker: Tracker
+  label_checklists_must_be_completed: Alle Checklisten eines Problems müssen erledigt sein, bevor es geschlossen werden kann
+  label_checklist_block_issue_closing: Problemabschluss blockieren
+  label_checklist_show_closed: Geschlossene anzeigen
+  label_checklist_hide_closed: Geschlossene ausblenden
+  label_checklist_new_section: Neue Sektion

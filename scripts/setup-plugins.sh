@@ -30,8 +30,13 @@ DOCKER_COMPOSE_FILE="docker-compose.yml"
 # Plugins essenciais do SGIME com seus repositórios (compatíveis com Redmine 6.0)
 declare -A ESSENTIAL_PLUGINS=(
     ["redmine_dashboard"]="https://github.com/jgraichen/redmine_dashboard.git"
-    ["simple_checklists"]="https://github.com/Restream/redmine_simple_checklists.git"
     ["sgime_customizations"]="local" # Plugin customizado do SGIME
+    ["redmine_checklists"]="manual_install" # Plugin comercial - download manual necessário
+)
+
+# Plugins backup (desabilitados mas mantidos como backup)
+declare -A BACKUP_PLUGINS=(
+    ["simple_checklists"]="https://github.com/Restream/redmine_simple_checklists.git"
 )
 
 # Plugins com problemas de compatibilidade (não essenciais)
@@ -76,6 +81,18 @@ download_plugin() {
             return 0
         else
             error "Plugin local $plugin_name não encontrado em $plugin_path"
+            return 1
+        fi
+    fi
+    
+    # Plugin de instalação manual (comercial ou sem repositório público)
+    if [ "$plugin_url" = "manual_install" ]; then
+        if [ -d "$plugin_path" ]; then
+            info "Plugin $plugin_name (instalação manual) já existe"
+            return 0
+        else
+            warning "Plugin $plugin_name requer instalação manual"
+            warning "Por favor, baixe e extraia o plugin em: $plugin_path"
             return 1
         fi
     fi

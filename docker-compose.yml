@@ -55,11 +55,11 @@ services:
       # Uncomment lines below to enable specific plugins:
       # - ./plugins/redmine_more_previews:/usr/src/redmine/plugins/redmine_more_previews
       # - ./plugins/redmine_recurring_tasks:/usr/src/redmine/plugins/redmine_recurring_tasks (INCOMPATÍVEL COM REDMINE 6.0)
-      - ./plugins/simple_checklists:/usr/src/redmine/plugins/simple_checklists
+      # - ./plugins/simple_checklists:/usr/src/redmine/plugins/simple_checklists (BACKUP - substituído por redmine_checklists)
       # - ./plugins/redmine_issue_templates:/usr/src/redmine/plugins/redmine_issue_templates
       # - ./plugins/redmine_omniauth_azure:/usr/src/redmine/plugins/redmine_omniauth_azure
       - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
-      # - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
+      - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
       - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
       # - ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf
     networks:
