@@ -13,12 +13,13 @@ plugins/
 ├── .gitignore                    # Ignora plugins baixados automaticamente
 ├── README.md                     # Este arquivo
 ├── sgime_customizations/         # Plugin customizado do SGIME (commitado)
-├── redmine_dashboard/            # Baixado de: github.com/jgraichen/redmine_dashboard
-├── redmine_recurring_tasks/      # Baixado de: github.com/nutso/redmine-plugin-recurring-tasks (INCOMPATÍVEL)
-├── simple_checklists/           # Baixado de: github.com/ggilder/redmine_simple_checklists (BACKUP)
-├── redmine_checklists/          # Download manual: RedmineUP Light version (ATIVO)
-├── redmine_issue_templates/     # Baixado de: github.com/akiko-pusu/redmine_issue_templates
-└── redmine_dmsf/                # Baixado de: github.com/danmunn/redmine_dmsf (opcional)
+├── redmine_dashboard/            # Baixado automaticamente durante setup
+├── redmine_checklists/          # Download manual: RedmineUP Light version
+├── redmine_dmsf/                # Baixado automaticamente com correções
+├── redmine_recurring_tasks/     # Baixado automaticamente durante setup
+├── simple_checklists/           # Backup: sistema básico de checklists
+├── redmine_issue_templates/     # Opcional: templates de issues
+└── redmine_more_previews/       # Opcional: preview avançado de arquivos
 ```
 
 ## 🚀 Instalação Automática
@@ -35,18 +36,16 @@ Durante o `./setup.sh`, os plugins essenciais são automaticamente:
 - ✅ **redmine_dashboard** - Dashboard personalizado
 - ✅ **sgime_customizations** - Tema e customizações CPII
 - ✅ **redmine_checklists** - Sistema de checklists oficial (RedmineUP Light)
+- ✅ **redmine_dmsf** - Sistema completo de gestão de documentos
+- ✅ **redmine_recurring_tasks** - Tarefas recorrentes para manutenção
 
-### Plugins Instalados mas Desabilitados
+## 📦 Plugins Removidos da Instalação
 
-- ⚠️ **simple_checklists** - Sistema de checklists básico (backup)
-- ⚠️ **redmine_recurring_tasks** - Tarefas recorrentes (incompatível Redmine 6.0)
-- ⚠️ **redmine_issue_templates** - Templates de issues
+> **📝 Nota**: Para manter a instalação simplificada, os seguintes plugins foram removidos. Podem ser reativados conforme necessidade futura.
 
-### Plugins Opcionais (Baixados mas Desabilitados)
-
-- ⚠️ **redmine_dmsf** - Gestão de documentos (problemas de compatibilidade)
-- 📋 **redmine_checklists** - Checklists oficiais (repositório instável)
-- 🏃 **redmine_agile** - Metodologias ágeis (comercial)
+- **simple_checklists** - Sistema de checklists básico (substituído pelo oficial)
+- **redmine_issue_templates** - Templates de issues (funcionalidade opcional)
+- **redmine_more_previews** - Preview avançado de arquivos (funcionalidade opcional)
 
 ## 🔧 Gerenciamento Manual
 
@@ -96,10 +95,8 @@ Durante o `./setup.sh`, os plugins essenciais são automaticamente:
 | redmine_dashboard | [jgraichen/redmine_dashboard](https://github.com/jgraichen/redmine_dashboard) | ✅ Ativo | Dashboard personalizado |
 | redmine_checklists | Download manual RedmineUP | ✅ Ativo | Checklists oficial (Light) |
 | sgime_customizations | Local/customizado | ✅ Ativo | Tema Colégio Pedro II |
-| simple_checklists | [ggilder/redmine_simple_checklists](https://github.com/ggilder/redmine_simple_checklists) | 💾 Backup | Checklists básico (backup) |
-| redmine_recurring_tasks | [nutso/redmine-plugin-recurring-tasks](https://github.com/nutso/redmine-plugin-recurring-tasks) | ❌ Incompatível | Tarefas recorrentes |
-| redmine_issue_templates | [akiko-pusu/redmine_issue_templates](https://github.com/akiko-pusu/redmine_issue_templates) | ⚠️ Pendente | Templates de issues |
-| redmine_dmsf | [danmunn/redmine_dmsf](https://github.com/danmunn/redmine_dmsf) | ⚠️ Opcional | Gestão de documentos |
+| redmine_dmsf | [picman/redmine_dmsf](https://github.com/picman/redmine_dmsf) | ✅ Ativo | Gestão de documentos |
+| redmine_recurring_tasks | [nutso/redmine-plugin-recurring-tasks](https://github.com/nutso/redmine-plugin-recurring-tasks) | ✅ Ativo | Tarefas recorrentes |
 
 ## 🔍 Troubleshooting
 

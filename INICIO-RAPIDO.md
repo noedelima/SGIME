@@ -22,7 +22,8 @@
 
 ```bash
 # 1. Clone ou baixe o projeto SGIME
-cd /home/noedelima/source/SGIME
+git clone https://github.com/noedelima/SGIME.git
+cd SGIME
 
 # 2. Execute o script de setup automático
 ./setup.sh
@@ -33,6 +34,7 @@ cd /home/noedelima/source/SGIME
 # - Configurar variáveis de ambiente
 # - Baixar e construir as imagens Docker
 # - Inicializar o banco de dados
+# - Configurar plugins essenciais
 # - Configurar dados iniciais
 ```
 

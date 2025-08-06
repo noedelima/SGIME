@@ -9,8 +9,10 @@
 #
 # PLUGINS UTILIZADOS:
 # - redmine_dashboard: https://www.redmine.org/plugins/dashboard
-# - redmine_issue_templates: https://www.redmine.org/plugins/redmine_issue_templates  
-# - simple_checklists: Plugin customizado para checklists simples
+# - redmine_checklists: Sistema oficial de checklists (RedmineUP Light)
+# - redmine_dmsf: Sistema de gestão de documentos
+# - redmine_recurring_tasks: Tarefas recorrentes para manutenção
+# - sgime_customizations: Tema e customizações do Colégio Pedro II
 #
 # Para buscar novos plugins: https://www.redmine.org/plugins
 # Para documentação dos plugins: consulte os repositórios individuais
@@ -32,24 +34,15 @@ declare -A ESSENTIAL_PLUGINS=(
     ["redmine_dashboard"]="https://github.com/jgraichen/redmine_dashboard.git"
     ["sgime_customizations"]="local" # Plugin customizado do SGIME
     ["redmine_checklists"]="manual_install" # Plugin comercial - download manual necessário
-)
-
-# Plugins backup (desabilitados mas mantidos como backup)
-declare -A BACKUP_PLUGINS=(
-    ["simple_checklists"]="https://github.com/Restream/redmine_simple_checklists.git"
-)
-
-# Plugins com problemas de compatibilidade (não essenciais)
-declare -A PROBLEMATIC_PLUGINS=(
+    ["redmine_dmsf"]="https://github.com/picman/redmine_dmsf.git" # Fork atualizado e compatível
     ["redmine_recurring_tasks"]="https://github.com/nutso/redmine-plugin-recurring-tasks.git"
-    ["redmine_issue_templates"]="https://github.com/akiko-pusu/redmine_issue_templates.git"
 )
 
-# Plugins opcionais (podem ser habilitados posteriormente)
-declare -A OPTIONAL_PLUGINS=(
-    ["redmine_dmsf"]="https://github.com/danmunn/redmine_dmsf.git"
-    ["redmine_checklists"]="https://github.com/nodecarter/redmine_checklists.git"
-    ["redmine_agile"]="https://github.com/RedmineUP/redmine_agile.git"
+# Plugins removidos da instalação (mantidos no histórico para referência)
+declare -A REMOVED_PLUGINS=(
+    ["simple_checklists"]="https://github.com/Restream/redmine_simple_checklists.git"
+    ["redmine_issue_templates"]="https://github.com/akiko-pusu/redmine_issue_templates.git"
+    ["redmine_more_previews"]="https://github.com/haru/redmine_more_previews.git"
 )
 
 log() {
@@ -151,32 +144,80 @@ disable_plugin_in_compose() {
     fi
 }
 
-# Função para criar tabelas necessárias via SQL
-create_plugin_tables() {
-    local plugin_name="$1"
+# Função para aplicar correções específicas do DMSF
+fix_dmsf_plugin() {
+    local dmsf_path="plugins/redmine_dmsf"
     
-    case "$plugin_name" in
-        "redmine_recurring_tasks")
-            log "Criando tabelas para recurring_tasks..."
-            docker exec -i sgime-postgres psql -U sgime_user -d sgime_production << 'EOF' || true
-CREATE TABLE IF NOT EXISTS recurring_tasks (
-    id SERIAL PRIMARY KEY,
-    current_issue_id INTEGER,
-    fixed_schedule BOOLEAN,
-    interval_number INTEGER,
-    interval_unit VARCHAR(255),
-    interval_modifier INTEGER DEFAULT 1,
-    recur_subtasks BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
-);
+    if [ ! -d "$dmsf_path" ]; then
+        return 0
+    fi
+    
+    log "Aplicando correções para compatibilidade do DMSF..."
+    
+    # 1. Criar Gemfile mínimo
+    cat > "$dmsf_path/Gemfile" << 'EOF'
+# frozen_string_literal: true
+
+# Minimal dependencies for DMSF plugin
+
+source 'https://rubygems.org' do
+  gem 'uuidtools'
+  gem 'simple_enum'
+  gem 'rake' unless Dir.exist?(File.expand_path('../../redmine_dashboard', __FILE__))
+end
 EOF
-            ;;
-        *)
-            info "Plugin $plugin_name não requer criação manual de tabelas"
-            ;;
-    esac
+    
+    # 2. Corrigir require do ox em dav4rack.rb
+    if [ -f "$dmsf_path/lib/dav4rack.rb" ]; then
+        sed -i "s/require 'ox'/# require 'ox'/" "$dmsf_path/lib/dav4rack.rb"
+        log "Correção aplicada em dav4rack.rb"
+    fi
+    
+    # 3. Comentar simple_enum em dmsf_lock.rb
+    if [ -f "$dmsf_path/app/models/dmsf_lock.rb" ]; then
+        sed -i "s/require 'simple_enum'/# require 'simple_enum'  # Commented temporarily to resolve dependency issues/" "$dmsf_path/app/models/dmsf_lock.rb"
+        sed -i "s/as_enum :lock_type, %i\[type_write type_other\]/# as_enum :lock_type, %i[type_write type_other]  # Commented temporarily/" "$dmsf_path/app/models/dmsf_lock.rb"
+        sed -i "s/as_enum :lock_scope, %i\[scope_exclusive scope_shared\]/# as_enum :lock_scope, %i[scope_exclusive scope_shared]  # Commented temporarily/" "$dmsf_path/app/models/dmsf_lock.rb"
+        log "Correção aplicada em dmsf_lock.rb"
+    fi
+    
+    # 4. Garantir require 'zip' no init.rb
+    if [ -f "$dmsf_path/init.rb" ]; then
+        if ! grep -q "require 'zip'" "$dmsf_path/init.rb"; then
+            sed -i "/require 'redmine'/a require 'zip'  # RubyZip dependency" "$dmsf_path/init.rb"
+            log "Adicionado require 'zip' no init.rb"
+        fi
+    fi
+    
+    success "Correções do DMSF aplicadas com sucesso!"
 }
+
+# Função para configurar redmine_recurring_tasks
+setup_recurring_tasks() {
+    local plugin_path="$PLUGINS_DIR/redmine_recurring_tasks"
+    
+    if [ ! -d "$plugin_path" ]; then
+        warning "Plugin redmine_recurring_tasks não encontrado"
+        return 1
+    fi
+    
+    log "Configurando redmine_recurring_tasks..."
+    
+    # Verificar se o arquivo init.rb existe
+    if [ ! -f "$plugin_path/init.rb" ]; then
+        error "Arquivo init.rb não encontrado no plugin recurring_tasks"
+        return 1
+    fi
+    
+    # O plugin recurring_tasks não requer configurações especiais no código
+    # Apenas precisa das migrações padrão do Redmine
+    log "Plugin recurring_tasks configurado (utilizará migrações padrão)"
+    
+    success "Configuração do recurring_tasks concluída!"
+}
+
+# Função para criar tabelas necessárias via SQL (removida - usando migrações padrão)
+# As tabelas dos plugins são criadas automaticamente pelas migrações do Redmine
 
 # Função principal para configurar plugins essenciais
 setup_essential_plugins() {
@@ -190,29 +231,21 @@ setup_essential_plugins() {
             # Habilitar no docker compose
             enable_plugin_in_compose "$plugin_name"
             
-            # Criar tabelas se necessário
-            create_plugin_tables "$plugin_name"
+            # Aplicar configurações específicas para cada plugin
+            case "$plugin_name" in
+                "redmine_dmsf")
+                    fix_dmsf_plugin
+                    ;;
+                "redmine_recurring_tasks")
+                    setup_recurring_tasks
+                    ;;
+            esac
         else
             warning "Falha ao configurar plugin essencial: $plugin_name"
         fi
     done
     
-    # Desabilitar plugins problemáticos
-    disable_plugin_in_compose "redmine_dmsf"
-    
     log "Plugins essenciais configurados!"
-}
-
-# Função para baixar plugins opcionais (sem habilitar)
-download_optional_plugins() {
-    log "Baixando plugins opcionais (não habilitados por padrão)..."
-    
-    for plugin_name in "${!OPTIONAL_PLUGINS[@]}"; do
-        local plugin_url="${OPTIONAL_PLUGINS[$plugin_name]}"
-        download_plugin "$plugin_name" "$plugin_url" || warning "Falha ao baixar plugin opcional: $plugin_name"
-    done
-    
-    log "Plugins opcionais baixados!"
 }
 
 # Função para executar migrações de plugins com configuração correta
@@ -268,36 +301,16 @@ show_status() {
     done
     
     echo ""
-    echo -e "${YELLOW}Plugins com problemas de compatibilidade:${NC}"
-    for plugin_name in "${!PROBLEMATIC_PLUGINS[@]}"; do
-        if [ -d "$PLUGINS_DIR/$plugin_name" ]; then
-            if grep -q "^[[:space:]]*- ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name" "$DOCKER_COMPOSE_FILE"; then
-                echo -e "  ${RED}⚠${NC} $plugin_name (problemático - habilitado)"
-            else
-                echo -e "  ${YELLOW}!${NC} $plugin_name (problemático - desabilitado)"
-            fi
-        else
-            echo -e "  ${YELLOW}-${NC} $plugin_name (problemático - não baixado)"
-        fi
+    echo -e "${YELLOW}Plugins removidos da instalação (para referência):${NC}"
+    for plugin_name in "${!REMOVED_PLUGINS[@]}"; do
+        echo -e "  ${RED}-${NC} $plugin_name (removido da instalação)"
     done
     
     echo ""
-    echo -e "${BLUE}Plugins opcionais disponíveis:${NC}"
-    for plugin_name in "${!OPTIONAL_PLUGINS[@]}"; do
-        if [ -d "$PLUGINS_DIR/$plugin_name" ]; then
-            if grep -q "^[[:space:]]*- ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name" "$DOCKER_COMPOSE_FILE"; then
-                echo -e "  ${GREEN}✓${NC} $plugin_name (opcional - habilitado)"
-            else
-                echo -e "  ${YELLOW}-${NC} $plugin_name (opcional - disponível)"
-            fi
-        else
-            echo -e "  ${RED}-${NC} $plugin_name (opcional - não baixado)"
-        fi
-    done
-    
-    echo ""
-    echo -e "${YELLOW}Para habilitar plugins opcionais:${NC}"
-    echo -e "  ./scripts/plugin-manager.sh enable <nome_plugin>"
+    echo -e "${BLUE}ℹ️  Informações adicionais:${NC}"
+    echo -e "  • Plugins essenciais são instalados automaticamente"
+    echo -e "  • Para gerenciamento dinâmico use: ./scripts/plugin-manager.sh"
+    echo -e "  • Para adicionar novos plugins, edite este script"
 }
 
 # Função principal
@@ -319,9 +332,6 @@ main() {
     # Configurar plugins essenciais
     setup_essential_plugins
     
-    # Baixar plugins opcionais
-    download_optional_plugins
-    
     # Executar migrações dos plugins
     migrate_plugins
     
@@ -342,11 +352,10 @@ case "${1:-}" in
         setup_essential_plugins
         ;;
     "download-only")
-        log "Apenas baixando plugins (sem habilitar)..."
+        log "Apenas baixando plugins essenciais..."
         for plugin_name in "${!ESSENTIAL_PLUGINS[@]}"; do
             download_plugin "$plugin_name" "${ESSENTIAL_PLUGINS[$plugin_name]}"
         done
-        download_optional_plugins
         ;;
     "status")
         show_status

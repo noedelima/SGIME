@@ -39,11 +39,11 @@ Este guia destina-se aos administradores responsáveis pela instalação, config
 
 ### Componentes Principais
 
-- **Redmine 5.1.x**: Plataforma base
+- **Redmine 6.0.x**: Plataforma base
 - **PostgreSQL 16.x**: Banco de dados principal
 - **Nginx**: Proxy reverso e SSL termination
 - **Redis**: Cache e sessões
-- **Docker/Kubernetes**: Containerização
+- **Docker Compose**: Containerização
 
 ## Instalação e Configuração
 
@@ -74,8 +74,7 @@ git clone https://github.com/noedelima/SGIME.git
 cd SGIME
 
 # Executar instalação
-chmod +x scripts/install.sh
-./scripts/install.sh
+./setup.sh
 ```
 
 ### Configuração Manual

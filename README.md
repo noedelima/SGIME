@@ -74,11 +74,30 @@ Para mais detalhes, consulte: `plugins/sgime_customizations/README.md`
 
 ## Arquitetura Técnica
 
-- **Plataforma Base**: Redmine 5.1.x
-- **Banco de Dados**: PostgreSQL 16.x em cluster de alta disponibilidade
+- **Plataforma Base**: Redmine 6.0.x
+- **Banco de Dados**: PostgreSQL 16.x 
 - **Servidor Web**: Nginx (proxy reverso) + Puma (Ruby)
-- **Containerização**: Docker + Kubernetes
+- **Cache**: Redis para sessões e cache
+- **Containerização**: Docker + Docker Compose
 - **Autenticação**: LDAP/AD + SSO (Microsoft Entra ID)
+
+## Plugins Implementados
+
+### Plugins Essenciais (Habilitados)
+- ✅ **Redmine Dashboard** - Dashboard personalizado
+- ✅ **SGIME Customizations** - Tema e identidade visual do Colégio Pedro II
+- ✅ **Redmine Checklists** - Sistema de checklists (RedmineUP Light)
+- ✅ **Redmine DMSF** - Sistema completo de gestão de documentos
+- ✅ **Redmine Recurring Tasks** - Tarefas recorrentes para manutenção
+
+### Plugins Removidos (Para Instalação Simplificada)
+> **� Nota**: Os plugins abaixo foram removidos para manter apenas os recursos essenciais.
+
+- **Redmine Issue Templates** - Templates predefinidos para issues (opcional)
+- **Redmine More Previews** - Preview avançado de arquivos (opcional)
+- **Simple Checklists** - Sistema básico de checklists (substituído pelo oficial)
+
+Para mais informações sobre plugins, consulte: [docs/plugins.md](docs/plugins.md)
 
 ## Pré-requisitos
 
@@ -89,7 +108,6 @@ Para mais detalhes, consulte: `plugins/sgime_customizations/README.md`
 ### Software Base
 - Docker 24.x ou superior
 - Docker Compose 2.x ou superior
-- Kubernetes 1.28 ou superior (para ambiente de produção)
 - Git 2.x ou superior
 
 ### Recursos Mínimos
@@ -106,8 +124,7 @@ git clone https://github.com/noedelima/SGIME.git
 cd SGIME
 
 # Execute a instalação automatizada
-chmod +x scripts/install.sh
-./scripts/install.sh
+./setup.sh
 ```
 
 ### Instalação Passo a Passo

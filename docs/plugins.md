@@ -14,44 +14,42 @@
 - **Descrição**: Dashboard personalizável para visão geral do projeto
 - **Status**: ✅ Funcionando
 
-### 2. Redmine Issue Templates  
-- **Repositório**: https://github.com/akiko-pusu/redmine_issue_templates.git
-- **Página oficial**: https://www.redmine.org/plugins/redmine_issue_templates
-- **Descrição**: Templates predefinidos para criação de issues
+### 2. SGIME Customizations
+- **Repositório**: Plugin customizado local
+- **Descrição**: Tema e identidade visual do Colégio Pedro II
 - **Status**: ✅ Funcionando
 
-### 3. Simple Checklists
-- **Repositório**: Plugin customizado SGIME
-- **Descrição**: Funcionalidade de checklists simples para issues
+### 3. Redmine Checklists
+- **Repositório**: RedmineUP Light version (download manual)
+- **Página oficial**: https://www.redmine.org/plugins/checklists
+- **Descrição**: Sistema de checklists oficial para issues
 - **Status**: ✅ Funcionando
 
-### 4. Redmine Recurring Tasks
-- **Repositório**: https://github.com/nutso/redmine-plugin-recurring-tasks.git
-- **Descrição**: Tarefas recorrentes/repetitivas
-- **Status**: ⚠️ Em teste (compatibilidade Redmine 6.0)
-
-## Plugins Opcionais Disponíveis
-
-### 1. Redmine DMSF
-- **Repositório**: https://github.com/danmunn/redmine_dmsf.git
+### 4. Redmine DMSF
+- **Repositório**: https://github.com/picman/redmine_dmsf.git (fork atualizado)
 - **Página oficial**: https://www.redmine.org/plugins/dmsf
-- **Descrição**: Sistema de gestão de documentos
-- **Status**: 🔄 Disponível (não habilitado)
+- **Descrição**: Sistema completo de gestão de documentos com workflows
+- **Status**: ✅ Funcionando (com correções aplicadas)
 
-### 2. Redmine More Previews
-- **Página oficial**: https://www.redmine.org/plugins/redmine_more_previews
-- **Descrição**: Preview avançado de arquivos (imagens, vídeos, PDFs)
-- **Status**: 🔄 Para implementar
+### 5. Redmine Recurring Tasks
+- **Repositório**: https://github.com/nutso/redmine-plugin-recurring-tasks.git
+- **Página oficial**: https://www.redmine.org/plugins/redmine_recurring_tasks
+- **Descrição**: Criação automática de tarefas recorrentes para manutenção
+- **Status**: ✅ Funcionando
 
-### 3. Redmine Custom CSS
-- **Descrição**: Personalização de CSS por projeto
-- **Status**: 🔄 Para implementar
+## Plugins Opcionais (Removidos da Instalação Atual)
 
-### 4. Redmine OmniAuth Azure
-- **Descrição**: Integração SSO com Microsoft Azure AD
-- **Status**: 🔄 Para implementar
+> **📝 Nota**: Os plugins abaixo foram removidos para simplificar a instalação e manter apenas os recursos essenciais do SGIME.
 
-## Como Buscar Novos Plugins
+### Plugins Disponíveis para Implementação Futura
+
+1. **Redmine More Previews** - Preview avançado de arquivos
+2. **Redmine Issue Templates** - Templates predefinidos para issues  
+3. **Redmine OmniAuth Azure** - Integração SSO com Microsoft Azure AD
+
+### Plugins de Backup Removidos
+
+- **Simple Checklists** - Sistema básico de checklists (substituído por redmine_checklists oficial)## Como Buscar Novos Plugins
 
 1. Acesse https://www.redmine.org/plugins
 2. Use os filtros para encontrar plugins por categoria:

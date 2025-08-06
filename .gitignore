@@ -40,6 +40,14 @@ redis_data/
 # Volumes Docker
 volumes/
 
+# ===== PLUGINS (BAIXADOS AUTOMATICAMENTE) =====
+# Plugins são baixados automaticamente dos repositórios oficiais
+# Ignorar todos os plugins baixados (exceto customizações)
+plugins/redmine_*
+plugins/simple_*
+!plugins/sgime_customizations/
+# Ver plugins/.gitignore para configuração específica
+
 # ===== LOGS E ARQUIVOS TEMPORÁRIOS =====
 # Logs de todos os serviços
 logs/
