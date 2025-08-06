@@ -1,0 +1,18 @@
+# SGIME - Crontab para Automação de Manutenção
+# Conforme ABNT NBR-5674 - Manutenção de edificações
+#
+# Instalação:
+# sudo crontab -e
+# Adicionar as linhas abaixo:
+
+# Verificação de checklists com falhas (a cada 2 horas durante horário comercial)
+0 8,10,12,14,16,18 * * 1-5 /home/noedelima/source/SGIME/scripts/sgime-maintenance-automation.sh >> /home/noedelima/source/SGIME/logs/maintenance-cron.log 2>&1
+
+# Criação de tarefas de manutenção preventiva (diário às 6h)
+0 6 * * * /home/noedelima/source/SGIME/scripts/sgime-maintenance-automation.sh >> /home/noedelima/source/SGIME/logs/maintenance-cron.log 2>&1
+
+# Limpeza de logs antigos (semanal, domingo às 2h)
+0 2 * * 0 find /home/noedelima/source/SGIME/logs -name "*.log" -mtime +30 -delete
+
+# Backup de configurações de manutenção (mensal, primeiro dia do mês às 1h)
+0 1 1 * * docker compose exec -T postgres pg_dump -U sgime_user -t sgime_maintenance_schedules sgime_production > /home/noedelima/source/SGIME/backups/maintenance-config-$(date +\%Y\%m\%d).sql

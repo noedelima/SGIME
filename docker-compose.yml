@@ -54,10 +54,11 @@ services:
       # Plugin volumes - can be mounted/unmounted dynamically
       # Uncomment lines below to enable specific plugins:
       - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
-      - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
       - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
+      - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
       - ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf
-      - ./plugins/redmine_recurring_tasks:/usr/src/redmine/plugins/redmine_recurring_tasks
+      # - ./plugins/redmine_recurring_tasks_minimal:/usr/src/redmine/plugins/recurring_tasks
+      # - ./plugins/redmine_recurring_tasks:/usr/src/redmine/plugins/redmine_recurring_tasks
     networks:
       - sgime_network
     ports:
