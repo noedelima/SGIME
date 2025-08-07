@@ -1,0 +1,59 @@
+# German strings go here for Rails i18n
+de:
+  label_recurring_tasks:    "Wiederkehrende Tickets"
+  label_recurring_task:     "Wiederkehrendes Ticket"
+  label_current_issue:      "Aktuelles Ticket für Wiederholung"
+  label_recurrence_pattern: "Wiederholt sich alle"
+  label_add_recurring_task: "Wiederholung hinzufügen"
+  label_no_recurring_tasks: "Keine wiederkehrenden Tickets gefunden."
+  label_next_scheduled_run: "Nächste Ausführung"
+  label_no_recurrence:      "Keine Wiederholung."
+  label_no_project:         "Kein Projekt."
+
+  label_recurs_fixed: "nach einem festen Zeitplan"
+  label_recurs_dependent: "nach Abschluss der vorherigen Durchführung"
+
+  label_recurring_task_issue_empty: "N/A"
+  label_recurring_task_project_empty: "N/A"
+
+  label_belongs_to_project: "Gehört zu Projekt"
+  label_assigned_to: "Zugewiesen an"
+
+  error_invalid_interval:   "Angegebenes Intervall ist ungültig."
+  error_invalid_modifier:   "Der angelegebene Intervallmodifikator ist ungültig."
+  error_recurring_task_not_found: "Keine wiederkehrenden Themen gefunden. "
+  error_recurring_task_could_not_remove: "Wiederholung konnte nicht entfernt werden. "
+
+  field_interval_number: "Intervallschritt"
+  field_interval_unit: "Einheit(en) des Intervalls"
+  field_interval_modifier: "Intervallmodifikator"
+  field_fixed_schedule: "Fester Zeitplan?"
+  field_recur_subtasks: "Wiederholende Unteraufgabe?"
+  field_recurrence: "Wiederholung"
+  field_please_select: "-- Bitte auswählen --"
+
+  interval_day:  "Tag"
+  interval_week: "Woche"
+  interval_month: "Monat"
+  interval_year: "Jahr"
+
+  month_modifier_day_from_first: "am %{days_from_bom}"
+  month_modifier_day_to_last: "am %{days_to_eom} zum letzten Tag"
+  month_modifier_dow_from_first: "jeden %{dows_from_bom} %{day_of_week}"
+  month_modifier_dow_to_last: "jeden %{dows_to_eom} zum letzten %{day_of_week}"
+
+  recurring_task_created: "Wiederholung wurde hinzugefügt. "
+  recurring_task_saved: "Wiederholung wurde gespeichert. "
+  recurring_task_removed: "Wiederholung wurde entfernt. "
+
+  help_add_general_recurring_task: "You may find it easier to add recurrence via the specific issue's page."
+
+  label_view_issue_recurrence: "Ticket Wiederholung anzeigen"
+  label_add_issue_recurrence: "Ticket Wiederholung hinzufügen"
+  label_edit_issue_recurrence: "Ticket Wiederholung bearbeiten"
+  label_delete_issue_recurrence: "Ticket Wiederholung löschen"
+
+  # settings (admins)
+  label_recurring_tasks_setting_show_top_menu: "Hauptmenü anzeigen?"
+  label_recurring_tasks_setting_reopen_issue: "Ticket neu öffnen bei Wiederholung?"
+  label_recurring_tasks_setting_journal_user: "Attribute issue journals to user id:"

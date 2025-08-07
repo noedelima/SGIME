@@ -1,0 +1,69 @@
+<% content_for :header_tags do %>
+	<%= stylesheet_link_tag 'tablesorter_compatibility.css', :plugin => 'recurring_tasks'%>
+	<%= javascript_include_tag 'jquery.tablesorter.2.0.5.min.js', :plugin => 'recurring_tasks'%>
+<% end %>
+
+<% if !@project.nil? %>
+  <div class="contextual">
+    <%= link_to(l(:label_add_recurring_task), {:action => 'new'}, :class => 'icon icon-add', :title => l(:help_add_general_recurring_task)) %>
+  </div>
+<% end %>
+
+
+<h2><%= l(:label_recurring_tasks) %></h2>
+
+<% if @recurring_tasks.nil? or @recurring_tasks.empty? %>
+    <p><%= l(:label_no_recurring_tasks)%></p>
+<% else %>
+    <!-- at least one recurring task exists -->
+    <table id="recurring_tasks_list" class="list issues sort">
+        <thead>
+            <tr>
+            	<th><a>#</a></th>
+            	<% if @project.nil? %><th><a><%= l(:field_project)%></a></th><% end %>
+               <th><a><%= l(:label_current_issue)%></a></th>
+               <th><a><%= l(:label_recurrence_pattern)%></a></th>
+               <th><a><%= l(:field_fixed_schedule)%></a></th>
+               <th><a><%= l(:field_recur_subtasks)%></a></th>
+               <th><a><%= l(:label_next_scheduled_run) %></a></th>
+               <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @recurring_tasks.each do |rt| %>
+	            <tr class="<%= cycle('odd', 'even') %>">
+            	<% begin %>
+	                <td class="id"><%= rt.issue.nil? ? l(:label_recurring_task_issue_empty) : link_to(rt.issue.id, {:controller => 'issues', :action => 'show', :id => rt.issue.id}) %></td>
+	                <% if @project.nil? %>
+	                  <td><%= rt.project.nil? ? l(:label_recurring_task_project_empty) : link_to(rt.project, project_path(rt.project)) %></td>
+	                <% end %>
+	                
+	                <td class="subject"><%= rt.issue.nil? ? l(:label_recurring_task_issue_empty) : link_to(rt.issue.subj_date, {:controller => 'issues', :action => 'show', :id => rt.issue.id}) %></td> <!-- link_to(rt.issue.subj_date, {:action => 'show', :id => rt.id, :project_id => rt.project.id}) -->
+	                <td><%= pluralize(rt.interval_number, rt.interval_localized_name) %></td>
+	                <td class="tick"><%= checked_image rt.fixed_schedule %></td>
+	                <td class="tick"><%= checked_image rt.recur_subtasks %></td>
+	                <td><%= format_date(rt.next_scheduled_recurrence) %></td>
+	                <td class="buttons"><%= delete_button rt %></td>
+                    <!-- <td><%= edit_button rt %></td> -->
+	             <% rescue => e %>
+	             	<td><%= "ERROR: #{e}" %></td>
+	             <% end %>
+	             </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<script>
+	// Sortable
+	$(document).ready(function() {
+		$("#recurring_tasks_list").tablesorter(
+			{
+				// Redmine sort look-and-feel
+				cssAsc: "sort asc", 
+				cssDesc: "sort desc", 
+				cssHeader: "sort"
+			}
+		)
+	});
+</script>
