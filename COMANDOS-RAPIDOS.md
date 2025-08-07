@@ -1,34 +1,51 @@
-# COMANDOS RÁPIDOS - Continuação Amanhã
+# COMANDOS RÁPIDOS - SGIME v1.7 Rails 7 Ready
 
-## Para retomar rapidamente:
+## ✅ SGIME v1.7 COMPLETAMENTE FUNCIONAL!
+
+### 🎯 Status Atual: ESTÁVEL
+- ✅ **5 Plugins Funcionais**: Todos compatíveis com Rails 7.2
+- ✅ **Sistema Testado**: Redmine 6.0 + Rails 7.2 + PostgreSQL 16
+- ✅ **Código Limpo**: Arquivos desnecessários removidos
+- 🔄 **Próximo**: Plugin `redmine_more_previews`
+
+### 🚀 Para iniciar o sistema:
 ```bash
 cd /home/noedelima/source/SGIME
-./retomar-tarefas-recorrentes.sh
+./setup.sh
 ```
 
-## Para implementar versão corrigida:
+### 🔧 Para gerenciar o sistema:
 ```bash
-# Backup da configuração atual
-cp docker-compose.yml docker-compose-4plugins.backup
+# Iniciar
+./scripts/manage.sh start
 
-# Editar docker-compose.yml - adicionar linha:
-#   - ./plugins/redmine_recurring_tasks_clean:/usr/src/redmine/plugins/recurring_tasks
+# Parar
+./scripts/manage.sh stop
 
-# Restart system
-docker compose down
-docker compose up -d
+# Status
+./scripts/manage.sh status
 
-# Verificar logs
-docker compose logs redmine --tail 20
+# Logs
+./scripts/manage.sh logs
 ```
 
-## Para verificar o sistema:
+### 🌐 Para acessar:
 ```bash
-docker compose ps
-curl -I http://localhost:3000
+# HTTPS (recomendado)
+https://localhost
+
+# HTTP (redirecionado)
+http://localhost
 ```
 
-## Arquivos importantes:
-- `CHECKPOINT-TAREFAS-RECORRENTES.md` - Status completo
-- `plugins/redmine_recurring_tasks_clean/` - Plugin corrigido 
-- `docker-compose.yml` - Configuração atual estável
+### 📊 Plugins Funcionais:
+1. **Redmine Dashboard** - Dashboard personalizado
+2. **SGIME Customizations** - Tema Colégio Pedro II
+3. **Redmine Checklists** - Sistema de checklists
+4. **Redmine DMSF** - Gestão de documentos
+5. **Redmine Recurring Tasks** - Tarefas recorrentes ✨ NOVO
+
+### 🔄 Próxima Sessão:
+- Implementar `redmine_more_previews`
+- Testes finais de integração
+- Documentação final de usuário

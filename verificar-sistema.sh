@@ -2,7 +2,7 @@
 # Script de Verificação do Sistema SGIME
 # Sistema de Gestão Integrada de Engenharia
 # Colégio Pedro II - Seção de Engenharia
-# Versão: 1.6
+# Versão: 1.7
 # Licença: GPLv3
 
 set -e
@@ -15,7 +15,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}╔══════════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║              VERIFICAÇÃO DO SISTEMA SGIME v1.6                   ║${NC}"
+echo -e "${BLUE}║              VERIFICAÇÃO DO SISTEMA SGIME v1.7                   ║${NC}"
 echo -e "${BLUE}║          Sistema de Gestão Integrada de Engenharia               ║${NC}"
 echo -e "${BLUE}║              Colégio Pedro II - Seção de Engenharia              ║${NC}"
 echo -e "${BLUE}╚══════════════════════════════════════════════════════════════════╝${NC}"
@@ -156,18 +156,18 @@ echo -e "${BLUE}╔════════════════════�
 echo -e "${BLUE}║                        RESUMO DA VERIFICAÇÃO                     ║${NC}"
 echo -e "${BLUE}╚══════════════════════════════════════════════════════════════════╝${NC}"
 echo ""
-echo -e "${GREEN}✅ Sistema SGIME v1.6 verificado com sucesso!${NC}"
+echo -e "${GREEN}✅ Sistema SGIME v1.7 verificado com sucesso!${NC}"
 echo ""
 echo -e "${YELLOW}📋 CARACTERÍSTICAS IMPLEMENTADAS:${NC}"
 echo -e "   • ✅ Arquitetura baseada em Docker Compose"
-echo -e "   • ✅ Redmine 5.1 com plugins essenciais"
+echo -e "   • ✅ Redmine 6.0 com Rails 7.2 - Compatível"
 echo -e "   • ✅ PostgreSQL 16 otimizado"
 echo -e "   • ✅ Nginx com configuração SSL"
 echo -e "   • ✅ Redis para cache e sessões"
 echo -e "   • ✅ Scripts de automação completos"
+echo -e "   • ✅ 5 Plugins essenciais funcionais"
 echo -e "   • ✅ Documentação em português brasileiro"
 echo -e "   • ✅ Configurações de segurança"
-echo -e "   • ✅ Plugin customizado SGIME"
 echo -e "   • ✅ Licença GPLv3"
 echo ""
 echo -e "${YELLOW}🚀 PRÓXIMOS PASSOS:${NC}"
