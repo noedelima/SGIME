@@ -47,6 +47,7 @@ plugins/redmine_*
 plugins/simple_*
 !plugins/sgime_customizations/
 !plugins/redmine_recurring_tasks_sgime/
+!plugins/redmine_more_previews/
 # Ver plugins/.gitignore para configuração específica
 
 # ===== LOGS E ARQUIVOS TEMPORÁRIOS =====

@@ -1,0 +1,124 @@
+# encoding: utf-8
+#
+# RedmineMorePreviews vcf (electronic business cards) previewer
+#
+# Copyright © 2020 Stephan Wenzel <stephan.wenzel@drwpatent.de>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+
+ja:
+  vcard:
+    VERSION:              "バージョン"
+    PRODID:               "プロダクトID"
+                          
+    N:                    "名前"
+    N_FIELD:              
+      familyname:         "ラストネーム"
+      givenname:          "ファーストネーム"
+      addtionalname:      "他の名前（複数可）"
+      prefix:             "タイトル"
+      suffix:             "追加"
+                          
+    FN:                   "フル 名前"
+    TEL:                  "電話番号"
+                          
+    ADR:                  "住所"
+    ADR_FIELD:            
+      pobox:              "P.O. Box"
+      ext:                "部署"
+      street:             "通り"
+      locality:           "市町村"
+      region:             "地域"
+      code:               "郵便番号"
+      country:            "国"
+                          
+    LABEL:                "アドレスラベル"
+    ORG:                  "組織"
+    EMAIL:                "Eメール"
+    
+    GENDER:               "性別"
+    GENDER_VALUE:         
+      M:                  "男性"
+      F:                  "女性"
+      O:                  "ダイバー"
+      U:                  "?"
+      N:                  "-"
+    GENDER_FIELD:         
+      gender:             "タイプ"
+      identity:           "正体"
+                          
+    KIND:                 "種類"
+    KIND_VALUE:           
+      GROUP:              "グループ"
+      ORG:                "組織"
+      ORGANISATION:       "組織"
+      ORGANIZATION:       "組織"
+      INDIVIDUAL:         "個人"
+      LOCATION:           "所在地"
+      IANA-TOKEN:         "IANAトークン"
+      X-NAME:             "その他"
+                          
+    LANG:                 "言語"
+    LANG_VALUE:           
+      de:                 "ドイツ語"
+      en:                 "英語"
+      es:                 "スペイン語"
+      fr:                 "フランス語"
+      pt:                 "ポルトガル語"
+      ru:                 "ロシア語"
+      ja:                 "日本語"
+      zh:                 "中国語"
+                          
+    TEL:                  "電話"
+    TYPE_PARAM_TEL:       
+      TEXT:               "テキストメッセージ"
+      VOICE:              "ボイス"
+      FAX:                "ファックス"
+      CELL:               "携帯電話"
+      VIDEO:              "ビデオ"
+      PAGER:              "ポケットベル"
+      TEXTPHONE:          "音声テキスト"
+                          
+    URL:                  "ウェブアドレス"
+    GEO:                  "ジオ・コレクション"
+    NOTE:                 "ノート"
+    NICKNAME:             "ニックネーム"
+    BDAY:                 "誕生日"
+    ANNIVERSARY:          "記念日"
+    ROLE:                 "役割"
+    PHOTO:                "写真"
+    LOGO:                 "ロゴ"
+    SOURCE:               "ソース"
+    CATEGORIES:           "カテゴリー"
+    XML:                  "XML(エックスエムエル)"
+    REV:                  "リビジョン"
+    X:                    "エクストラ"
+                          
+    TYPE_PARAM:           
+      WORK:               "ワーク"
+      HOME:               "ホーム"
+      OTHER:              "その他"
+      PREF:               "優先"
+                          
+    PREF_PARAM:           "優先"
+                          
+    personal:             "個人"
+                          
+  redmine_more_previews:  
+    vince:                
+      text_explanation:   "vcfファイル(電子名刺)のプレビュー"
+      label_iconize:      "アイコン化"
+      

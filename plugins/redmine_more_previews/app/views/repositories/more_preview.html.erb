@@ -1,0 +1,99 @@
+<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
+
+<div class="contextual">
+  <%= render :partial => 'navigation' %>
+</div>
+
+<h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
+
+<%= render :partial => 'link_to_functions' %>
+
+<%- reloadpath = url_for(
+      :controller    => "repositories",
+      :action        => "entry",
+      :id            => @project.identifier,
+      :repository_id => @repository.identifier_param,
+      :rev           => @rev,
+      :path          => @path,
+      :reload        => 1
+      )
+%>
+
+<div>
+  <p class="contextual">
+    <%= link_to l(:button_update), reloadpath, :class => "icon icon-reload" %>
+    <%= call_hook(:preview_repository_entry_contextual, :repository => @repository, :path => @path, :rev => @rev, :entry => @entry, :project => @project ) %>
+  </p>
+</div><div style="clear:both;"></div>
+
+<%- case RedmineMorePreviews::Converter.conversion_ext(@entry.name, :pathonly => true) %>
+  <%- when "inline" %>
+    <div id="preview_repository_entry_top">
+      <%= call_hook(:preview_repository_entry_top, :repository => @repository, :path => @path, :rev => @rev, :entry => @entry, :project => @project, :params => request.query_parameters.merge(:format => "inline", :request => request).symbolize_keys ) %>
+    </div>
+    <div>
+    <% if RedmineMorePreviews::Converter.cache_previews? %>
+      <%= @repository.more_preview( @path, @rev, request.query_parameters.merge(:format => "inline", :request => request).symbolize_keys ).to_s.to_utf8.html_safe %>
+    <% else %>
+      <%  @repository.more_preview( @path, @rev, request.query_parameters.merge(:format => "inline", :request => request).symbolize_keys ) do |html| %>
+        <%= html.to_s.to_utf8.html_safe %>
+      <% end %>
+    <% end %>
+    </div>
+    
+  <%- when "jpg", "jpeg", "png", "gif" %>
+    <%= image_tag(
+          url_for({
+                :controller    => "repositories",
+                :action        => "more_preview",
+                :id            => @project.identifier,
+                :repository_id => @repository.identifier_param,
+                :rev           => @rev,
+                :path          => @path,
+                :format        => RedmineMorePreviews::Converter.conversion_ext( @entry.name, :pathonly => true), 
+                :only_path     => ::Setting['plugin_redmine_more_previews']['absolute'].to_i == 0
+                }.merge(request.query_parameters)
+          ),
+         :alt => RedmineMorePreviews::Converter.conversion_mime(@entry.name, :pathonly => true),
+         :style => "max-width:95%"
+        ) %>
+  <%- else %>
+    <script type="text/javascript">
+      $( document ).ready(function() {
+        $('#preview_frame').load(function() {
+            $('#ajax-indicator').hide();
+        });
+      });
+    </script>
+    <div id="preview_repository_entry_top">
+      <%= call_hook(:preview_repository_entry_top, :repository => @repository, :path => @path, :rev => @rev, :entry => @entry, :project => @project, :params => request.query_parameters.merge(:request => request).symbolize_keys ) %>
+    </div>
+    <div>
+    <%= more_previews_tag(
+           url_for({
+                 :controller    => "repositories",
+                 :action        => "more_preview",
+                 :id            => @project.identifier,
+                 :repository_id => @repository.identifier_param,
+                 :rev           => @rev,
+                 :path          => @path,
+                 :format        => RedmineMorePreviews::Converter.conversion_ext( @entry.name, :pathonly => true), 
+                 :only_path     => ::Setting['plugin_redmine_more_previews']['absolute'].to_i == 0
+                 }.merge(request.query_parameters)
+           ),
+           @entry.name,
+          :type => RedmineMorePreviews::Converter.conversion_mime(@entry.name, :pathonly => true)
+        ) %>
+    </div>
+<% end %>
+
+<span class="pagination filepreview">
+  <%= render_pagination %>
+</span>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "scm" %>
+<% end %>
+
+
+

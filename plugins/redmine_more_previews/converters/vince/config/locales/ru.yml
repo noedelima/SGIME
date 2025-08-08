@@ -1,0 +1,124 @@
+# encoding: utf-8
+#
+# RedmineMorePreviews vcf (electronic business cards) previewer
+#
+# Copyright © 2020 Stephan Wenzel <stephan.wenzel@drwpatent.de>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+
+ru:
+  vcard:
+    VERSION:              "Версия"
+    PRODID:               "Идентификатор продукта"
+                          
+    N:                    "Имя"
+    N_FIELD:              
+      familyname:         "LastName"
+      givenname:          "Имя"
+      addtionalname:      "Другое имя (имена)"
+      prefix:             "Название"
+      suffix:             "Дополнение"
+                          
+    FN:                   "Full. Имя"
+    TEL:                  "Телефон"
+                          
+    ADR:                  "Адрес"
+    ADR_FIELD:            
+      pobox:              "абонентский ящик"
+      ext:                "Отдел"
+      street:             "Улица"
+      locality:           "Город"
+      region:             "Регион"
+      code:               "Почтовый индекс"
+      country:            "Страна"
+                          
+    LABEL:                "Адресная метка"
+    ORG:                  "Организация"
+    EMAIL:                "Электронная почта"
+    
+    GENDER:               "Пол"
+    GENDER_VALUE:         
+      M:                  "Мужской"
+      F:                  "Женщина"
+      O:                  "Дайверы"
+      U:                  "?"
+      N:                  "-"
+    GENDER_FIELD:         
+      gender:             "Тип"
+      identity:           "Личность"
+                          
+    KIND:                 "Вид"
+    KIND_VALUE:           
+      GROUP:              "Группа"
+      ORG:                "Организация"
+      ORGANISATION:       "Организация"
+      ORGANIZATION:       "Организация"
+      INDIVIDUAL:         "Individual"
+      LOCATION:           "Location"
+      IANA-TOKEN:         "Токен IANA"
+      X-NAME:             "Other"
+                          
+    LANG:                 "Язык"
+    LANG_VALUE:           
+      de:                 "Немецкий"
+      en:                 "English"
+      es:                 "Испанский"
+      fr:                 "Французский"
+      pt:                 "Португальский"
+      ru:                 "русский"
+      ja:                 "японский"
+      zh:                 "Китайский"
+                          
+    TEL:                  "Телефон"
+    TYPE_PARAM_TEL:       
+      TEXT:               "Текстовое сообщение"
+      VOICE:              "Голос"
+      FAX:                "Факс"
+      CELL:               "Сотовый"
+      VIDEO:              "видео"
+      PAGER:              "Пейджер"
+      TEXTPHONE:          "Голосовой текст"
+                          
+    URL:                  "Веб-адрес"
+    GEO:                  "Геокоординаты"
+    NOTE:                 "Заметка"
+    NICKNAME:             "Прозвище"
+    BDAY:                 "День рождения"
+    ANNIVERSARY:          "Юбилей"
+    ROLE:                 "Роль"
+    PHOTO:                "Фото"
+    LOGO:                 "Логотип"
+    SOURCE:               "Источник"
+    CATEGORIES:           "Категории"
+    XML:                  "XML"
+    REV:                  "Ревизия"
+    X:                    "Extra"
+                          
+    TYPE_PARAM:           
+      WORK:               "Работа"
+      HOME:               "Дом"
+      OTHER:              "Другой"
+      PREF:               "Предпочитаемый"
+                          
+    PREF_PARAM:           "Привилегированный"
+                          
+    personal:             "Личный"
+                          
+  redmine_more_previews:  
+    vince:                
+      text_explanation:   "Предварительный просмотр файлов vcf (электронные визитные карточки)"
+      label_iconize:      "Iconize"
+      
