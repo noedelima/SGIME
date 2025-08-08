@@ -51,6 +51,9 @@ RUN git clone https://github.com/jgraichen/redmine_dashboard.git redmine_dashboa
 # Plugin: Redmine DMSF (gestão de documentos)
 RUN git clone https://github.com/danmunn/redmine_dmsf.git redmine_dmsf
 
+# Plugin: Redmine More Previews (preview avançado de arquivos)
+RUN git clone https://github.com/HugoHasenbein/redmine_more_previews.git redmine_more_previews
+
 # Plugin: Redmine Attach Preview (visualização de anexos)
 RUN git clone https://github.com/alexandermeindl/redmine_attach_preview.git redmine_attach_preview
 

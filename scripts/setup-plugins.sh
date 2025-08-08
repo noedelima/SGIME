@@ -36,13 +36,13 @@ declare -A ESSENTIAL_PLUGINS=(
     ["redmine_checklists"]="manual_install" # Plugin comercial - download manual necessário
     ["redmine_dmsf"]="https://github.com/picman/redmine_dmsf.git" # Fork atualizado e compatível
     ["redmine_recurring_tasks"]="https://github.com/nutso/redmine-plugin-recurring-tasks.git"
+    ["redmine_more_previews"]="https://github.com/HugoHasenbein/redmine_more_previews.git" # Preview avançado de arquivos
 )
 
 # Plugins removidos da instalação (mantidos no histórico para referência)
 declare -A REMOVED_PLUGINS=(
     ["simple_checklists"]="https://github.com/Restream/redmine_simple_checklists.git"
     ["redmine_issue_templates"]="https://github.com/akiko-pusu/redmine_issue_templates.git"
-    ["redmine_more_previews"]="https://github.com/haru/redmine_more_previews.git"
 )
 
 log() {

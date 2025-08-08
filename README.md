@@ -1,4 +1,22 @@
-# SGIME - Sistema de Gestão Integrada de Engenharia
+# SGIME - Si# SGIME - Sistema de Gestão Integrada de Engenharia
+
+## � Versão 1.7 (Rails 7 Ready) - Estável
+
+**Sistema de Gestão Integrada de Engenharia para Colégio Pedro II**
+
+### 🎯 Destaques da v1.7
+- **🔧 Compatibilidade Completa com Rails 7**: Todos os plugins atualizados e funcionais
+- **🧹 Código Limpo**: Remoção de arquivos desnecessários e versões de backup
+- **📦 6 Plugins Essenciais**: Conjunto completo e funcional para operação
+- **🔐 Sistema Estável**: Pronto para produção com Redmine 6.0 + Rails 7.2
+
+### �📊 Status dos Plugins
+- ✅ **Redmine Dashboard** - Dashboard personalizado (funcional)
+- ✅ **SGIME Customizations** - Tema Colégio Pedro II (funcional)  
+- ✅ **Redmine Checklists** - Sistema de checklists (funcional)
+- ✅ **Redmine DMSF** - Gestão de documentos (funcional)
+- ✅ **Redmine Recurring Tasks** - Tarefas recorrentes (funcional)
+- ✅ **Redmine More Previews** - Visualizações avançadas (funcional)
 
 ## 🚀 Versão 1.7 (Rails 7 Ready) - Estável
 
@@ -16,7 +34,7 @@
 - ✅ **Redmine Checklists** - Sistema de checklists (funcional)
 - ✅ **Redmine DMSF** - Gestão de documentos (funcional)
 - ✅ **Redmine Recurring Tasks** - Tarefas recorrentes (funcional)
-- 🔄 **Redmine More Previews** - Visualizações avançadas (próxima fase)
+- � **Redmine More Previews** - Visualizações avançadas (90% implementado)
 
 ## Descrição Geral
 
