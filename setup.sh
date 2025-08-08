@@ -2,7 +2,7 @@
 # Script de Setup Rápido do SGIME
 # Sistema de Gestão Integrada de Engenharia
 # Colégio Pedro II - Seção de Engenharia
-# Versão: 1.6
+# Versão: 1.8 - Final Stable Release
 # Licença: GPLv3
 
 set -e
@@ -52,7 +52,7 @@ show_banner() {
 ║                                                                  ║
 ║   Sistema de Gestão Integrada de Engenharia                      ║
 ║   Colégio Pedro II - Seção de Engenharia                         ║
-║   Versão 1.6 - Julho 2025                                        ║
+║   Versão 1.8 - Agosto 2025 (Final Stable)                       ║
 ║                                                                  ║
 ║   Setup Rápido e Inteligente                                     ║
 ║   Licença: GPLv3                                                 ║
@@ -350,7 +350,7 @@ main() {
     fi
     
     echo ""
-    log "Iniciando setup do SGIME v1.6..."
+    log "Iniciando setup do SGIME v1.8 (Final Stable)..."
     
     # Executar etapas do setup
     check_prerequisites

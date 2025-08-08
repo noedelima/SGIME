@@ -1,8 +1,37 @@
-# CHANGELOG - SGIME v1.7
+# Changelog
 
-## [1.7.0] - 2025-08-08 - ESTÁVEL
+## [1.8.0] - 2025-08-08 - Final Stable Release
 
-### 🎯 **Versão Estável com Rails 7**
+### ✨ Added
+- **Redmine More Previews**: Plugin completamente implementado com 10 converters ativos
+  - Converters ativados: cliff, libre, maggie, mark, nil_text, pass, peek, teddie, vince, zippy
+  - Suporte para 20+ formatos de arquivo (markdown, imagens, office, email, archives)
+  - Compatibilidade total com Rails 7
+
+### 🔧 Fixed
+- Correção completa de compatibilidade Rails 7/Zeitwerk
+- Remoção de diretivas `unloadable` deprecadas
+- Plugin Recurring Tasks: versão customizada SGIME com correções
+
+### 🧹 Improved
+- Documentação consolidada e limpa
+- Remoção de arquivos temporários de desenvolvimento
+- Scripts de instalação validados e atualizados
+- Sistema 100% estável para produção
+
+### 📦 Plugins Status (6/6 ✅)
+- ✅ Redmine Dashboard
+- ✅ SGIME Customizations  
+- ✅ Redmine Checklists
+- ✅ Redmine DMSF
+- ✅ Redmine Recurring Tasks
+- ✅ Redmine More Previews
+
+---
+
+## [1.7.0] - 2025-08-07
+
+### ✨ Added
 Esta é a primeira versão totalmente funcional do SGIME v1.7 com compatibilidade completa para Rails 7.2.x.
 
 ---
