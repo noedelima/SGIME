@@ -34,7 +34,7 @@ declare -A ESSENTIAL_PLUGINS=(
     ["redmine_dashboard"]="https://github.com/jgraichen/redmine_dashboard.git"
     ["sgime_customizations"]="local" # Plugin customizado do SGIME
     ["redmine_checklists"]="manual_install" # Plugin comercial - download manual necessário
-    ["redmine_dmsf"]="https://github.com/picman/redmine_dmsf.git" # Fork atualizado e compatível
+    ["redmine_dmsf"]="local" # Usar cópia local corrigida no repo SGIME
     # Usamos o fork SGIME oficial para tarefas recorrentes
     ["redmine_recurring_tasks_sgime"]="local"
     ["redmine_more_previews"]="https://github.com/HugoHasenbein/redmine_more_previews.git" # Preview avançado de arquivos

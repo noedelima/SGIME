@@ -7,7 +7,7 @@ redmine_dashboard/
 redmine_recurring_tasks/
 simple_checklists/
 redmine_issue_templates/
-redmine_dmsf/
+#redmine_dmsf/  # Removido para versionar o plugin local
 redmine_agile/
 
 # Plugin baixado manualmente - incluir no versionamento

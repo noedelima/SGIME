@@ -1,7 +1,7 @@
 # Docker Compose para SGIME - Plugin Volume Strategy
 # Sistema de Gestão Integrada de Engenharia
 # Colégio Pedro II - Seção de Engenharia
-# Versão: 1.7 - Plugin Volumes
+# Versão: 1.9 - YAML saneado e bundle persistente
 
 networks:
   sgime_network:
@@ -35,7 +35,10 @@ services:
 
   # ===== REDMINE APPLICATION =====
   redmine:
-    image: redmine:latest
+    build:
+      context: .
+      dockerfile: docker/redmine/Dockerfile.debian-sgime
+    image: sgime/redmine:6.0.6-build
     container_name: sgime-redmine
     restart: unless-stopped
     depends_on:
@@ -49,8 +52,16 @@ services:
       REDMINE_DB_PORT: 5432
       REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE:-your-secret-key-base-here-change-this-in-production}
       REDMINE_PLUGINS_MIGRATE: 1
+      # Configurações do Bundler para evitar conflitos no /usr/local/bundle
+      BUNDLE_PATH: /usr/src/redmine/vendor/bundle
+      BUNDLE_APP_CONFIG: /usr/src/redmine/.bundle
+      BUNDLE_DISABLE_SHARED_GEMS: "true"
+      BUNDLE_WITHOUT: "development:test:xapian"
+      BUNDLE_CLEAN: "false"
     volumes:
       - sgime_redmine_files:/usr/src/redmine/files
+      # Cache persistente de gems para plugins (evita erros de permissão e reinstalação)
+      - ./data/bundle:/usr/src/redmine/vendor/bundle
       # Plugin volumes - todos os plugins essenciais habilitados
       - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
       - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
@@ -63,13 +74,13 @@ services:
     ports:
       - "${REDMINE_PORT:-3000}:3000"
     healthcheck:
-      test: ["CMD", "sh", "-c", "kill -0 1"]
+      test: ["CMD-SHELL", "kill -0 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 90s
 
-    # ===== NGINX PROXY =====
+  # ===== NGINX PROXY =====
   nginx:
     build:
       context: .

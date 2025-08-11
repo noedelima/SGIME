@@ -1,0 +1,21 @@
+# Redmine base image with build tools for native gems (Debian-based)
+FROM redmine:6.0.6
+
+USER root
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+       build-essential \
+       libpq-dev \
+       libxml2-dev \
+       libxslt1-dev \
+       zlib1g-dev \
+       libyaml-dev \
+       pkg-config \
+       git \
+       curl \
+       imagemagick \
+    && rm -rf /var/lib/apt/lists/*
+
+# Default to redmine user
+USER redmine
