@@ -563,7 +563,8 @@ table.list tr.odd {
   background: var(--cp2-azul-institucional);
   color: var(--cp2-dourado-claro);
   /* Aumenta o espaçamento superior para afastar o conteúdo da borda/topo */
-  padding: calc(var(--sgime-spacing-lg) + 8px) var(--sgime-spacing-lg) var(--sgime-spacing-lg);
+  /* Reduzido para uma altura próxima da entrelinha */
+  padding: var(--sgime-spacing-md) var(--sgime-spacing-lg) var(--sgime-spacing-md);
   text-align: center;
   border-top: 4px solid var(--cp2-dourado);
   position: relative;
@@ -782,8 +783,8 @@ body {
   display: block;
   font-weight: 600;
   color: white;
-  /* margem superior para afastar do topo/borda do rodapé */
-  margin: var(--sgime-spacing-md) 0 var(--sgime-spacing-sm);
+  /* Margens mais contidas para não inflar o banner */
+  margin: var(--sgime-spacing-sm) 0 var(--sgime-spacing-xs);
 }
 
 /* ================================

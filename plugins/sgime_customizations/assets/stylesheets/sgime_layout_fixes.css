@@ -105,6 +105,22 @@ body, #main {
   overflow: auto !important;
 }
 
+/* ==================================
+   MINHA CONTA (/my/account)
+   Prevenir rolagem horizontal nesta página
+   ================================== */
+body.controller-my.action-account,
+body.controller-my.action-account #wrapper,
+body.controller-my.action-account #main,
+body.controller-my.action-account #content {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+body.controller-my.action-account,
+body.controller-my.action-account #main {
+  overflow-y: auto !important; /* manter rolagem vertical normal */
+}
+
 /* Área "Adicionar:" (minha página) - garantir que o dropdown não seja recortado */
 .controller-my #content {
   position: relative !important;
@@ -192,6 +208,29 @@ body, #main {
     font-size: 13px !important;
   padding-left: 2rem !important; /* manter espaço para ícone em mobile */
   }
+}
+
+/* Campos que historicamente forçam rolagem horizontal (ex.: lista de linguagens para destaque) */
+body.controller-my.action-account textarea,
+body.controller-my.action-account input[type="text"],
+body.controller-my.action-account input[type="email"],
+body.controller-my.action-account input[type="password"],
+body.controller-my.action-account select {
+  max-width: 100% !important;
+}
+body.controller-my.action-account .tabular .text, /* classes padrão do Redmine */
+body.controller-my.action-account .tabular .wiki,
+body.controller-my.action-account .tabular .value {
+  overflow-x: auto !important;    /* permitir scroll interno, se necessário */
+}
+/* Garantir que grids e fieldsets não excedam a viewport */
+body.controller-my.action-account .splitcontent,
+body.controller-my.action-account .splitcontentleft,
+body.controller-my.action-account .splitcontentright,
+body.controller-my.action-account fieldset,
+body.controller-my.action-account .box {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
 }
 
 /* ==============================

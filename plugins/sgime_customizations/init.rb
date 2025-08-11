@@ -65,20 +65,21 @@ class SgimeThemeHook < Redmine::Hook::ViewListener
           favicon.remove();
         });
         
-        // Favicon SVG com brasão oficial do CPII
-        var faviconSvg = document.createElement('link');
-        faviconSvg.rel = 'icon';
-        faviconSvg.type = 'image/svg+xml';
-        faviconSvg.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><radialGradient id="bg" cx="50%" cy="50%"><stop offset="0%" stop-color="%23004080"/><stop offset="100%" stop-color="%23003366"/></radialGradient><radialGradient id="globe" cx="50%" cy="50%"><stop offset="0%" stop-color="%23F4E4BC"/><stop offset="100%" stop-color="%23DAA520"/></radialGradient></defs><rect width="32" height="32" fill="url(%23bg)" rx="3"/><circle cx="16" cy="16" r="12" fill="url(%23globe)" stroke="%23003366" stroke-width="1"/><g stroke="%23003366" stroke-width="0.8" fill="none"><circle cx="16" cy="16" r="8"/><ellipse cx="16" cy="16" rx="8" ry="5"/><ellipse cx="16" cy="16" rx="5" ry="8"/><line x1="8" y1="16" x2="24" y2="16"/><line x1="16" y1="8" x2="16" y2="24"/></g><rect x="10" y="13.5" width="12" height="3" fill="%23003366" rx="0.5"/><text x="16" y="16" font-family="Arial,sans-serif" font-size="2.2" font-weight="bold" text-anchor="middle" fill="%23F4E4BC">CPII</text></svg>';
-        
-        // Favicon ICO como fallback
-        var faviconIco = document.createElement('link');
-        faviconIco.rel = 'shortcut icon';
-        faviconIco.type = 'image/x-icon';
-        faviconIco.href = 'data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA2AAAAdAAAAAAAAAD///8A';
-        
-        document.head.appendChild(faviconSvg);
-        document.head.appendChild(faviconIco);
+  // Favicon apontando para assets do plugin (melhor cache e depuração)
+  var cb = Date.now(); // cache-buster simples
+  var faviconSvg = document.createElement('link');
+  faviconSvg.rel = 'icon';
+  faviconSvg.type = 'image/svg+xml';
+  faviconSvg.href = '/plugin_assets/sgime_customizations/images/cpii-favicon.svg?v=' + cb;
+
+  // Fallback ICO
+  var faviconIco = document.createElement('link');
+  faviconIco.rel = 'shortcut icon';
+  faviconIco.type = 'image/x-icon';
+  faviconIco.href = '/plugin_assets/sgime_customizations/images/favicon.ico?v=' + cb;
+
+  document.head.appendChild(faviconSvg);
+  document.head.appendChild(faviconIco);
         
         // === TÍTULO DA PÁGINA COM IDENTIDADE INSTITUCIONAL ===
         function updatePageTitle() {
