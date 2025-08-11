@@ -569,7 +569,7 @@ table.list tr.odd {
   position: relative;
 }
 
-#footer::before {
+#footer::after {
   content: "";
   position: absolute;
   top: 0;
@@ -776,12 +776,14 @@ body {
   margin-top: var(--sgime-spacing-xs);
 }
 
+/* Título institucional do rodapé posicionado no topo, com respiro do limite superior */
 #footer::before {
   content: "SGIME - Sistema de Gestão Integrada de Melhorias e Eficiência";
   display: block;
   font-weight: 600;
   color: white;
-  margin-bottom: var(--sgime-spacing-sm);
+  /* margem superior para afastar do topo/borda do rodapé */
+  margin: var(--sgime-spacing-md) 0 var(--sgime-spacing-sm);
 }
 
 /* ================================

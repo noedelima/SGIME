@@ -42,10 +42,10 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      REDMINE_DB_POSTGRES: postgres
-      REDMINE_DB_USERNAME: ${POSTGRES_USER:-redmine}
-      REDMINE_DB_PASSWORD: ${POSTGRES_PASSWORD:-redmine_password}
-      REDMINE_DB_DATABASE: ${POSTGRES_DB:-redmine}
+      REDMINE_DB_POSTGRES: ${POSTGRES_HOST:-postgres}
+      REDMINE_DB_USERNAME: ${REDMINE_DB_USERNAME:-redmine}
+      REDMINE_DB_PASSWORD: ${REDMINE_DB_PASSWORD:-redmine_password}
+      REDMINE_DB_DATABASE: ${REDMINE_DB_DATABASE:-redmine}
       REDMINE_DB_PORT: 5432
       REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE:-your-secret-key-base-here-change-this-in-production}
       REDMINE_PLUGINS_MIGRATE: 1
