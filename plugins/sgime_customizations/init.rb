@@ -37,6 +37,15 @@ Rails.application.config.assets.precompile += %w(
   sgime_custom.js
 )
 
+# Carregar patches quando o Rails inicializar os plugins
+Rails.configuration.to_prepare do
+  if defined?(Checklist)
+    unless Checklist.included_modules.include?(SgimeChecklistPatch)
+      Checklist.send(:include, SgimeChecklistPatch)
+    end
+  end
+end
+
 # Hook para adicionar CSS customizado e modificar elementos
 class SgimeThemeHook < Redmine::Hook::ViewListener
   def view_layouts_base_html_head(context={})
@@ -74,9 +83,7 @@ class SgimeThemeHook < Redmine::Hook::ViewListener
         // === TÍTULO DA PÁGINA COM IDENTIDADE INSTITUCIONAL ===
         function updatePageTitle() {
           var title = document.title;
-          if (title.includes('Redmine')) {
-            document.title = title.replace(/Redmine/g, 'SGIME - Colégio Pedro II');
-          } else if (!title.includes('SGIME')) {
+          if (!title.includes('SGIME')) {
             document.title = 'SGIME - Colégio Pedro II | ' + title;
           }
         }
@@ -97,30 +104,9 @@ class SgimeThemeHook < Redmine::Hook::ViewListener
           titleObserver.observe(titleElement, { childList: true });
         }
         
-        // === SUBSTITUIÇÃO DINÂMICA DE TEXTO "REDMINE" ===
-        function replaceRedmineText() {
-          var walker = document.createTreeWalker(
-            document.body,
-            NodeFilter.SHOW_TEXT,
-            null,
-            false
-          );
-          
-          var textNodes = [];
-          var node;
-          
-          while (node = walker.nextNode()) {
-            if (node.nodeValue && node.nodeValue.includes('Redmine')) {
-              textNodes.push(node);
-            }
-          }
-          
-          textNodes.forEach(function(textNode) {
-            textNode.nodeValue = textNode.nodeValue.replace(/Redmine/g, 'SGIME');
-          });
-        }
-        
-        replaceRedmineText();
+  // === SUBSTITUIÇÃO GLOBAL DESATIVADA ===
+  // Importante: não substituir "Redmine" globalmente para preservar nomes de usuários
+  // e o rodapé "Powered by Redmine". A identidade visual é aplicada via header/título.
         
         // === MELHORIAS DE INTERFACE ===
         // Garante visibilidade dos links do menu com ALTO CONTRASTE
@@ -179,19 +165,7 @@ class SgimeThemeHook < Redmine::Hook::ViewListener
         setTimeout(enforceMenuVisibility, 500);
         setTimeout(enforceMenuVisibility, 1000);
         
-        // === OBSERVER PARA MUDANÇAS DINÂMICAS ===
-        var contentObserver = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.addedNodes.length > 0) {
-              replaceRedmineText();
-            }
-          });
-        });
-        
-        contentObserver.observe(document.body, {
-          childList: true,
-          subtree: true
-        });
+  // Observer removido pois não há substituição global de texto.
         
         console.log('🏫 SGIME - Sistema carregado com identidade do Colégio Pedro II');
       });

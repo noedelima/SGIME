@@ -35,7 +35,8 @@ declare -A ESSENTIAL_PLUGINS=(
     ["sgime_customizations"]="local" # Plugin customizado do SGIME
     ["redmine_checklists"]="manual_install" # Plugin comercial - download manual necessário
     ["redmine_dmsf"]="https://github.com/picman/redmine_dmsf.git" # Fork atualizado e compatível
-    ["redmine_recurring_tasks"]="https://github.com/nutso/redmine-plugin-recurring-tasks.git"
+    # Usamos o fork SGIME oficial para tarefas recorrentes
+    ["redmine_recurring_tasks_sgime"]="local"
     ["redmine_more_previews"]="https://github.com/HugoHasenbein/redmine_more_previews.git" # Preview avançado de arquivos
 )
 
@@ -59,6 +60,11 @@ warning() {
 
 info() {
     echo -e "${BLUE}[$(date +'%H:%M:%S')] INFO:${NC} $1"
+}
+
+# Mensagem de sucesso (alinha com setup.sh)
+success() {
+    echo -e "${GREEN}[$(date +'%H:%M:%S')] SUCESSO:${NC} $1"
 }
 
 # Função para baixar plugin se não existir
@@ -115,17 +121,22 @@ download_plugin() {
 # Função para habilitar plugin no docker compose.yml
 enable_plugin_in_compose() {
     local plugin_name="$1"
-    local mount_line="      - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name:Z"
+    # Para recurring_tasks usamos um diretório de destino diferente no container
+    local target_name="$plugin_name"
+    if [ "$plugin_name" = "redmine_recurring_tasks_sgime" ]; then
+        target_name="recurring_tasks"
+    fi
+    local mount_line="      - ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name:Z"
     
     # Verificar se já está habilitado (linha não comentada)
-    if grep -q "^[[:space:]]*- ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name" "$DOCKER_COMPOSE_FILE"; then
+    if grep -q "^[[:space:]]*- ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name" "$DOCKER_COMPOSE_FILE"; then
         info "Plugin $plugin_name já está habilitado no docker compose.yml"
         return 0
     fi
     
     # Se existe linha comentada, descomentá-la
-    if grep -q "^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name" "$DOCKER_COMPOSE_FILE"; then
-        sed -i "s|^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$plugin_name|$mount_line|" "$DOCKER_COMPOSE_FILE"
+    if grep -q "^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name" "$DOCKER_COMPOSE_FILE"; then
+        sed -i "s|^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name|$mount_line|" "$DOCKER_COMPOSE_FILE"
         log "Plugin $plugin_name descomentado no docker compose.yml"
     else
         # Adicionar nova linha após o comentário dos plugins
@@ -154,8 +165,9 @@ fix_dmsf_plugin() {
     
     log "Aplicando correções para compatibilidade do DMSF..."
     
-    # 1. Criar Gemfile mínimo
-    cat > "$dmsf_path/Gemfile" << 'EOF'
+    # 1. Criar Gemfile mínimo apenas se não existir, para não sobrescrever alterações manuais
+    if [ ! -f "$dmsf_path/Gemfile" ]; then
+        cat > "$dmsf_path/Gemfile" << 'EOF'
 # frozen_string_literal: true
 
 # Minimal dependencies for DMSF plugin
@@ -166,6 +178,10 @@ source 'https://rubygems.org' do
   gem 'rake' unless Dir.exist?(File.expand_path('../../redmine_dashboard', __FILE__))
 end
 EOF
+        log "Gemfile criado para redmine_dmsf"
+    else
+        info "Gemfile do redmine_dmsf já existe; não será sobrescrito"
+    fi
     
     # 2. Corrigir require do ox em dav4rack.rb
     if [ -f "$dmsf_path/lib/dav4rack.rb" ]; then
@@ -194,7 +210,11 @@ EOF
 
 # Função para configurar redmine_recurring_tasks
 setup_recurring_tasks() {
-    local plugin_path="$PLUGINS_DIR/redmine_recurring_tasks"
+    # Considerar ambos nomes possíveis
+    local plugin_path="$PLUGINS_DIR/redmine_recurring_tasks_sgime"
+    if [ ! -d "$plugin_path" ]; then
+        plugin_path="$PLUGINS_DIR/redmine_recurring_tasks"
+    fi
     
     if [ ! -d "$plugin_path" ]; then
         warning "Plugin redmine_recurring_tasks não encontrado"
@@ -205,8 +225,8 @@ setup_recurring_tasks() {
     
     # Verificar se o arquivo init.rb existe
     if [ ! -f "$plugin_path/init.rb" ]; then
-        error "Arquivo init.rb não encontrado no plugin recurring_tasks"
-        return 1
+        warning "Arquivo init.rb não encontrado no plugin recurring_tasks; seguindo em frente"
+        return 0
     fi
     
     # O plugin recurring_tasks não requer configurações especiais no código

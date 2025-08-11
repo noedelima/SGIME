@@ -18,8 +18,9 @@ div[class*="notice"] {
   /* POSICIONAMENTO CORRETO */
   position: relative !important;
   display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 100% !important;        /* ocupa toda a linha disponível */
+  max-width: 100% !important;     /* impede overflow horizontal */
+  box-sizing: border-box !important; /* padding não aumenta largura total */
   overflow: visible !important;
   
   /* ESPAÇAMENTO ADEQUADO */
@@ -40,7 +41,227 @@ div[class*="notice"] {
   
   /* SOMBRA E DESTAQUE */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-  z-index: 1000 !important;
+  /* z-index baixo para não cobrir menus e dropdowns */
+  z-index: 10 !important;
+  /* permitir interação com elementos abaixo quando o banner se sobrepõe visualmente */
+  pointer-events: auto !important;
+}
+
+/* Responsividade do banner em telas pequenas */
+@media (max-width: 768px) {
+  .new-version-notice,
+  .version-notice,
+  .flash.notice,
+  .flash.warning,
+  .flash.error,
+  div[class*="version"],
+  div[class*="notice"] {
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+    margin: 8px var(--sgime-spacing-sm, 8px) !important; /* pequenos recuos laterais */
+  }
+}
+
+/* Garantir que menus e dropdowns fiquem acima dos avisos */
+#top-menu, #main-menu, .drdn, .contextual, .dropdown-menu, .ui-dialog {
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+/* Dropdowns jQuery UI devem permanecer absolutamente posicionados (jQuery define top/left) */
+.ui-autocomplete, .ui-menu, .ui-datepicker {
+  position: absolute !important;
+  z-index: 2000 !important; /* acima de header/banners */
+}
+
+/* Fallback: quando a lista se aproxima da borda, usar posição fixa e alinhar a viewport */
+@media (min-width: 641px) {
+  .controller-my .ui-autocomplete.is-at-edge {
+    position: fixed !important;
+    right: 24px !important;
+    left: auto !important;
+    max-height: calc(100vh - 160px) !important;
+    overflow: auto !important;
+  }
+}
+
+/* Quando reposicionada via JS para position: fixed */
+.ui-autocomplete[style*="position: fixed"] {
+  z-index: 2100 !important;
+}
+
+/* ==============================
+   QUICK SEARCH / PROJETO (HEADER)
+   ==============================
+   Alinha campo de busca e seletor de projeto na mesma linha e altura.
+*/
+#content {
+  overflow: visible !important; /* evitar clipping apenas na área de conteúdo */
+}
+
+/* Garantir que o documento continue com rolagem padrão */
+body, #main {
+  overflow: auto !important;
+}
+
+/* Área "Adicionar:" (minha página) - garantir que o dropdown não seja recortado */
+.controller-my #content {
+  position: relative !important;
+  z-index: 1 !important;
+}
+.controller-my #content .contextual {
+  padding-right: 24px !important;   /* afasta do limite direito */
+  overflow: visible !important;
+}
+.controller-my #content .contextual input[type="text"],
+.controller-my #content .contextual .autocomplete {
+  max-width: min(320px, calc(100vw - 96px)) !important; /* nunca ultrapassa a janela */
+}
+.controller-my #content .autocomplete {
+  position: relative !important; /* contexto para posicionar a lista */
+}
+.controller-my #content .ui-autocomplete {
+  top: calc(100% + 4px) !important; /* aparecer abaixo do campo */
+}
+.controller-my .autocomplete, .controller-my .ui-autocomplete {
+  z-index: 1003 !important;
+}
+
+/* Para a lista de "Adicionar:" na Minha Página: garantir que fique contida na viewport */
+.controller-my .ui-autocomplete, .controller-my .ui-menu.ui-autocomplete {
+  left: auto !important;
+  right: 24px !important; /* recuo da borda direita da janela */
+  max-width: calc(100vw - 32px) !important;
+}
+#quick-search,
+#header #quick-search {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+#quick-search input[type="text"],
+#header #quick-search input[type="text"],
+#quick-search select,
+#header #quick-search select {
+  height: 36px !important;
+  line-height: 1.4 !important;
+  padding: 6px 10px !important;
+  font-size: 14px !important;
+  vertical-align: middle !important;
+  padding-left: 2rem !important; /* espaço para ícone de lupa/chevron */
+  background-position: 8px center !important; /* ícone fica à esquerda */
+  background-repeat: no-repeat !important;
+}
+
+/* Busca interna em dropdowns de seleção (Select2 / Chosen) */
+.select2-container .select2-search__field,
+.select2-container .select2-search input[type="search"],
+.chosen-container .chosen-search input[type="text"],
+.chosen-container .chosen-search input[type="search"] {
+  padding-left: 2rem !important; /* evita cursor sobre ícone de lupa */
+  background-position: 8px center !important;
+  background-repeat: no-repeat !important;
+}
+
+#quick-search label,
+#header #quick-search label {
+  margin-right: 8px !important;
+  align-self: center !important;
+  line-height: 1 !important;
+}
+
+#quick-search input[type="text"],
+#header #quick-search input[type="text"] { min-width: 220px !important; }
+
+#quick-search select,
+#header #quick-search select { min-width: 180px !important; }
+
+@media (max-width: 768px) {
+  #quick-search,
+  #header #quick-search {
+    gap: 6px !important;
+  }
+  #quick-search input[type="text"],
+  #header #quick-search input[type="text"],
+  #quick-search select,
+  #header #quick-search select {
+    height: 34px !important;
+    padding: 6px 8px !important;
+    font-size: 13px !important;
+  padding-left: 2rem !important; /* manter espaço para ícone em mobile */
+  }
+}
+
+/* ==============================
+   CAMPOS DE FORMULÁRIO (INPUTS)
+   ==============================
+   Evita corte de texto e desalinhamento visual em campos de texto.
+*/
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 8px 10px !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+  min-height: 36px !important; /* altura mínima confortável */
+}
+
+textarea { resize: vertical !important; }
+
+/* Ajustes de inputs compactos em telas pequenas */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    padding: 8px 8px !important;
+    min-height: 34px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* ==============================
+   CHECKBOXES E RÓTULOS (LABELS)
+   ==============================
+   Evita que o texto do label fique oculto ou sobreposto ao checkbox.
+*/
+
+/* Alinha checkbox e texto na mesma linha com espaçamento adequado */
+input[type="checkbox"] {
+  vertical-align: middle !important;
+  margin-right: 0.4rem !important;
+}
+
+label, .label, .checklist input + label, .checklist-item label {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  max-width: 100% !important;
+  line-height: 1.4 !important;
+  white-space: normal !important; /* permite quebra de linha */
+}
+
+/* Em listas de checklist, garante quebra de linha e recuo, sem cortar texto */
+.checklist, .checklist-items, .checklist-item {
+  overflow: visible !important;
+}
+
+.checklist-item label {
+  white-space: normal !important;
+  word-break: break-word !important;
 }
 
 
@@ -94,7 +315,7 @@ a.button {
   border: 2px solid #8B6914 !important;
   
   /* ESTRUTURA */
-  padding: 10px 20px !important;
+  padding: 0 20px !important; /* padding vertical 0 para permitir line-height centralizar */
   border-radius: 6px !important;
   
   /* TIPOGRAFIA */

@@ -433,6 +433,64 @@
         localStorage.removeItem(key);
       }
     });
+
+    // Marcar a Home quando o link do header for exatamente "Redmine" para o CSS pintar "SGIME"
+    const $headerLink = $('#header h1 a').first();
+    if ($headerLink.length) {
+      const baseText = ($headerLink.text() || '').replace(/[\u2000-\u200F\u202F\u205F\u00A0]/g, ' ').trim();
+      if (/^Redmine$/i.test(baseText)) {
+        $headerLink.attr('data-sgime-home', 'true');
+      } else {
+        $headerLink.removeAttr('data-sgime-home');
+      }
+    }
+
+    // Ajuste de posicionamento do autocomplete "Adicionar:" na Minha Página
+    const adjustAutocompleteEdge = function($menu) {
+      try {
+        const rect = $menu[0].getBoundingClientRect();
+        const atEdge = rect.right > window.innerWidth - 8;
+        if (atEdge) {
+          $menu.addClass('is-at-edge');
+        } else {
+          $menu.removeClass('is-at-edge');
+        }
+      } catch (_) { /* ignore */ }
+    };
+
+    const repositionAutocompleteToInput = function($menu) {
+      const el = document.activeElement;
+      if (!el || !(el instanceof HTMLElement)) return;
+      const inputRect = el.getBoundingClientRect();
+      if (!inputRect || !inputRect.width) return;
+      // largura mínima igual à do input
+      const minWidth = Math.max(220, Math.floor(inputRect.width));
+      // calcular esquerda limitada à viewport
+      const menuWidth = Math.max(minWidth, $menu.outerWidth() || 0);
+      const left = Math.min(inputRect.left, window.innerWidth - menuWidth - 8);
+      const top = inputRect.bottom + 4;
+      $menu.css({
+        position: 'fixed',
+        left: left + 'px',
+        top: top + 'px',
+        minWidth: minWidth + 'px',
+        maxWidth: 'calc(100vw - 16px)',
+        maxHeight: 'calc(100vh - ' + (top + 16) + 'px)',
+        overflow: 'auto'
+      });
+    };
+
+    $(document).on('menufocus autocompletesearch autocompleteshow autocompleteopen', function() {
+      const $menu = $('.ui-autocomplete:visible').last();
+      if ($menu.length) {
+        adjustAutocompleteEdge($menu);
+        repositionAutocompleteToInput($menu);
+      }
+    });
+    $(window).on('resize', function(){
+      const $menu = $('.ui-autocomplete:visible').last();
+      if ($menu.length) { adjustAutocompleteEdge($menu); repositionAutocompleteToInput($menu); }
+    });
   });
 
 })(jQuery);
@@ -616,20 +674,30 @@ document.head.appendChild(style);
      * Melhora a navegação com identidade CPII
      */
     enhanceNavigation: function() {
-      // Adiciona ícones aos links do menu principal
+      // Ícones consistentes no menu principal (todos os botões da mesma linha)
       const menuIcons = {
         'Página inicial': '🏠',
-        'Projetos': '📁', 
+        'Minha página': '🏡',
+        'Projetos': '📁',
         'Usuários': '👥',
         'Administração': '⚙️',
-        'Ajuda': '❓'
+        'Ajuda': '❓',
+        'Minha conta': '👤',
+        'Conta': '👤',
+        'Sair': '🔒',
+        'Entrar': '🔓',
+        'Registrar': '📝'
       };
-      
+
+      const defaultIcon = '🔹';
+
       $('#top-menu a').each(function() {
-        const text = $(this).text().trim();
-        if (menuIcons[text]) {
-          $(this).prepend(menuIcons[text] + ' ');
-        }
+        const $link = $(this);
+        // Evitar duplicar
+        if ($link.find('.cpii-menu-icon').length > 0) return;
+        const text = $link.text().trim();
+        const icon = menuIcons[text] || defaultIcon;
+        $link.prepend('<span class="cpii-menu-icon" aria-hidden="true">' + icon + '</span> ');
       });
     },
     
@@ -747,26 +815,16 @@ document.head.appendChild(style);
     }
   });
 
-})(jQuery);
-
   /**
    * Correções finais da identidade CPII
    */
   CPII.finalizeIdentity = function() {
-    // Substituir "Redmine" por "SGIME" no header
-    $('#header h1 a').each(function() {
-      const text = $(this).text();
-      if (text.includes('Redmine')) {
-        $(this).text(text.replace('Redmine', 'SGIME'));
-      }
-    });
-    
-    // Atualizar título da página
-    if (document.title.includes('Redmine')) {
-      document.title = document.title.replace('Redmine', 'SGIME - Colégio Pedro II');
-    } else if (!document.title.includes('SGIME')) {
+    // Título da página: apenas prefixo institucional
+    if (!document.title.includes('SGIME')) {
       document.title = 'SGIME - Colégio Pedro II :: ' + document.title;
     }
+
+  // Header: não alterar via JS para evitar flashes; a Home é tratada por CSS condicional
     
     // Adicionar favicon se não existir
     if (!$('link[rel="icon"]').length && !$('link[rel="shortcut icon"]').length) {
@@ -782,7 +840,7 @@ document.head.appendChild(style);
     this.enhanceNavigation();
   };
 
-  // Executar correções quando a página carregar
+  // Executar ajustes quando a página carregar
   $(document).ready(function() {
     setTimeout(function() {
       if (window.CPII) {

@@ -1,0 +1,59 @@
+# Português (Brasil) para Rails i18n
+pt-BR:
+  label_recurring_tasks:    "Tarefas recorrentes"
+  label_recurring_task:     "Tarefa recorrente"
+  label_current_issue:      "Tarefa atual da recorrência"
+  label_recurrence_pattern: "Recorre a cada"
+  label_add_recurring_task: "Adicionar recorrência"
+  label_no_recurring_tasks: "Nenhuma tarefa recorrente encontrada no sistema."
+  label_next_scheduled_run: "Próxima execução agendada"
+  label_no_recurrence:      "Sem recorrência."
+  label_no_project:         "Sem projeto."
+
+  label_recurs_fixed: "em um agendamento fixo"
+  label_recurs_dependent: "após a conclusão da tarefa anterior"
+
+  label_recurring_task_issue_empty: "N/D"
+  label_recurring_task_project_empty: "N/D"
+
+  label_belongs_to_project: "Pertence ao projeto"
+  label_assigned_to: "Atribuído para"
+
+  error_invalid_interval:   "Intervalo informado é inválido."
+  error_invalid_modifier:   "Modificador de intervalo informado é inválido."
+  error_recurring_task_not_found: "Não foi possível encontrar a tarefa recorrente."
+  error_recurring_task_could_not_remove: "Não foi possível remover a recorrência da tarefa."
+
+  field_interval_number: "Número do intervalo"
+  field_interval_unit: "Unidade(s) do intervalo"
+  field_interval_modifier: "Modificador do intervalo"
+  field_fixed_schedule: "Agendamento fixo?"
+  field_recur_subtasks: "Repetir subtarefas?"
+  field_recurrence: "Recorrência"
+  field_please_select: "--- Selecione ---"
+
+  interval_day:   "dia"
+  interval_week:  "semana"
+  interval_month: "mês"
+  interval_year:  "ano"
+
+  month_modifier_day_from_first: "no %{days_from_bom}º dia"
+  month_modifier_day_to_last: "no %{days_to_eom}º até o último dia"
+  month_modifier_dow_from_first: "na %{dows_from_bom}ª %{day_of_week}"
+  month_modifier_dow_to_last: "na %{dows_to_eom}ª até a última %{day_of_week}"
+
+  recurring_task_created: "Recorrência criada."
+  recurring_task_saved: "Recorrência salva."
+  recurring_task_removed: "Recorrência removida."
+
+  help_add_general_recurring_task: "Você pode achar mais fácil adicionar a recorrência pela página da própria tarefa."
+
+  label_view_issue_recurrence: "Ver recorrência da tarefa"
+  label_add_issue_recurrence: "Adicionar recorrência à tarefa"
+  label_edit_issue_recurrence: "Editar recorrência da tarefa"
+  label_delete_issue_recurrence: "Excluir recorrência da tarefa"
+
+  # configurações (admin)
+  label_recurring_tasks_setting_show_top_menu: "Exibir menu superior?"
+  label_recurring_tasks_setting_reopen_issue: "Reabrir tarefa na recorrência?"
+  label_recurring_tasks_setting_journal_user: "Atribuir diários da tarefa ao usuário (ID):"

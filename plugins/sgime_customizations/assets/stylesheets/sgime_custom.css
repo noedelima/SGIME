@@ -95,6 +95,9 @@
   padding: var(--sgime-spacing-md) var(--sgime-spacing-lg);
 }
 
+/* Espaço extra entre o texto e o sufixo ::after em navegadores que colam o conteúdo */
+#header h1 a { margin-right: 0.25em; }
+
 /* Logo oficial do Colégio Pedro II */
 #header h1::before {
   content: "";
@@ -109,11 +112,13 @@
 }
 
 #header h1::after {
-  content: " - Colégio Pedro II";
+  /* hair space antes do travessão + NBSP após o travessão; espaço após o escape termina a sequência */
+  content: "\200A\2014\00A0 Colégio Pedro II";
   font-size: 0.8em;
   font-weight: 400;
   opacity: 0.9;
   color: var(--cp2-dourado-claro);
+  margin-left: 0.25em;
 }
 
 /* Menu principal institucional */
@@ -163,6 +168,17 @@
   opacity: 1 !important;
   border: 1px solid rgba(255,255,255,0.2) !important;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+/* Ícones consistentes nos botões do topo */
+#top-menu a .cpii-menu-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  height: 1em;
+  margin-right: 0.35em;
+  line-height: 1;
 }
 
 #top-menu ul li a:hover,
@@ -230,7 +246,8 @@ h2 {
  * ================================ */
 
 /* Botões institucionais */
-.button, input[type="submit"], input[type="button"], button {
+.button, input[type="submit"], input[type="button"], button,
+a.button, input.button, .btn {
   background: var(--cp2-azul-institucional);
   color: var(--cp2-branco);
   border: 2px solid var(--cp2-azul-institucional);
@@ -241,6 +258,36 @@ h2 {
   transition: all 0.3s ease;
   cursor: pointer;
   box-shadow: var(--sgime-box-shadow);
+  /* Centralização consistente do rótulo */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  line-height: 1 !important;
+  vertical-align: middle;
+}
+
+/* Inputs de botão nativos: centralização por line-height = height */
+input[type="submit"], input[type="button"], button {
+  height: 36px !important;
+  line-height: 36px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Anchors estilizados como botão: flex já centraliza, mas garantir altura mínima */
+.button, a.button, .btn {
+  min-height: 36px !important;
+}
+
+@media (max-width: 768px) {
+  input[type="submit"], input[type="button"], button {
+    height: 34px !important;
+    line-height: 34px !important;
+  }
+  .button, a.button, .btn {
+    min-height: 34px !important;
+  }
 }
 
 .button:hover, input[type="submit"]:hover, input[type="button"]:hover, button:hover {
@@ -515,7 +562,8 @@ table.list tr.odd {
 #footer {
   background: var(--cp2-azul-institucional);
   color: var(--cp2-dourado-claro);
-  padding: var(--sgime-spacing-lg);
+  /* Aumenta o espaçamento superior para afastar o conteúdo da borda/topo */
+  padding: calc(var(--sgime-spacing-lg) + 8px) var(--sgime-spacing-lg) var(--sgime-spacing-lg);
   text-align: center;
   border-top: 4px solid var(--cp2-dourado);
   position: relative;
@@ -532,7 +580,8 @@ table.list tr.odd {
 }
 
 #footer p {
-  margin: 0;
+  /* Pequena margem superior para separar do título e dar respiro */
+  margin: var(--sgime-spacing-xs) 0 0;
   font-size: 0.9rem;
 }
 
@@ -642,7 +691,8 @@ table.list tr.odd {
 /* Responsividade institucional */
 @media (max-width: 768px) {
   #header h1::after {
-    content: " - CPII";
+    /* Em mobile, manter NBSP após o travessão; espaço após o escape termina a sequência */
+    content: "\200A\2014\00A0 CPII";
     font-size: 0.7em;
   }
   
@@ -694,13 +744,31 @@ body {
   background: var(--cp2-cinza-claro);
 }
 
+/* Header: renderizar "SGIME" no link raiz do topo, sem afetar nomes de projetos */
+/* Versão condicional: aplicar somente quando o texto do link é exatamente "Redmine".
+   Usamos um atributo data-flag injetado via JS mínimo (sem alterar conteúdo),
+   para evitar esconder nomes de projetos. */
+#header h1 a[data-sgime-home="true"] {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+  position: relative;
+}
+#header h1 a[data-sgime-home="true"]::before {
+  content: "SGIME";
+  color: var(--cp2-branco) !important;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 .controller-welcome #content h1::before {
   content: "🏛️ ";
   margin-right: var(--sgime-spacing-sm);
 }
 
 .controller-welcome #content h1::after {
-  content: " - Sistema do Colégio Pedro II";
+  content: "\200A\2014\200A Sistema do Colégio Pedro II";
   color: var(--cp2-dourado);
   font-size: 0.7em;
   font-weight: normal;
