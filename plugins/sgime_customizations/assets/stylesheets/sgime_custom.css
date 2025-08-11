@@ -590,6 +590,8 @@ table.list tr.odd {
  * ELEMENTOS ESPECÍFICOS DO COLÉGIO PEDRO II
  * ================================ */
 
+/* (removido) Ícone CPII para projetos via CSS — substituído por pipeline de favicons */
+
 /* Brasão institucional em CSS */
 .cpii-brasao {
   display: inline-flex;

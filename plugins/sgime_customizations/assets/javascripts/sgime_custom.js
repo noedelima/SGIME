@@ -696,8 +696,8 @@ document.head.appendChild(style);
         // Evitar duplicar
         if ($link.find('.cpii-menu-icon').length > 0) return;
         const text = $link.text().trim();
-        const icon = menuIcons[text] || defaultIcon;
-        $link.prepend('<span class="cpii-menu-icon" aria-hidden="true">' + icon + '</span> ');
+  const icon = menuIcons[text] || defaultIcon;
+  $link.prepend('<span class="cpii-menu-icon" aria-hidden="true">' + icon + '</span> ');
       });
     },
     
