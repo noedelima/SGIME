@@ -247,7 +247,7 @@ setup_initial_data() {
     
     # Configurar tabelas de plugins manualmente (contorna problemas de migração automática)
     info "Configurando tabelas dos plugins..."
-    $DOCKER_COMPOSE_CMD exec -T postgres psql -U \${POSTGRES_USER:-sgime_user} -d \${POSTGRES_DB:-sgime_production} -c "
+    $DOCKER_COMPOSE_CMD exec -T postgres psql -U \${POSTGRES_USER:-redmine} -d \${POSTGRES_DB:-redmine} -c "
         CREATE TABLE IF NOT EXISTS recurring_tasks (
             id SERIAL PRIMARY KEY,
             current_issue_id INTEGER,
