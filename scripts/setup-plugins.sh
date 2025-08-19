@@ -34,11 +34,14 @@ declare -A ESSENTIAL_PLUGINS=(
     ["redmine_dashboard"]="https://github.com/jgraichen/redmine_dashboard.git"
     ["sgime_customizations"]="local" # Plugin customizado do SGIME
     ["redmine_checklists"]="manual_install" # Plugin comercial - download manual necessário
-    ["redmine_dmsf"]="local" # Usar cópia local corrigida no repo SGIME
+    ["redmine_dmsf"]="local" # Preferir cópia local corrigida; se ausente, usar fallback oficial
     # Usamos o fork SGIME oficial para tarefas recorrentes
     ["redmine_recurring_tasks_sgime"]="local"
     ["redmine_more_previews"]="https://github.com/HugoHasenbein/redmine_more_previews.git" # Preview avançado de arquivos
 )
+
+# URL de fallback para o DMSF caso a cópia local não exista
+DMSF_FALLBACK_URL="https://github.com/danmunn/redmine_dmsf.git"
 
 # Plugins removidos da instalação (mantidos no histórico para referência)
 declare -A REMOVED_PLUGINS=(
@@ -76,9 +79,37 @@ download_plugin() {
     # Plugin local (já existe no repositório)
     if [ "$plugin_url" = "local" ]; then
         if [ -d "$plugin_path" ]; then
+            # Tratar caso especial: DMSF presente mas incompleto (sem init.rb)
+            if [ "$plugin_name" = "redmine_dmsf" ] && [ ! -f "$plugin_path/init.rb" ]; then
+                warning "Diretório $plugin_name encontrado, porém incompleto (sem init.rb). Aplicando fallback do repositório oficial..."
+                ts=$(date +%Y%m%d%H%M%S)
+                backup_path="${plugin_path}.bak-${ts}"
+                mv "$plugin_path" "$backup_path"
+                info "Backup criado: $backup_path"
+                mkdir -p "$PLUGINS_DIR"
+                if git clone "$DMSF_FALLBACK_URL" "$plugin_path" 2>/dev/null; then
+                    log "Plugin $plugin_name (fallback) baixado com sucesso"
+                    return 0
+                else
+                    error "Falha ao baixar fallback do $plugin_name"
+                    return 1
+                fi
+            fi
             info "Plugin local $plugin_name já existe"
             return 0
         else
+            # Fallback específico: baixar DMSF do repositório oficial se não houver cópia local
+            if [ "$plugin_name" = "redmine_dmsf" ] && [ -n "$DMSF_FALLBACK_URL" ]; then
+                warning "Cópia local do $plugin_name não encontrada; baixando do repositório oficial..."
+                mkdir -p "$PLUGINS_DIR"
+                if git clone "$DMSF_FALLBACK_URL" "$plugin_path" 2>/dev/null; then
+                    log "Plugin $plugin_name (fallback) baixado com sucesso"
+                    return 0
+                else
+                    error "Falha ao baixar fallback do $plugin_name"
+                    return 1
+                fi
+            fi
             error "Plugin local $plugin_name não encontrado em $plugin_path"
             return 1
         fi
@@ -126,7 +157,7 @@ enable_plugin_in_compose() {
     if [ "$plugin_name" = "redmine_recurring_tasks_sgime" ]; then
         target_name="recurring_tasks"
     fi
-    local mount_line="      - ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name:Z"
+    local mount_line="      - ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name"
     
     # Verificar se já está habilitado (linha não comentada)
     if grep -q "^[[:space:]]*- ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name" "$DOCKER_COMPOSE_FILE"; then
@@ -134,14 +165,24 @@ enable_plugin_in_compose() {
         return 0
     fi
     
-    # Se existe linha comentada, descomentá-la
-    if grep -q "^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name" "$DOCKER_COMPOSE_FILE"; then
-        sed -i "s|^[[:space:]]*# - ./plugins/$plugin_name:/usr/src/redmine/plugins/$target_name|$mount_line|" "$DOCKER_COMPOSE_FILE"
-        log "Plugin $plugin_name descomentado no docker compose.yml"
+    # Inserir logo após o volume principal de files do Redmine
+    if grep -q "^[[:space:]]*- sgime_redmine_files:/usr/src/redmine/files" "$DOCKER_COMPOSE_FILE"; then
+        sed -i "/^[[:space:]]*- sgime_redmine_files:\/usr\/src\/redmine\/files/a \\${mount_line}" "$DOCKER_COMPOSE_FILE"
+        log "Plugin $plugin_name adicionado ao docker compose.yml (após sgime_redmine_files)"
     else
-        # Adicionar nova linha após o comentário dos plugins
-        sed -i "/# Uncomment lines below to enable specific plugins:/a\\$mount_line" "$DOCKER_COMPOSE_FILE"
-        log "Plugin $plugin_name adicionado ao docker compose.yml"
+        # Fallback: inserir na seção volumes do redmine
+        awk -v insert_line="$mount_line" '
+            BEGIN{in_redmine=0; in_vols=0}
+            /^  redmine:/{in_redmine=1}
+            in_redmine && /^    volumes:/{in_vols=1}
+            {print}
+            in_redmine && in_vols && $0 ~ /^      - / && added!=1 {
+                # Inserir após a primeira linha de volume
+                print insert_line
+                added=1
+            }
+        ' "$DOCKER_COMPOSE_FILE" > "$DOCKER_COMPOSE_FILE.tmp" && mv "$DOCKER_COMPOSE_FILE.tmp" "$DOCKER_COMPOSE_FILE"
+        log "Plugin $plugin_name adicionado ao docker compose.yml (fallback volumes)"
     fi
 }
 
@@ -202,6 +243,24 @@ EOF
         if ! grep -q "require 'zip'" "$dmsf_path/init.rb"; then
             sed -i "/require 'redmine'/a require 'zip'  # RubyZip dependency" "$dmsf_path/init.rb"
             log "Adicionado require 'zip' no init.rb"
+        fi
+    fi
+
+    # 5. Ajustar Gemfile: desabilitar ox e grupo :xapian para evitar extensões nativas
+    if [ -f "$dmsf_path/Gemfile" ]; then
+        # Comentar gem 'ox'
+        if grep -q "^[[:space:]]*gem ['\"]ox['\"]" "$dmsf_path/Gemfile"; then
+            # Usar delimitador @ para evitar conflito com barras na substituição
+            sed -i "s@^[[:space:]]*gem ['\"]ox['\"][^#]*@# &  # desabilitado (evita build nativo ox)@" "$dmsf_path/Gemfile"
+            log "Gem 'ox' desabilitada no Gemfile do DMSF"
+        fi
+        # Comentar bloco do grupo :xapian
+        if grep -q "group[[:space:]]*:xapian[[:space:]]*do" "$dmsf_path/Gemfile"; then
+            awk 'BEGIN{inblock=0} \
+                /group[[:space:]]*:xapian[[:space:]]*do/{inblock=1; print "# "$0; next} \
+                inblock && /end/{inblock=0; print "# "$0; next} \
+                { if(inblock){print "# "$0} else {print $0} }' "$dmsf_path/Gemfile" > "$dmsf_path/Gemfile.tmp" && mv "$dmsf_path/Gemfile.tmp" "$dmsf_path/Gemfile"
+            log "Bloco :xapian comentado no Gemfile do DMSF"
         fi
     fi
     

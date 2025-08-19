@@ -48,9 +48,17 @@ services:
       REDMINE_DB_DATABASE: ${POSTGRES_DB:-redmine}
       REDMINE_DB_PORT: 5432
       REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE:-your-secret-key-base-here-change-this-in-production}
+      # Configurações do Bundler para pular grupos desnecessários
+      BUNDLE_WITHOUT: "development:test:xapian"
       #REDMINE_PLUGINS_MIGRATE: 1
     volumes:
       - sgime_redmine_files:/usr/src/redmine/files
+      - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
+      - ./plugins/redmine_recurring_tasks_sgime:/usr/src/redmine/plugins/recurring_tasks
+      - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
+      - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
+      - ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf
+      - ./plugins/redmine_more_previews:/usr/src/redmine/plugins/redmine_more_previews
       # Plugin volumes - plugins essenciais habilitados
       #- ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
       #- ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
@@ -63,7 +71,7 @@ services:
     ports:
       - "${REDMINE_PORT:-3000}:3000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:3000/ >/dev/null 2>&1 || exit 1"]
       interval: 60s
       timeout: 30s
       retries: 5

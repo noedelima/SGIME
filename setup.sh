@@ -129,6 +129,13 @@ setup_environment() {
     set -a  # automatically export all variables
     source config/.env
     set +a  # disable automatic export
+
+    # Sincronizar variáveis para o docker compose (.env na raiz do projeto)
+    # O Docker Compose usa este arquivo implicitamente para substituição de variáveis
+    if [ -f "config/.env" ]; then
+        cp -f config/.env .env
+        info "Arquivo .env de projeto atualizado a partir de config/.env"
+    fi
 }
 
 # Criar diretórios necessários
@@ -156,6 +163,28 @@ create_directories() {
     done
     
     success "Estrutura de diretórios criada"
+}
+
+# Verificar volume do Postgres e oferecer reset se necessário
+maybe_reset_postgres_volume() {
+    log "Verificando volume de dados do PostgreSQL..."
+    local volume_name="sgime_postgres_data"
+    if docker volume ls -q | grep -q "^${volume_name}$"; then
+        warning "Volume '${volume_name}' já existe. Isso indica uma instalação anterior."
+        warning "Se as credenciais do banco mudaram, o Redmine pode falhar na autenticação."
+        read -p "Deseja resetar o banco (APAGA DADOS) e recriar do zero? (s/N): " -n 1 -r
+        echo ""
+        if [[ $REPLY =~ ^[Ss]$ ]]; then
+            info "Parando serviços e removendo volume '${volume_name}'..."
+            $DOCKER_COMPOSE_CMD down || true
+            docker volume rm -f "${volume_name}" || true
+            success "Volume '${volume_name}' removido. Será recriado vazio."
+        else
+            info "Mantendo volume existente. As credenciais devem corresponder às já configuradas."
+        fi
+    else
+        info "Volume '${volume_name}' não existe. Será criado novo."
+    fi
 }
 
 # Gerar certificados SSL auto-assinados
@@ -191,11 +220,12 @@ build_and_start() {
     
     log "Construindo imagens Docker..."
     
-    # Baixar imagens base mais recentes
-    $DOCKER_COMPOSE_CMD pull postgres nginx
+    # Baixar imagens base mais recentes (apenas serviços que usam 'image')
+    # Redmine usa imagem oficial; Nginx tem build customizado
+    $DOCKER_COMPOSE_CMD pull postgres redmine || true
     
-    # Construir imagem customizada do Redmine
-    $DOCKER_COMPOSE_CMD build --pull redmine
+    # Construir imagem customizada do Nginx (possui Dockerfile)
+    $DOCKER_COMPOSE_CMD build --pull nginx
     
     log "Iniciando serviços..."
     
@@ -207,7 +237,19 @@ build_and_start() {
     # Iniciar Redmine
     $DOCKER_COMPOSE_CMD up -d redmine
     info "Aguardando Redmine inicializar..."
-    sleep 30
+    # Aguardar healthcheck do Redmine ficar saudável
+    redmine_wait_timeout=600
+    elapsed=0
+    until $DOCKER_COMPOSE_CMD ps redmine | grep -q "(healthy)"; do
+        if $DOCKER_COMPOSE_CMD ps redmine | grep -q "(unhealthy)"; then
+            warning "Redmine está unhealthy, aguardando estabilizar..."
+        fi
+        sleep 5
+        elapsed=$((elapsed + 5))
+        if [ $elapsed -ge $redmine_wait_timeout ]; then
+            error "Timeout aguardando Redmine ficar saudável"
+        fi
+    done
     
     # Iniciar Nginx por último
     $DOCKER_COMPOSE_CMD up -d nginx
@@ -224,8 +266,10 @@ setup_initial_data() {
     timeout=300  # 5 minutos
     count=0
     
+    # Verificar a partir do host para evitar depender de 'curl' dentro do container
+    REDMINE_HOST_PORT="${REDMINE_PORT:-3000}"
     while [ $count -lt $timeout ]; do
-        if $DOCKER_COMPOSE_CMD exec -T redmine curl -s -f http://localhost:3000/login > /dev/null 2>&1; then
+        if curl -s -f "http://localhost:${REDMINE_HOST_PORT}/login" > /dev/null 2>&1; then
             break
         fi
         sleep 5
@@ -240,26 +284,10 @@ setup_initial_data() {
     
     # Executar configuração inicial
     info "Executando migrações e configuração inicial..."
-    $DOCKER_COMPOSE_CMD exec -T redmine bash -c "
+    $DOCKER_COMPOSE_CMD exec -T redmine bash -lc "
         bundle exec rake db:migrate RAILS_ENV=production &&
         bundle exec rake redmine:load_default_data RAILS_ENV=production REDMINE_LANG=pt-BR
     " || true
-    
-    # Configurar tabelas de plugins manualmente (contorna problemas de migração automática)
-    info "Configurando tabelas dos plugins..."
-    $DOCKER_COMPOSE_CMD exec -T postgres psql -U \${POSTGRES_USER:-redmine} -d \${POSTGRES_DB:-redmine} -c "
-        CREATE TABLE IF NOT EXISTS recurring_tasks (
-            id SERIAL PRIMARY KEY,
-            current_issue_id INTEGER,
-            fixed_schedule BOOLEAN,
-            interval_number INTEGER,
-            interval_unit VARCHAR(255),
-            interval_modifier INTEGER DEFAULT 1,
-            recur_subtasks BOOLEAN DEFAULT FALSE,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    " 2>/dev/null || true
     
     success "Configuração inicial concluída"
 }
@@ -292,6 +320,28 @@ check_services_health() {
     else
         warning "✗ SSL pode não estar funcionando na porta 443"
     fi
+}
+
+# Instalar gems dos plugins, migrar e verificar carregamento
+migrate_and_verify_plugins() {
+    log "Instalando dependências e migrando plugins do Redmine..."
+    
+    # Garantir que o bundler está configurado e instalar gems incluindo as dos plugins montados
+    $DOCKER_COMPOSE_CMD exec -T redmine bash -lc "bundle config set without 'development test' && bundle install --jobs=4 --retry=3" || warning "Falha no bundle install (plugins podem não ter dependências extras)"
+    
+    # Exportar SECRET_KEY_BASE no shell e rodar migrações dos plugins
+    $DOCKER_COMPOSE_CMD exec -T redmine bash -lc "export SECRET_KEY_BASE=\"$REDMINE_SECRET_KEY_BASE\"; bundle exec rake redmine:plugins:migrate RAILS_ENV=production" || warning "Migração de plugins retornou erro"
+    
+    # Verificar plugins carregados
+    if loaded_plugins=$($DOCKER_COMPOSE_CMD exec -T redmine bash -lc "export SECRET_KEY_BASE=\"$REDMINE_SECRET_KEY_BASE\"; bundle exec rails runner 'puts Redmine::Plugin.all.map(&:id)'" 2>/dev/null); then
+        info "Plugins carregados:"
+        echo "$loaded_plugins" | sed '/^$/d' | sed 's/^/  • /'
+    else
+        warning "Não foi possível listar plugins carregados (verifique logs)"
+    fi
+    
+    # Reiniciar Redmine para garantir carregamento após migrações
+    $DOCKER_COMPOSE_CMD restart redmine || true
 }
 
 # Mostrar informações finais
@@ -356,9 +406,11 @@ main() {
     check_prerequisites
     setup_environment
     create_directories
+    maybe_reset_postgres_volume
     generate_ssl_certificates
     build_and_start
     setup_initial_data
+    migrate_and_verify_plugins
     check_services_health
     show_final_info
     
