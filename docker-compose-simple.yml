@@ -1,0 +1,54 @@
+# Simple Docker Compose for testing SGIME
+version: '3.8'
+
+networks:
+  sgime_network:
+    driver: bridge
+
+volumes:
+  sgime_postgres_data:
+  sgime_redmine_files:
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16
+    container_name: sgime-postgres-simple
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: redmine
+      POSTGRES_USER: redmine
+      POSTGRES_PASSWORD: redmine_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C.UTF-8"
+    volumes:
+      - sgime_postgres_data:/var/lib/postgresql/data
+    networks:
+      - sgime_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U redmine -d redmine"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Redmine Application
+  redmine:
+    image: redmine:6.0
+    container_name: sgime-redmine-simple
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      REDMINE_DB_POSTGRES: postgres
+      REDMINE_DB_USERNAME: redmine
+      REDMINE_DB_PASSWORD: redmine_password
+      REDMINE_DB_DATABASE: redmine
+      REDMINE_DB_PORT: 5432
+      REDMINE_SECRET_KEY_BASE: sgime_secret_key_base_for_testing_environment_this_should_be_changed_in_production_2025
+    volumes:
+      - sgime_redmine_files:/usr/src/redmine/files
+    networks:
+      - sgime_network
+    ports:
+      - "3000:3000"

@@ -43,31 +43,31 @@ services:
         condition: service_healthy
     environment:
       REDMINE_DB_POSTGRES: ${POSTGRES_HOST:-postgres}
-      REDMINE_DB_USERNAME: ${REDMINE_DB_USERNAME:-redmine}
-      REDMINE_DB_PASSWORD: ${REDMINE_DB_PASSWORD:-redmine_password}
-      REDMINE_DB_DATABASE: ${REDMINE_DB_DATABASE:-redmine}
+      REDMINE_DB_USERNAME: ${POSTGRES_USER:-redmine}
+      REDMINE_DB_PASSWORD: ${POSTGRES_PASSWORD:-redmine_password}
+      REDMINE_DB_DATABASE: ${POSTGRES_DB:-redmine}
       REDMINE_DB_PORT: 5432
       REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE:-your-secret-key-base-here-change-this-in-production}
-      REDMINE_PLUGINS_MIGRATE: 1
+      #REDMINE_PLUGINS_MIGRATE: 1
     volumes:
       - sgime_redmine_files:/usr/src/redmine/files
-      # Plugin volumes - todos os plugins essenciais habilitados
-      - ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
-      - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
-      - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
-      - ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf
-      - ./plugins/redmine_recurring_tasks_sgime:/usr/src/redmine/plugins/recurring_tasks
-      - ./plugins/redmine_more_previews:/usr/src/redmine/plugins/redmine_more_previews
+      # Plugin volumes - plugins essenciais habilitados
+      #- ./plugins/sgime_customizations:/usr/src/redmine/plugins/sgime_customizations
+      #- ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
+      #- ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
+      #- ./plugins/redmine_dmsf:/usr/src/redmine/plugins/redmine_dmsf
+      #- ./plugins/redmine_recurring_tasks_sgime:/usr/src/redmine/plugins/recurring_tasks
+      #- ./plugins/redmine_more_previews:/usr/src/redmine/plugins/redmine_more_previews
     networks:
       - sgime_network
     ports:
       - "${REDMINE_PORT:-3000}:3000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 90s
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 120s
 
   # ===== NGINX PROXY =====
   nginx:
