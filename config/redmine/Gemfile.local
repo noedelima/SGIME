@@ -1,0 +1,10 @@
+# Gemfile.local para SGIME
+# Fixar redmineup a uma versão compatível e evitar conflitos
+
+gem 'redmineup', '~> 1.1.0'
+# Consolidar puma apenas uma vez (Redmine 6 já declara puma)
+# Caso algum plugin declare puma, o bundler só verá uma entrada efetiva
+# gem 'puma'
+
+# Gems úteis adicionadas no Dockerfile custom (alpine) já não são usadas aqui
+# Mantenha este arquivo minimalista para reduzir atrito de dependências

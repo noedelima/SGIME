@@ -10,6 +10,7 @@ networks:
 volumes:
   sgime_postgres_data:
   sgime_redmine_files:
+  sgime_redmine_bundle:
 
 services:
   # ===== BANCO DE DADOS POSTGRESQL =====
@@ -35,7 +36,9 @@ services:
 
   # ===== REDMINE APPLICATION =====
   redmine:
-    image: redmine:latest
+    build:
+      context: .
+      dockerfile: docker/redmine/Dockerfile.debian-sgime
     container_name: sgime-redmine
     restart: unless-stopped
     depends_on:
@@ -50,9 +53,16 @@ services:
       REDMINE_SECRET_KEY_BASE: ${REDMINE_SECRET_KEY_BASE:-your-secret-key-base-here-change-this-in-production}
       # Configurações do Bundler para pular grupos desnecessários
       BUNDLE_WITHOUT: "development:test:xapian"
+      # Evitar diretório world-writable do sistema: instalar gems em caminho local seguro
+      BUNDLE_PATH: "/usr/src/redmine/vendor/bundle"
+      BUNDLE_DISABLE_SHARED_GEMS: "1"
+      BUNDLE_JOBS: "2"
+      BUNDLE_RETRY: "3"
       #REDMINE_PLUGINS_MIGRATE: 1
     volumes:
+      - sgime_redmine_bundle:/usr/local/bundle
       - sgime_redmine_files:/usr/src/redmine/files
+      - ./config/redmine/Gemfile.local:/usr/src/redmine/Gemfile.local:ro
       - ./plugins/redmine_checklists:/usr/src/redmine/plugins/redmine_checklists
       - ./plugins/redmine_recurring_tasks_sgime:/usr/src/redmine/plugins/recurring_tasks
       - ./plugins/redmine_dashboard:/usr/src/redmine/plugins/redmine_dashboard
