@@ -1,4 +1,6 @@
-# SGIME - Sistema de Gestão Integrada de Engenhar## 📋 Descrição Geral
+# SGIME - Sistema de Gestão Integrada de Melhorias e Eficiência
+
+##📋 Descrição Geral
 
 O SGIME (Sistema de Gestão Integrada de Engenharia) é uma solução completa desenvolvida sobre a plataforma Redmine para o Colégio Pedro II. O sistema centraliza e automatiza os processos de:
 

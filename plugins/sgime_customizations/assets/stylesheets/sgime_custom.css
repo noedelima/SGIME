@@ -1,3 +1,21 @@
+.icon-dmsf img,
+.icon.icon-dmsf img {
+  display: none !important;
+}
+
+.icon-dmsf,
+.icon.icon-dmsf {
+  min-height: 1em;
+  line-height: 1;
+  vertical-align: middle;
+}
+.icon-dmsf::before,
+.icon.icon-dmsf::before {
+  vertical-align: middle;
+  margin-right: 4px;
+  height: 1em;
+  width: 1em;
+}
 /* 
  * SGIME - Sistema de Gestão Integrada de Melhorias e Eficiência
  * Tema Personalizado - Identidade Visual Colégio Pedro II
