@@ -153,8 +153,9 @@ body.controller-my.action-account #main {
 #quick-search,
 #header #quick-search {
   display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
+  flex-direction: column !important; /* empilha elementos: label, busca, seletor do projeto */
+  align-items: flex-start !important; /* alinha à esquerda */
+  gap: 6px !important;
 }
 
 #quick-search input[type="text"],
@@ -169,6 +170,23 @@ body.controller-my.action-account #main {
   padding-left: 2rem !important; /* espaço para ícone de lupa/chevron */
   background-position: 8px center !important; /* ícone fica à esquerda */
   background-repeat: no-repeat !important;
+}
+
+/* Ajustes de alinhamento e largura iguais para busca e seletor */
+#quick-search label,
+#header #quick-search label {
+  margin-bottom: 2px !important;
+}
+
+#quick-search input[type="text"],
+#header #quick-search input[type="text"] {
+  min-width: 220px !important;
+}
+
+#quick-search select,
+#header #quick-search select {
+  min-width: 220px !important; /* igual ao input de busca para alinhar bordas */
+  display: block !important;    /* quebra de linha garantida quando não houver flex */
 }
 
 /* Busca interna em dropdowns de seleção (Select2 / Chosen) */
@@ -197,7 +215,7 @@ body.controller-my.action-account #main {
 @media (max-width: 768px) {
   #quick-search,
   #header #quick-search {
-    gap: 6px !important;
+  gap: 6px !important;
   }
   #quick-search input[type="text"],
   #header #quick-search input[type="text"],
