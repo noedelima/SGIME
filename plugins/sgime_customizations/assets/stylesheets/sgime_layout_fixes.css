@@ -158,6 +158,26 @@ body.controller-my.action-account #main {
   gap: 6px !important;
 }
 
+/* Força o seletor "Ir para o projeto" a quebrar linha abaixo da busca */
+#project-jump,
+#header #project-jump,
+#quick-search #project-jump {
+  display: block !important;
+  width: 100% !important;
+  margin-top: 6px !important;
+  float: none !important;
+  clear: both !important;
+}
+
+/* Select do jump-to-project alinhado e sem flutuação */
+#project_quick_jump_box,
+#header #project_quick_jump_box,
+#project-jump select {
+  display: block !important;
+  float: none !important;
+  min-width: 220px !important;
+}
+
 #quick-search input[type="text"],
 #header #quick-search input[type="text"],
 #quick-search select,
