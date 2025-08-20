@@ -65,20 +65,12 @@ class SgimeThemeHook < Redmine::Hook::ViewListener
           favicon.remove();
         });
         
-  // Favicon apontando para assets do plugin (melhor cache e depuração)
+  // Favicon: utilizar o padrão do Redmine; se um SVG institucional existir em /images, ele será carregado por tema
   var cb = Date.now(); // cache-buster simples
-  var faviconSvg = document.createElement('link');
-  faviconSvg.rel = 'icon';
-  faviconSvg.type = 'image/svg+xml';
-  faviconSvg.href = '/plugin_assets/sgime_customizations/images/cpii-favicon.svg?v=' + cb;
-
-  // Fallback ICO
   var faviconIco = document.createElement('link');
   faviconIco.rel = 'shortcut icon';
   faviconIco.type = 'image/x-icon';
-  faviconIco.href = '/plugin_assets/sgime_customizations/images/favicon.ico?v=' + cb;
-
-  document.head.appendChild(faviconSvg);
+  faviconIco.href = '/favicon.ico?v=' + cb;
   document.head.appendChild(faviconIco);
         
         // === TÍTULO DA PÁGINA COM IDENTIDADE INSTITUCIONAL ===

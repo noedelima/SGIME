@@ -28,6 +28,10 @@ bundle exec rake db:migrate RAILS_ENV=production
 log "Executando migrações dos plugins..."
 bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 
+# Copiar assets dos plugins (necessário para servir /plugin_assets/* em produção)
+log "Instalando assets dos plugins em public/plugin_assets..."
+bundle exec rake redmine:plugins:assets RAILS_ENV=production
+
 # Configurar dados iniciais se for primeira execução
 if [ ! -f /usr/src/redmine/config/.sgime_initialized ]; then
     log "Primeira execução detectada. Configurando dados iniciais..."
