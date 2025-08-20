@@ -741,6 +741,38 @@ a:hover {
   text-decoration: underline;
 }
 
+/* ================================
+ * ÍCONES DMSF - SUBSTITUIÇÃO/OTIMIZAÇÃO
+ * ================================ */
+/* Top menu global (classe definida pelo DMSF) */
+.icon-dmsf,
+.icon.icon-dmsf {
+  background-image: none !important; /* remove sprites default */
+  position: relative;
+}
+.icon-dmsf::before,
+.icon.icon-dmsf::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  vertical-align: text-bottom;
+  background: url('/plugin_assets/sgime_customizations/images/dmsf-docs.svg') no-repeat center/contain;
+}
+
+/* Atividades/resultados de busca que usam classes do DMSF */
+.icon-dmsf-file,
+.icon-dmsf-file-revision {
+  background-image: url('/plugin_assets/sgime_customizations/images/dmsf-docs.svg') !important;
+  background-size: contain;
+}
+
+/* Corrige caminho absoluto na toolbar do DMSF (evita aviso de asset ausente) */
+.jstb_dmsf {
+  background-image: url('/images/document.png') !important;
+}
+
 /* Customização específica para o Redmine com identidade CPII */
 body {
   font-family: var(--sgime-font-family);
