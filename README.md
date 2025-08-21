@@ -225,7 +225,7 @@ docker-compose exec redmine bundle exec rake redmine:setup
 
 1. Acesse o sistema em: `http://localhost:3000`
 2. Usuário padrão: `admin`
-3. Senha padrão: `admin123`
+3. Senha padrão: `admin`
 4. **IMPORTANTE**: Altere a senha imediatamente após o primeiro login
 
 ### Configuração de Plugins
