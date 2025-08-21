@@ -14,125 +14,23 @@ Redmine::Plugin.register :sgime_customizations do
     'custom_js_enabled' => true,
     'sgime_theme_enabled' => true,
     'cpii_branding_enabled' => true
-  }, partial: 'settings/sgime_customizations'
-  
-  # Permissões
-  project_module :sgime_customizations do
-    permission :view_sgime_customizations, {}, public: true
-    permission :manage_sgime_customizations, {}
-  end
-  
-  # Menu principal será implementado futuramente
-  # menu :application_menu, :sgime_dashboard,
-  #      { controller: 'sgime_dashboard', action: 'index' },
-  #      caption: 'SGIME Dashboard',
-  #      if: Proc.new { User.current.logged? }
-end
+    # Assets principais + favicons institucionais inline (sem JS de limpeza redundante)
+    html = +
+      stylesheet_link_tag('sgime_custom', plugin: 'sgime_customizations') +
+      stylesheet_link_tag('cpii_brasao', plugin: 'sgime_customizations') +
+      stylesheet_link_tag('sgime_menu_fix', plugin: 'sgime_customizations') +
+      stylesheet_link_tag('sgime_contrast_max', plugin: 'sgime_customizations') +
+      stylesheet_link_tag('sgime_layout_fixes', plugin: 'sgime_customizations') +
+      javascript_include_tag('sgime_custom', plugin: 'sgime_customizations')
 
-# Carregar assets customizados
-Rails.application.config.assets.precompile += %w(
-  sgime_custom.css
-  cpii_brasao.css
-  sgime_menu_fix.css
-  sgime_contrast_max.css
-  sgime_layout_fixes.css
-  sgime_custom.js
-)
-
-# Carregar patches quando o Rails inicializar os plugins
-Rails.configuration.to_prepare do
-  if defined?(Checklist)
-    unless Checklist.included_modules.include?(SgimeChecklistPatch)
-      Checklist.send(:include, SgimeChecklistPatch)
+    # Injetar somente se leitura dos arquivos foi bem sucedida
+    if svg_data
+      html << %(<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,#{svg_data}">)
     end
-  end
-end
-
-# Hook para adicionar CSS customizado e modificar elementos
-class SgimeThemeHook < Redmine::Hook::ViewListener
-  def view_layouts_base_html_head(context={})
-    # Preparar favicons como data URL para evitar dependência de /plugin_assets
-    svg_data = begin
-      path = Rails.root.join('plugins', 'sgime_customizations', 'assets', 'images', 'cpii-favicon.svg')
-      Base64.strict_encode64(File.binread(path))
-    rescue
-      nil
+    if ico_data
+      html << %(<link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,#{ico_data}">)
     end
-    ico_data = begin
-      path = Rails.root.join('plugins', 'sgime_customizations', 'assets', 'images', 'favicon.ico')
-      Base64.strict_encode64(File.binread(path))
-    rescue
-      nil
-    end
-
-    stylesheet_link_tag('sgime_custom', plugin: 'sgime_customizations') +
-    stylesheet_link_tag('cpii_brasao', plugin: 'sgime_customizations') +
-    stylesheet_link_tag('sgime_menu_fix', plugin: 'sgime_customizations') +
-    stylesheet_link_tag('sgime_contrast_max', plugin: 'sgime_customizations') +
-    stylesheet_link_tag('sgime_layout_fixes', plugin: 'sgime_customizations') +
-    javascript_include_tag('sgime_custom', plugin: 'sgime_customizations') +
-    # Favicons inline no head via data URL (prioriza SVG + fallback ICO)
-    (<<~HTML).html_safe +
-  <script>(function(){function purgeFav(){try{document.querySelectorAll('head link[rel="icon"], head link[rel="shortcut icon"]').forEach(function(l){var h=l.getAttribute('href')||''; if(h && !h.startsWith('data:image/')) l.remove();});}catch(e){console.warn('Falha limpeza favicons',e);} }purgeFav();try{new MutationObserver(function(m){purgeFav();}).observe(document.head,{childList:true,subtree:true});}catch(e){/* ignore */}})();</script>
-      #{svg_data ? "<link rel=\"icon\" type=\"image/svg+xml\" href=\"data:image/svg+xml;base64,#{svg_data}\">" : ''}
-      #{ico_data ? "<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"data:image/x-icon;base64,#{ico_data}\">" : ''}
-    HTML
-    javascript_tag(<<~JS.html_safe)
-      document.addEventListener('DOMContentLoaded', function() {
-        // === NORMALIZAÇÃO DE FAVICONS ===
-        // Remove qualquer favicon pré-existente servido por /assets (ex: favicon gerado padrão do Redmine)
-        // mantendo apenas os inlines (data:) injetados pelo hook.
-        (function ensureOnlyInstitutionalFavicons() {
-          try {
-            var links = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
-            links.forEach(function(l){
-              var href = (l.getAttribute('href')||'');
-              if(href && !href.startsWith('data:image/')) {
-                l.parentNode && l.parentNode.removeChild(l);
-              }
-            });
-            // Se por algum motivo nossos favicons não existirem (ex: erro de leitura no servidor), não recriamos aqui
-            // para evitar lógica duplicada; fallback visual será o favicon padrão removido.
-          } catch(e) { console.warn('Falha ao normalizar favicons', e); }
-        })();
-        
-        // === TÍTULO DA PÁGINA COM IDENTIDADE INSTITUCIONAL ===
-        function updatePageTitle() {
-          var title = document.title;
-          if (!title.includes('SGIME')) {
-            document.title = 'SGIME - Colégio Pedro II | ' + title;
-          }
-        }
-        
-        updatePageTitle();
-        
-        // Observa mudanças no título da página
-        var titleObserver = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-              updatePageTitle();
-            }
-          });
-        });
-        
-        var titleElement = document.querySelector('title');
-        if (titleElement) {
-          titleObserver.observe(titleElement, { childList: true });
-        }
-        
-  // === SUBSTITUIÇÃO GLOBAL DESATIVADA ===
-  // Importante: não substituir "Redmine" globalmente para preservar nomes de usuários
-  // e o rodapé "Powered by Redmine". A identidade visual é aplicada via header/título.
-        
-        // === MELHORIAS DE INTERFACE ===
-        // Garante visibilidade dos links do menu com ALTO CONTRASTE
-        function enforceMenuVisibility() {
-          var topMenuLinks = document.querySelectorAll('#top-menu ul li a');
-          topMenuLinks.forEach(function(link) {
-            // Força todas as propriedades de visibilidade com ALTO CONTRASTE
-            link.style.setProperty('color', '#FFFFFF', 'important');
-            link.style.setProperty('background', 'rgba(218, 165, 32, 0.8)', 'important'); // Dourado semi-transparente
-            link.style.setProperty('display', 'inline-block', 'important');
+    html.html_safe
             link.style.setProperty('visibility', 'visible', 'important');
             link.style.setProperty('opacity', '1', 'important');
             link.style.setProperty('padding', '0.5rem 1rem', 'important');

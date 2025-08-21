@@ -4,7 +4,7 @@
 production:
   # Configurações específicas do SGIME
   sgime:
-    version: "1.6"
+  version: "1.8.0"
     organization_name: "<%= ENV['ORGANIZATION_NAME'] || 'Colégio Pedro II' %>"
     department_name: "<%= ENV['DEPARTMENT_NAME'] || 'Seção de Engenharia' %>"
     contact_email: "<%= ENV['SGIME_CONTACT_EMAIL'] || 'geeng@cp2.g12.br' %>"
@@ -51,5 +51,5 @@ development:
 test:
   # Configurações mínimas para testes
   sgime:
-    version: "1.6"
+  version: "1.8.0"
     organization_name: "Colégio Pedro II - Teste"

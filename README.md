@@ -1,13 +1,6 @@
 # SGIME - Sistema de Gestão Integrada de Melhorias e Eficiência
 
-## 📋 Descrição Geral
-
-O SGIME (Sistema de Gestão Integrada de Engenharia) é uma solução completa desenvolvida sobre a plataforma Redmine para o Colégio Pedro II. O sistema centraliza e automatiza os processos de:
-
-- **Gestão de Ativos e Manutenção**: Controle completo de ativos imobiliários e equipamentos eletromecânicos
-- **Gestão de Documentos de Projetos**: Repositório centralizado para documentos de engenharia e arquiteturaão 1.8 - Final Stable Release
-
-**Sistema de Gestão Integrada de Engenharia para Colégio Pedro II**
+**Sistema de Gestão Integrada de Engenharia para o Colégio Pedro II**
 
 ### 🎯 Destaques da v1.8 (Stable)
 - **🔧 Compatibilidade Completa com Rails 7**: Todos os plugins atualizados e funcionais
@@ -315,6 +308,6 @@ Este projeto está licenciado sob a GNU General Public License v3.0 - veja o arq
 
 ---
 
-**SGIME v1.6** - Sistema de Gestão Integrada de Engenharia  
+**SGIME v1.8.0** - Final Stable Release  
 **Colégio Pedro II** - Seção de Engenharia  
-**Data**: Julho de 2025
+**Data**: Agosto de 2025
