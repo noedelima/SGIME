@@ -1,0 +1,87 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% if folder_manipulation_allowed && !system_folder %>
+  <% if folder.nil? %>
+    <%= link_to sprite_icon('edit', l(:button_edit)),
+                edit_root_dmsf_path(id: project),
+                title: l(:link_edit, title: l(:link_documents)),
+                class: 'icon icon-edit',
+                data: { cy: 'button__edit--dmsf' } %>
+  <% elsif !locked %>
+    <%= link_to sprite_icon('edit', l(:button_edit)),
+                edit_dmsf_path(id: project, folder_id: folder, redirect_to_folder_id: folder.id),
+                title: l(:link_edit, title: h(folder.title)),
+                class: 'icon icon-edit',
+                data: { cy: 'button__edit--dmsf' } %>
+  <% end %>
+  <% if folder && (!locked || User.current.allowed_to?(:force_file_unlock, project)) %>
+    <% if folder.locked? %>
+      <%= link_to_if folder.unlockable?,
+                     sprite_icon('unlock', l(:button_unlock)),
+                     unlock_dmsf_path(id: project, folder_id: folder, current: request.url),
+                     title: l(:title_unlock_folder),
+                     class: 'icon icon-unlock',
+                     data: { cy: 'button__unlock--dmsf' } %>
+    <% else %>
+      <%= link_to sprite_icon('lock', l(:button_lock)),
+                  lock_dmsf_path(id: project, folder_id: folder, current: request.url),
+                  title: l(:title_lock_folder), class: 'icon icon-lock',
+                  data: { cy: 'button__lock--dmsf' } %>
+    <% end %>
+  <% end %>
+  <% if notifications && !locked %>
+    <% if ((folder && folder.notification) || (!folder && project.dmsf_notification)) %>
+      <%= link_to sprite_icon('email', l(:label_notifications_off)),
+                  notify_deactivate_dmsf_path(id: project, folder_id: folder),
+                  title: l(:title_notifications_active_deactivate),
+                  class: 'icon icon-email',
+                  data: { cy: 'button__notifications-off--dmsf' } %>
+    <% else %>
+      <%= link_to sprite_icon('email-disabled', l(:label_notifications_on)),
+                  notify_activate_dmsf_path(id: project, folder_id: folder),
+                  title: l(:title_notifications_not_active_activate),
+                  class: 'icon icon-email-add',
+                  data: { cy: 'button__notifications-on--dmsf' } %>
+    <% end %>
+  <% end %>
+  <% if file_manipulation_allowed && !locked %>
+    <%= link_to sprite_icon('link', l(:label_link_from)),
+                new_dmsf_link_path(project_id: project.id, dmsf_folder_id: folder ? folder.id : folder,
+                                   type: 'link_from'),
+                title: l(:title_create_link),
+                class: 'icon dmsf-icon-link',
+                data: { cy: 'button__create-link--dmsf' } %>
+  <% end %>
+<% end %>
+<%= render partial: 'dmsf_context_menus/watch', locals: { object: folder ? folder : project } %>
+<% if trash_enabled %>
+  <%= link_to sprite_icon('del', l(:link_trash_bin)),
+              trash_dmsf_path(project),
+              title: l(:link_trash_bin),
+              class: 'icon icon-del',
+              data: { cy: 'button__trash--dmsf' } %>
+<% else %>
+  <span class="icon icon-del">
+      <%= sprite_icon('del', l(:link_trash_bin)) %>
+  </span>
+<% end %>
+<%= link_to sprite_icon('help', l(:label_help)), dmsf_help_path, class: 'icon icon-help',
+            onclick: "window.open('#{dmsf_help_url}','_blank', 'width=640,height=960'); return false;" %>

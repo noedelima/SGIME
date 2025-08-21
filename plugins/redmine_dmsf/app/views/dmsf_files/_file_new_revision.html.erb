@@ -1,0 +1,86 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Vít Jonáš <vit.jonas@gmail.com>, Daniel Munn <dan.munn@munnster.co.uk>, Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<div class="box tabular">
+    <strong><%= l(:heading_new_revision) %>
+      <a href="#" id="new_revision_form_content_toggle" data-cy="toggle__new_revision_from_content--dmsf">[+]</a>
+    </strong>
+  <div id="new_revision_form_content">
+    <% if @file.locked_for_user? %>
+      <p class="warning"><%= l(:info_file_locked) %></p>
+    <% else %>
+      <%= labelled_form_for(@revision, url: { action: 'create_revision', id: @file },
+            html: { method: :post, multipart: true, id: 'new_revision_form' }) do |f| %>
+        <%= hidden_field_tag 'back_url', params[:back_url] %>
+        <div class="splitcontent">
+          <div class="splitcontentleft">
+            <p>
+              <%= f.text_field(:title) %>
+            </p>
+          </div>
+          <div class="splitcontentright">
+            <p>
+              <%= f.text_field :name, label: l(:label_file) %>
+            </p>
+          </div>
+        </div>
+        <p>
+          <%= f.text_area :description, rows: 6, class: 'wiki-edit dmsf-description' %>
+        </p>
+        <div class="splitcontent">
+          <div class="splitcontentleft">
+            <p>
+              <%= render partial: 'dmsf_files/version_selector', locals: {
+                label_tag_name: 'version',
+                select_tag_name_patch: 'version_patch',
+                select_tag_name_minor: 'version_minor',
+                select_tag_name_major: 'version_major',
+                revision_or_upload: @file.last_revision } %>
+            </p>
+          </div>
+          <div class="splitcontentright">
+            <div class="custom_fields">
+              <% @revision.custom_field_values.each do |value| %>
+                <% value.value = nil if value.custom_field.dmsf_not_inheritable %>
+                <p><%= custom_field_tag_with_label(:dmsf_file_revision, value) %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <p>
+          <%= label_tag 'file_upload', l(:label_new_content) %>
+          <span class="dmsf-uploader">
+            <%= render partial: 'dmsf_upload/form',
+                     locals: { multiple: false, container: nil, description: false, awf: false } %>
+          </span>
+        </p>
+        <p>
+          <%= f.text_area :comment, rows: 2, label: l(:label_comment), class: 'wiki-edit dmsf-description' %>
+        </p>
+        <div class="form-actions">
+          <%= f.submit l(:button_create), class: 'button-positive', data: { cy: "button__submit--file_dmsf"} %>
+        </div>
+      <% end %>
+    <% end %>   
+  </div>  
+</div>
+
+<%= wikitoolbar_for 'dmsf_file_revision_description' %>
+<%= wikitoolbar_for 'dmsf_file_revision_comment' %>

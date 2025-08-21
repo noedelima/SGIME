@@ -1,0 +1,501 @@
+#
+# Redmine plugin for Document Management System "Features"
+#
+# Terrence Miller, Christian Wetting <christian.wetting@kontron.com>, Karel Pičman <karel.picman@kontron.com>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+de:
+  dmsf: DMS # Custom fields tab title
+  label_dmsf_file: DMS Dokument
+  label_dmsf_file_plural: DMS Dokumente # E-Mail subject & Search options
+  label_dmsf_file_revision_plural: Dokumentenversion
+  label_dmsf_file_revision_access_plural: Dokumentenzugriffe
+  warning_no_entries_selected: Keine Einträge ausgewählt
+  error_email_to_must_be_entered: Es muss ein E-Mail-Empfänger angegeben werden.
+  warning_file_already_locked: Datei schon gesperrt
+  notice_file_locked: Datei gesperrt
+  warning_file_not_locked: Datei nicht gesperrt
+  notice_file_unlocked: Datei freigegeben
+  error_only_user_that_locked_file_can_unlock_it: Nur der Benutzer, der die Datei gesperrt hat, kann sie auch wieder freigeben
+
+  error_max_files_exceeded: "Grenze für %{number} gleichzeitig heruntergeladene Dateien überschritten"
+  error_entry_project_does_not_match_current_project: Eingangsprojekt entspricht nicht aktuellem Projekt
+
+  notice_folder_created: Ordner erstellt
+  error_folder_creation_failed: Ordnererstellung fehlgeschlagen
+  error_folder_title_must_be_entered: Es muss ein Titel angegeben werden
+  notice_folder_deleted: Ordner gelöscht
+  error_folder_title_is_already_used: Titel wird schon benutzt. Denken Sie sich etwas Neues aus.
+  notice_folder_details_were_saved: Ordnerdetails wurden gespeichert
+  error_folder_is_locked: Ordner ist gesperrt
+  error_file_is_locked: Datei ist gesperrt
+  notice_file_deleted: Datei gelöscht
+  error_at_least_one_revision_must_be_present: Es muss mindestens eine Version existieren
+  notice_revision_deleted: Version gelöscht
+  notice_revision_obsoleted: Revision veraltet
+  warning_one_of_files_locked: Eine der Dateien ist gesperrt
+  notice_file_revision_created: Dateiversion erstellt
+  notice_your_preferences_were_saved: Ihre Einstellungen wurden gespeichert
+  notice_your_preferences_were_not_saved: Ihre Einstellungen wurden nicht gespeichert
+  warning_folder_notifications_already_activated: Ordnerbenachrichtigungen sind schon aktiviert
+
+  notice_folder_notifications_activated: Ordnerbenachrichtigungen aktiviert
+  warning_folder_notifications_already_deactivated: Ordnerbenachrichtigungen sind schon deaktiviert
+
+  notice_folder_notifications_deactivated: Ordnerbenachrichtigungen deaktiviert
+  warning_file_notifications_already_activated: Dateibenachrichtigungen sind schon aktiviert
+
+  notice_file_notifications_activated: Dateibenachrichtigungen aktiviert
+  warning_file_notifications_already_deactivated: Dateibenachrichtigungen sind schon deaktiviert
+
+  notice_file_notifications_deactivated: Dateibenachrichtigungen deaktiviert
+  link_details: "%{title} Details"
+  link_edit: "Bearbeite %{title}"
+  link_create_folder: Ordner erstellen
+  link_title: Titel
+  link_size: Größe
+  link_modified: Geändert
+  link_ver: Version
+  link_author: Autor
+  title_check_for_zip_download_or_email: Wähle für ZIP-Download bzw. E-Mail
+  title_check_for_restore_or_delete: Wähle für Rückstellen oder Löschen
+
+  title_notifications_active_deactivate: "Benachrichtigungen sind aktiv: Ausschalten"
+  title_notifications_not_active_activate: "Benachrichtigungen sind nicht aktiv: Einschalten"
+  title_title_version_version_download: "%{title} Version %{version} Download"
+  title_locked_by_user: "Gesperrt von %{user}"
+  title_waiting_for_approval: Warte auf Zustimmung
+  title_approved: Zugestimmt
+  title_unlock_file: Hebe Sperre auf, um Änderungen anderer Nutzer zu ermöglichen
+  title_lock_file: Sperre, um Änderungen anderer Nutzer zu verhindern
+  title_download_checked: Download der ausgewählten Dateien in einem ZIP-Archiv
+  title_send_checked_by_email: Sende gewählte Dateien per E-Mail
+  link_user_preferences: DMS Einstellungen
+  heading_send_documents_by_email: Sende Dateien per E-Mail
+  label_email_from: Von
+  label_email_to: An
+  label_email_cc: CC
+  label_email_subject: Betreff
+  label_email_documents: Dateien
+  label_email_body: Text
+  label_email_send: Senden
+  title_notifications_active: Benachrichtigungen sind aktiv
+  label_upload: Upload
+  heading_new_folder: Neuer Ordner
+  label_title: Titel
+  label_description: Beschreibung
+  submit_save: Speichern
+  info_file_locked: Datei ist gesperrt!
+  label_notifications: Benachrichtigungen
+  select_option_default: Voreinstellung
+  select_option_deactivated: Aus
+  select_option_activated: Ein
+  label_title_format: Titelformat
+  text_title_format: "Format für den Titel eines Dokuments beim erstmaligen Speichern (%t - Titel, %f - Datei, %d - Datum, %v - Version, %i -
+    ID, %r - Revision). z.B.: %t_%v"
+  title_save_preferences: Einstellungen speichern
+  heading_revisions: Versionen
+  title_download: Herunterladen
+  title_delete_revision: Version löschen
+  title_obsolete_revision: Veraltete Revision
+  label_created: Erstellt
+  label_changed: Geändert
+  info_changed_by_user: "%{changed} von"
+  label_filename: Dateiname
+  label_mime: Mime
+  label_size: Größe
+  heading_new_revision: Neue Version
+  option_version_same: Gleiche Version
+  option_version_patch: Patchversion
+  option_version_minor: Unterversion
+  option_version_major: Hauptversion
+  label_new_content: Neuer Inhalt
+  note_maximum_number_of_files_uploaded: Beschränkt die maximale Anzahl der Dateien, die auf einmal hochgeladen werden
+    können. 0 bedeutet unbeschränkt.
+  label_maximum_files_download: Maximal zulässige Anzahl der Dateien, die heruntergeladen werden können.
+  note_maximum_number_of_files_downloaded: Beschränkt die maximale Anzahl, der Dateien, die auf einmal heruntergeladen
+    werden können. (per ZIP oder E-Mail). 0 bedeutet unbeschränkt.
+  label_file_storage_directory: Verzeichnis für die Dateiablage
+  label_index_database: Index Datenbank
+  label_stemming_language: Stemming-Sprache
+  note_possible_values: Mögliche Werte
+  note_pass_none_to_disable_stemming: "schreibe 'none', um die Normalformreduktion zu unterdrücken"
+  label_stem_strategy: Normalformreduktionsform
+  option_stem_none: NICHTS (Voreinstellung)
+  option_stem_some: MANCHES
+  option_stem_all: ALLES
+  text_stemming_info: "Dies kontrolliert wie der Parser den Stemming-Algorithmus anwendet. Der Standardwert ist 'NICHTS'. 
+    Die möglichen Werte sind: 'NICHTS' -  Kein Stemming anwenden, 'MANCHES' - Suche nach Stammformreduktionen von Begriffen
+    mit Ausnahme von Begriffen die mit Großbuchstaben starten oder die bestimmte Zeichen enthalten ('/@<>=*[{\"'),
+    oder bei welchen mathematische Operatoren vorkommen. Begriffe in der Stammformreduktion weisen ein führendes 'Z' auf,
+    'ALLES' - Suche nach allen Stammformreduktionen von sämtlichen Begriffen (Hinweis: es ist kein führendes 'Z' vorhanden)."
+  label_default_notifications: Standardmäßige Dateibenachrichtigungen
+  heading_uploaded_files: Hochgeladene Dateien
+  link_documents: Dateien
+  permission_view_dmsf_file_revision_accesses: Dokumentzugriffe in Aktivitäten anzeigen
+  permission_view_dmsf_file_revisions: Dokumentversion in Aktivitäten anzeigen
+  permission_view_dmsf_folders: Dateien und Ordner durchsuchen
+  permission_user_preferences: Benutzereinstellungen
+  permission_view_dmsf_files: Dateien anzeigen
+  permission_folder_manipulation: Ordner bearbeiten
+  permission_file_manipulation: Dateien bearbeiten
+  permission_force_file_unlock: Erzwinge Aufhebung der Dateisperre
+  permission_manage_workflows: Workflows verwalten
+  permission_file_delete: Datei löschen
+  permission_display_system_folders: Systemordner anzeigen
+  permission_file_approval: Dateien freigeben
+  permission_email_documents: E-Mailversand von Dokumenten
+  label_file: Datei
+  field_folder: Ordner
+  error_file_commit_require_uploaded_file: Das Hinzufügen erfordet eine hochgeladene Datei
+  warning_some_files_were_not_committed: "Einige Dateien wurden wegen Validierungsfehlern nicht hinzugefügt: %{files}"
+  error_user_has_not_right_delete_folder: Der Nutzer hat kein Recht den Ordner zu löschen.
+  error_user_has_not_right_delete_file: Der Nutzer hat kein Recht die Datei zu löschen.
+  notice_entries_deleted: Einträge löschen
+  warning_some_entries_were_not_deleted: "Einige Einträge wurden nicht gelöscht: %{entries}"
+  title_delete_checked: Löschen ausgewählt
+  title_items: Objekte
+  title_filename_for_download: Dateiname beim Herunterladen oder in ZIP-Archiv verwenden
+  label_number_of_folders: Ordner
+  label_number_of_documents: Dokumente
+  error_file_storage_directory_does_not_exist: Der Dateiablageordner existiert nicht auf dem Server und kann nicht
+    erstellt werden.
+  error_file_can_not_be_created: Datei kann nicht in dem gewählten Ordner erstellt werden.
+  error_wrong_zip_encoding: Falsche ZIP-Kodierung
+  warning_xapian_not_available: Xapian steht nicht zur Verfügung
+  menu_dmsf: DMS  # Project tab title
+  label_physical_file_delete: Datei physisch löschen
+  user_is_not_project_member: Sie sind kein Projektmitglied
+  heading_access_downloads_emails: Downloads oder E-Mailversand
+  heading_access_first: Erste
+  heading_access_last: Letzte
+  label_dmsf_updated: aktualisiert
+  label_dmsf_downloaded: gespeichert
+  title_total_size_of_all_files: Gesamtgröße aller Dateien in diesem Ordner
+  project_module_dmsf: DMS  # Project module name
+  warning_no_project_to_copy_file_to: Kein Projekt, in das die Datei kopiert werden kann.
+  comment_copied_from: "Kopiert aus %{source}"
+  field_target_project: Zielprojekt
+  field_target_folder: Zielordner
+  title_copy_or_move: Kopieren/Verschieben
+  label_dmsf_folder_plural: DMS Ordner   # Search options
+  comment_moved_from: "Verschoben aus %{source}"
+  error_target_folder_same: Zielordner und Projekt sind unverändert.
+  title_copy: Kopieren
+
+  error_max_email_filesize_exceeded: "Maximale Dateigröße der Anlage wurde überschritten. (%{number} MB)"
+
+  note_maximum_email_filesize: Maximale Dateigröße der Anhänge, die per E-Mail verschickt werden können. 0 bedeutet
+    keinen Limit. Angabe in MB.
+  label_maximum_email_filesize: Maximale Dateigröße der Anhänge
+  header_minimum_filesize: Dateifehler wegen minimaler Dateigröße.
+  error_minimum_filesize: "Die Datei %{file} ist 0 Bytes groß und wird deswegen nicht angehängt."
+  parent_directory: übergeordnetes Verzeichnis
+  note_webdav: "Nach der Aktivierung von WebDav kann der Dienst über die URL
+    %{protocol}://%{domain}/dmsf/webdav/[project identifier] erreicht werden."
+  label_copy_dmsf: "Kopieren von Dateien und Ordnern (%{files} Dateien in %{folders} Ordnern)"
+  label_copy_only_dmsf_folders: "Kopieren nur von Ordnern (%{folders})"
+
+  warning_folder_already_locked: Dieser Ordner ist bereits gesperrt
+  notice_folder_locked: Der Ordner wurde erfolgreich gesperrt
+  warning_folder_not_locked: Der Ordner konnte nicht gesperrt werden
+  notice_folder_unlocked: Der Ordner wurde erfolgreich entsperrt
+  error_only_user_that_locked_folder_can_unlock_it: Sie haben keine Berechtigung zur Entsperrung des Ordners
+
+  title_unlock_folder: Ordner zur Bearbeitung durch andere Benutzer entsperren
+  title_lock_folder: Ordner zum Schutz vor Bearbeitung durch andere Benutzer sperren
+
+  select_option_webdav_readonly: nur Lesen
+  select_option_webdav_readwrite: Lesen/Schreiben
+  label_webdav_strategy: Webdav Strategie
+
+  note_webdav_strategy: Erlaubt dem Administrator den Wechsel der WebDav Rolle für die Endbenutzer zwischen Nur-Lesen
+    oder Lesen-und-Schreiben.
+
+  error_unable_delete_dmsf_workflow: Konnte den Workflow nicht löschen
+  error_empty_note: Die Notiz darf nicht leer sein
+  error_workflow_assign: Es trat ein Fehler beim Zuweisen des Workflows auf
+  error_cannot_start_workflow: Workflow kann nicht gestartet werden
+  error_cannot_renumber_steps: Schritte können nicht umsortiert werden
+  label_dmsf_workflow_new: Neuer Genehmigungs-Workflow
+  field_label_dmsf_workflow: Genehmigungs-Workflow
+  field_label_dmsf_workflow_name: Genehmigungs-Workflow Name
+  label_dmsf_workflow_plural: Genehmigungs-Workflows
+  label_dmsf_workflow_plural_num: Kopieren Genehmigungs-Workflows (%{count})
+  label_dmsf_workflow_step: Schritt
+  label_dmsf_workflow_step_plural: Schritte
+  label_dmsf_workflow_approval_plural: Genehmigungen
+  label_dmsf_wokflow_action_approve: Genehmigen
+  label_dmsf_wokflow_action_reject: Ablehnen
+  label_dmsf_wokflow_action_delegate: Delegieren an
+  label_dmsf_wokflow_action_assign: Weisen Sie einen Genehmigungs-Workflow zu
+  label_dmsf_wokflow_action_start: Starte Genehmigungs-Workflow
+  label_dmsf_workflow_add_approver: "Fügen Sie einen neuen Genehmiger mit einer logischen Funktion hinzu:"
+  label_or: oder
+  label_action: Aktion
+  label_note: Notiz
+  title_none: Kein Workflow
+  title_rejection: Ablehnung
+  title_delegation: Delegierung
+  title_assignment: Workflow zuordnen
+  title_start: Workflow starten
+  title_dmsf_workflow_log: Genehmigungs-Workflow Verlauf
+  title_assigned: Zugewiesen
+  title_approval: Dokument genehmigen
+  title_rejected: Abgelehnt
+  title_obsolete: Veraltet
+  dmsf_and: UND
+  dmsf_or: ODER
+  dmsf_new_step: Neuer Schritt
+  dmsf_new_step_or_approver: Neuer Schritt oder Neuer Genehmiger
+  message_dmsf_wokflow_note: Ihre Notiz...
+  info_revision: "r %{rev}"
+  link_workflow: Workflow
+  notice_workflow_started: Genehmigungs-Workflow gestartet
+  text_email_subject_approved: genehmigt
+  text_email_subject_rejected: abgelehnt
+  text_email_subject_delegated: delegiert
+  text_email_subject_requires_approval: benötigt Ihre Genehmigung
+  text_email_subject_updated: bearbeitet
+  text_email_subject_started: gestartet
+  text_email_finished_approved: "Der Genehmigungs-Workflow '%{name}' zugewiesen an die Datei '%{filename}' ist
+    abgeschlossen und die Datei wurde genehmigt."
+  text_email_finished_rejected: "Der Genehmigungs-Workflow '%{name}' zugewiesen an die Datei '%{filename}' ist
+    abgeschlossen, aber die Datei wurde abgelehnt, weil: '%{notice}'."
+  text_email_finished_delegated: "Der Genehmigungs-Workflow '%{name}' zugewiesen an die Datei '%{filename}' wurde an
+    Sie delegiert, weil: '%{notice}' und weil Ihre Zustimmung im aktuellen Genehmigungsschritt benötigt wird."
+  text_email_finished_step: "Der Genehmigungs-Workflow '%{name}' zugewiesen an die Datei '%{filename}' hat gerade einen
+    Zustimmungsschritt abgeschlossen und im nächsten Genehmigungsschritt wird Ihre Zustimmung benötigt."
+  text_email_finished_step_short: "Der Genehmigungs-Workflow '%{name}' zugewiesen an die Datei '%{filename}' hat gerade
+    einen Genehmigungsschritt abgeschlossen."
+  text_email_started: "Der Genehmigungs-Workflow '%{name}' zugewiesen an '%{filename}' wurde gestartet und im aktuellen
+    Genehmigungsschritt wird Ihre Zustimmung benötigt."
+  text_email_to_proceed: Um fortzufahren klicken Sie auf das Häckchen neben der Datei in
+  text_email_to_see_history: Um den Verlauf des Genehmigungs-Workflows zu sehen klicken Sie auf den Workflowstatus zur Datei
+    in
+  text_email_to_see_status: Um den aktuellen Status des Genehmigungs-Workflows zu sehen klicken Sie auf den Workflowstatus
+    zur Datei in
+
+  title_create_link: Verknüpfung anlegen
+  label_link_from: Verknüpfung anlegen
+  label_link_to: Verknüpfung anlegen
+  label_notifications_on: Benachrichtigungen ein
+  label_notifications_off: Benachrichtigungen aus
+  field_target_file: Quelldatei
+  title_download_entries: Downloads anzeigen
+  label_external: Extern
+  label_internal: Internal
+
+  label_link_name: Name der Verknüpfung
+  field_external_url: URL
+  label_target_folder: Zielordner
+  label_source_folder: Quellordner
+  label_target_project: Zielprojekt
+  label_source_project: Quellprojekt
+
+  text_email_doc_updated_subject: Dokumente wurden aktualisiert
+  text_email_doc_updated: hat folgende Dokumente bearbeitet
+  text_email_doc_follows: wie folgt
+  text_email_doc_deleted_subject: Dokumente wurden gelöscht
+  text_email_doc_deleted: hat folgende Dokumente gelöscht
+  label_links_only: nur Verknüpfungen
+
+  label_display_notified_recipients: Zeige benachrichtigte Empfänger
+  note_display_notified_recipients: Der Benutzer wird darüber informiert, wer die Empfänger der E-Mail-Benachrichtigungen sind.
+  warning_email_notifications: "E-Mailbenachrichtigung wurde gesendet an %{to}"
+
+  link_trash_bin: Papierkorb
+  title_restore: Wiederherstellen
+  notice_dmsf_file_restored: Das Dokument konnte erfolgreich wiederhergestellt werden.
+  notice_dmsf_folder_restored: Der Ordner konnte erfolgreich wiederhergestellt werden.
+  notice_dmsf_link_restored: Der Link konnte erfolgreich wiederhergestellt werden.
+  title_restore_checked: Wiederherstellung geprüft
+  error_parent_folder: "Der übergeordnete Ordner existiert nicht"
+
+  error_resource_or_parent_locked: Sperrung nicht möglich - die Ressource ist bereits gesperrt
+  error_parent_locked: Sperrung nicht möglich - die übergeordnete Ressource ist bereits gesperrt
+  error_resource_locked: Sperrung nicht möglich - die Ressource ist bereits gesperrt
+  error_lock_exclusively: Exklusive Sperrung nicht möglich - die Ressource ist bereits gesperrt
+  error_unlock_parent_locked: Entsperrung fehlgeschlagen - übergeordnete Ressource ist gesperrt
+
+  label_dmsf_version: Version
+
+  locked_documents: Gesperrte Dateien
+  open_approvals: Offene Genehmigungs-Workflows
+  watched_documents: Beobachtene Dokumente
+
+  error_maximum_upload_filecount: "Es können nicht mehr als %{filecount} Datei(en) hochgeladen werden."
+
+  label_public_urls: Öffentliche URLs gültig bis
+
+  label_webdav: WebDAV
+  label_full_text: Volltext-Suche
+  link_extension: Ext
+
+  label_webdav_ignore: Zu ignorierende Dateien
+  note_webdav_ignore: Regulärer Ausdruck (regular expression) mit Dateinamen, die bei PUT-Requests ignoriert werden.
+
+  label_document_url: Url
+  label_last_revision_id: Revision
+    
+  label_webdav_disable_versioning: Keine Versionen erstellen bei
+  note_webdav_disable_versioning: Regulärer Ausdruck (regular expression) bei denen die Datei-Versionierung ausgeschaltet wird. Die Standardeinstellung
+    berücksichtigt temporäre Dateien von MS Office.
+
+  label_dmsf_keep_documents_locked: Dokumente gesperrt halten
+  note_dmsf_keep_documents_locked: Dokumente werden nach der Genehmigung gesperrt gelassen
+  note_global: (global)
+  field_dmsf_not_inheritable: Nicht vererbbar
+  
+  label_webdav_use_project_names: Projektname für den Projektordner verwenden
+  note_webdav_use_project_names: Anstelle der Projektkennung wird der Projektname als Projektordner im Dateisystem verwendet.
+
+  label_last_approver: Letzter Genehmiger
+
+  label_act_as_attachable: DMS Anhänge
+  note_dmsf_act_as_attachable: Erlaubt das Hinzufügen von Dokumenten zu anderen Objekten (z.B. Tickets)
+
+  label_user_search_add: Benutzer suchen
+
+  label_dmsf_attachments: DMS Anhänge
+  label_basic_attachments: Dateianhänge
+
+  label_email_from_override: Von
+  text_email_from_override: Der angemeldete Benutzer
+  label_email_reply_to: Antwort an
+
+  label_enable_cjk_ngrams: Aktiviere die Erstellung von n-grams aus Koreanischen Texten
+  text_enable_cjk_ngrams: "Mit dieser Aktivierung werden Koreanische Zeichenfolgen in Monograms and Bigrams zerlegt.
+    Monograms enthalten Informationen zur Position. Nicht-Koreanische Zeichenfolgen werden in Wörter zerlegt. Die entsprechende
+    Option muss beim Indexieren verwendet werden,
+    z.B. XAPIAN_CJK_NGRAM=true ruby plugins/redmine_dmsf/extra/xapian_indexer.rb -fv"
+
+  label_dmsf_fast_links: Schnelle Verknüpfung
+  text_dmsf_fast_links_info: Ermöglicht durch Eingabe der Ordner-ID auf einfache Art und Weise eine Verknüpfung 
+    auf den Zielordner zu erstellen.
+
+  label_dmsf_permissions: Zugriff ausschließlich erlaubt für
+  label_inherited_permissions: Zugriff vererbt für
+
+  button_edit_content: Dokument bearbeiten
+  field_workflow: Workflow
+  field_modified: Datum
+  field_updated: Datum
+  field_count: Anzahl Downloads
+  field_first_at: Erste
+  field_last_at: Letzte
+  field_size: Größe
+  field_locked: Gesperrt
+
+  label_add_width: Zugeben mit
+
+  dmsf_webdav_ignore_1b_file_for_authentication: Ignoriere 1b Datei für Authorisierung
+  dmsf_webdav_ignore_1b_file_for_authentication_info: Total Commander WebDAV plugin
+
+  text_not_empty: Der Ordner ist nicht leer.
+  label_scroll_down: Runterscrollen
+  note_webdav_disabled: WebDAV ist deaktiviert. Administrator kontaktieren.
+
+  dmsf_copy: "Kopie (%{n})"
+  label_empty_trash_bin: Papierkorb leeren
+  label_dmsf_projects_as_subfolders: Unterprojekte als Unterordner
+  note_dmsf_projects_as_subfolders: Unterprojekte als Unterordner in die DMS View hinzufügen
+  only_approval_zero_minor_version: Genehmigungen nur für Unterversion Null
+  title_assignment_minor: Zuordnung nicht gestattet, Unterversion muss Null lauten
+  title_start_minor: Start nicht erlaubt, Unterversion muss Null lauten
+  title_approval_minor: Genehmigung nicht erlaubt, Unterversion muss Null lauten
+
+  label_project_watchers: Beobachter
+  label_dmsf_folder_watchers: Beobachter
+  label_dmsf_file_watchers: Beobachter
+  label_dmsf_watched: Beobachtete Dokumente
+  label_dmsf_legacy_notifications: DMS Dokument oder Verzeichnis aktualisiert
+  permission_view_dmsf_folder_watchers: Liste der Beobachter von Verzeichnissen ansehen
+  permission_add_dmsf_folder_watchers: Beobachter von Verzeichnissen hinzufügen
+  permission_delete_dmsf_folder_watchers: Beobachter von Verzeichnissen löschen
+  permission_view_dmsf_file_watchers: Liste der Beobachter eines Dokuments ansehen
+  permission_add_dmsf_file_watchers: Beobachter von Dokumenten hinzufügen
+  permission_delete_dmsf_file_watchers: Beobachter von Dokumenten löschen
+  permission_view_project_watchers: Liste der Beobachter vom DMS ansehen
+  permission_add_project_watchers: Beobachter vom DMS hinzufügen
+  permission_delete_project_watchers: Beobachter vom DMS löschen
+  label_dmsf_new_top_level_document: Neues DMS-Dokument auf oberster Ebene hinzufügen
+  label_dmsf_new_top_level_folder: Neues DMS-Verzeichnis auf oberster Ebene hinzufügen
+
+  label_dmsf_max_notification_receivers_info: Maximale Anzahl von E-Mail-Empfängern
+  note_dmsf_max_notification_receivers_info: Begrenzt die Anzahl der angezeigten Empfänger von E-Mail-Benachrichtigungen.
+  label_dmsf_office_bin: LibreOffice Binärdatei
+  note_dmsf_office_bin: "Eine Binärdatei zum Umwandeln von Office-Dokumenten in ein PDF, um so eine Vorschau anzeigen zu können. 
+    Wenn Sie keine Vorschau anzeigen lassen möchten, geben Sie einen leeren String ein: ''. Der Server muss neu 
+    gestartet werden, damit die Änderung wirksam wird."
+  note_dmsf_office_bin_not_available: "LibreOffice's Binärdatei für die Kommandozeile '%{value}' ist nicht verfügbar."
+
+  label_dmsf_columns: DMS Spalten
+  label_column_id: ID
+  label_column_title: Titel
+  label_column_size: Größe
+  label_column_modified: Geändert
+  label_column_version: Version
+  label_column_workflow: Workflow
+  label_column_author: Autor
+  label_column_description: Beschreibung
+  label_column_comment: Kommentar
+
+  label_dmsf_global_menu_disabled: Globales DMS Menü deaktiviert
+  note_dmsf_global_menu_disabled: Falls ja, wird das DMS Menüelement im Top Menü nicht erscheinen.
+  error_dmsf_workflow_assigned: Der verwendete Genehmigungs-Workflow kann weder bearbeitet noch gelöscht werden.
+
+  label_empty_minor_version_by_default: Leere Unterversion als Standard
+  text_email_doc_downloaded_subject: Dokumenten wurden herunterladen
+  text_email_doc_downloaded: hat folgende Dokumente herunterladen
+  field_default_dmsf_query: Standard-DMS-Abfrage
+  field_receive_download_notification: Benachrichtigung über heruntergeladene Dokumente
+
+  label_remove_original_documents_module: Original Projektmodule Dokumente entfernen
+
+  text_fulltext_search: 'Full-text Suche in Dokumente fordert die Existenz %{cmd1} and %{cmd2} auf dem Server.'
+
+  notice_entries_copied: Kopieren ist gelungen
+  notice_entries_moved: Verschieben ist gelungen
+  label_dmsf_file_revision: DMS Dokument Rev.
+  error_not_supported_image_format: Nicht unterstütztes Bildformat
+  error_not_supported_video_format: Nicht unterstütztes Videoformat
+
+  label_webdav_authentication: WebDAV Authentifizierung
+  note_webdav_authentication: Die Basis-Authentifizierungsmethode gilt als unsicher und wird daher von einigen Clients blockiert
+    Die Digest-Authentifizierung basiert auf einem automatisch generierten Digest. Die Benutzer verwenden ihre Anmeldung und ihr Kennwort zur
+    Authentifizierung auch in ihren WebDAV-Clients.
+  label_dmsf_webdav_digest_created_on: "DMS WebDAV Digest vor %{value} erstellt"
+  label_missing_dmsf_webdav_digest: DMS WebDAV Digest fehlt
+  label_dmsf_webdav_digest: DMS WebDAV Digest
+  text_dmsf_webdav_digest_reset: Bitte geben Sie Ihr Passwort ein, um einen neuen DMS WebDAV Digest zu generieren.
+  notice_webdav_digest_reset: Ihr DMS WebDAV Digest wurde zurückgesetzt.
+
+  label_dmsf_commit: Commit
+  label_dmsf_upload_commit: Hochladen und Commit
+
+  easy_pages:
+    modules:
+      dmsf_locked_documents: Von mir gesperrte Dokumente
+      dmsf_open_approvals: Offene Genehmigungen
+      dmsf_watched_documents: Meine beobachteten Dokumente
+    module_category:
+      easy_dms: Easy DMS
+
+  activerecord:
+    errors:
+      messages:
+        error_contains_invalid_character: enthält ungültige Zeichen

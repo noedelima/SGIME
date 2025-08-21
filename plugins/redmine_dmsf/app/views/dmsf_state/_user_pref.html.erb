@@ -1,0 +1,76 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Vít Jonáš <vit.jonas@gmail.com>, Daniel Munn <dan.munn@munnster.co.uk>, Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% member = Member.find_by(project_id: @project.id, user_id: User.current.id) %>
+<%= form_tag(dmsf_user_pref_save_path(@project)) do %>
+  <% if member %>
+    <fieldset class="box tabular">
+      <legend><%= l(:link_user_preferences) %></legend>
+      <% if Setting.notified_events.include?('dmsf_legacy_notifications') %>
+        <p>
+          <%= content_tag :label, l(:label_notifications) %>
+          <%= select_tag 'email_notify',
+            options_for_select([[l(:select_option_default), nil],
+              [l(:select_option_activated), true], [l(:select_option_deactivated), false]],
+              selected: member.dmsf_mail_notification) %>
+        </p>
+      <% end %>
+      <p>
+        <%= content_tag :label, l(:label_title_format) %>
+        <%= text_field_tag 'title_format', member.dmsf_title_format, size: 10 %>
+        <em class="info"><%= l(:text_title_format) %></em>
+      </p>
+      <p>
+        <%= content_tag :label, l(:label_dmsf_fast_links) %>
+        <%= check_box_tag 'fast_links', 1, member.dmsf_fast_links %>
+        <em class="info">
+          <%= l(:text_dmsf_fast_links_info) %>
+        </em>
+      </p>
+    </fieldset>
+  <% end %>
+
+  <fieldset class="box tabular">
+    <legend><%= l(:field_project) %> <%= l(:label_preferences) %></legend>
+    <% if RedmineDmsf.dmsf_act_as_attachable? %>
+      <p>
+        <%= content_tag(:label, "#{l(:label_act_as_attachable)}:") %>
+        <%= select_tag 'act_as_attachable',
+                options_for_select([
+                    [l(:label_attachment_plural) + ' & ' + l(:menu_dmsf), Project::ATTACHABLE_DMS_AND_ATTACHMENTS],
+                    [l(:label_attachment_plural), Project::ATTACHABLE_ATTACHMENTS],
+                ], selected: @project.dmsf_act_as_attachable) %>
+      </p>
+    <% end %>
+    <p>
+      <%= content_tag(:label, "#{l(:label_default_query)}:") %>
+      <% options = [[l(:label_none), nil]] %>
+      <% options.concat DmsfQuery.only_public.where(project_id: nil).pluck(:name, :id) %>
+      <%= select_tag 'default_dmsf_query',
+                     options_for_select(options, selected: @project.default_dmsf_query_id) %>
+      <em class="info"><%= l('text_allowed_queries_to_select') %></em>
+    </p>
+  </fieldset>
+
+  <div class="form-actions">
+    <%= submit_tag l(:submit_save), title: l(:title_save_preferences), class: 'button-positive' %>
+  </div>
+
+<% end %>

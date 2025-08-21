@@ -1,0 +1,145 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Vít Jonáš <vit.jonas@gmail.com>, Daniel Munn <dan.munn@munnster.co.uk>, Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% html_title l(:dmsf) %>
+
+<div class="contextual">
+  <% if !@folder.new_record? && User.current.allowed_to?(:folder_manipulation, @project) && !@folder.system %>
+    <% if @folder.locked? %>
+      <%= link_to_if @folder.unlockable? && (!@folder.locked_for_user? || @force_file_unlock_allowed),
+                     sprite_icon('unlock', l(:button_unlock)),
+                     unlock_dmsf_path(id: @project, folder_id: @folder,
+                                      back_url: edit_dmsf_url(id: @project, folder_id: @folder)),
+      title: l(:title_unlock_file), class: 'icon icon-unlock' %>
+    <% else %>
+      <%= link_to sprite_icon('lock', l(:button_lock)),
+                  lock_dmsf_path(id: @project, folder_id: @folder,
+                                 back_url: edit_dmsf_url(id: @project, folder_id: @folder)),
+        title: l(:title_lock_file), class: 'icon icon-lock' %>
+    <% end %>
+    <% if defined?(EasyExtensions) %>
+      <%= render partial: 'dmsf_context_menus/folder',
+                 locals: { dmsf_folder: @folder,
+                           locked: @folder.locked?,
+                           allowed: true,
+                           dmsf_link: nil,
+                           project: @project,
+                           folder: @folder.dmsf_folder,
+                           edit: true,
+                           unlockable: @folder.unlockable? && (!@folder.locked_for_user? || User.current.allowed_to?(:force_file_unlock, @project)),
+                           email_allowed: User.current.allowed_to?(:email_documents, @project),
+                           notifications: @notifications,
+                           back_url: edit_dmsf_url(id: @project, folder_id: @folder)
+                 } %>
+    <% else %>
+      <%= actions_dropdown do %>
+        <%= render partial: 'dmsf_context_menus/folder',
+                   locals: { dmsf_folder: @folder,
+                             locked: @folder.locked?,
+                             allowed: true,
+                             dmsf_link: nil,
+                             project: @project,
+                             folder: @folder.dmsf_folder,
+                             edit: true,
+                             unlockable: @folder.unlockable? && (!@folder.locked_for_user? || User.current.allowed_to?(:force_file_unlock, @project)),
+                             email_allowed: User.current.allowed_to?(:email_documents, @project),
+                             notifications: @notifications,
+                             back_url: edit_dmsf_url(id: @project, folder_id: @folder)
+                   } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<% create = @pathfolder == @parent %>
+<%= render partial: 'path',
+           locals: { folder: @pathfolder, filename: create ? l(:heading_new_folder) : nil, title: nil } %>
+
+<%= labelled_form_for(@folder,
+                      url: { action: create ? 'create' : 'save', id: @project, folder_id: @folder, parent_id: @parent },
+                      html: { method: :post }) do |f| %>
+  <%= error_messages_for @folder %>
+  <%= f.hidden_field :redirect_to_folder_id, value: @redirect_to_folder_id %>
+  <div class="box tabular">    
+    <p>                
+      <%= f.text_field :title, required: true %>
+    </p>
+    <p>
+      <%= f.text_area :description, rows: 8, class: 'wiki-edit dmsf-description' %>
+    </p>
+    <p>
+      <% dir = @folder.inherited_permissions_from %>
+      <% if dir %>
+        <%= label_tag '', l(:label_inherited_permissions) %>
+        <% @project_roles.each do |role| %>
+          <% checked = dir.permission_for_role(role) %>
+          <% if checked %>
+            <label class="inline">
+              <%= check_box_tag 'inherited_permissions[role_ids][]', role.id, checked, disabled: 'disabled', id: nil %>
+              <%= role %>
+            </label>
+          <% end %>
+        <% end %>
+        <span id="inherited_user_permissions">
+          <br>
+          <% users = dir.permissions_users %>
+          <% checkboxes = users_checkboxes(users, inherited: true) %>
+          <%= checkboxes %>
+        </span>
+        <% if checkboxes.present? %>
+          <br>
+        <% end %>
+      <% end %>
+      <%= label_tag '', l(:label_dmsf_permissions) %>
+      <% @project_roles.each do |role| %>
+        <% checked = @folder.permission_for_role(role) %>
+        <label class="inline">
+          <%= check_box_tag 'permissions[role_ids][]', role.id, checked, id: nil %>
+          <%= role %>
+        </label>
+      <% end %>
+      <span id="user_permissions">
+        <br>
+        <% users = @folder.permissions_users %>
+        <% checkboxes = users_checkboxes(users) %>
+        <%= checkboxes %>
+      </span>
+        <% if checkboxes.present? %>
+        <br>
+      <% end %>
+      <span class="search_for_watchers">
+        <%= link_to sprite_icon('add', l(:label_search_for_watchers), size: 12),
+          new_dmsf_folder_permissions_path(project_id: @project, dmsf_folder_id: @folder),
+          remote: true,
+          method: :get %>
+      </span>
+    </p>
+    <% values = @folder ? @folder.custom_field_values : (@parent ? @parent.custom_field_values : DmsfFolder.new.custom_field_values) %>
+    <% values.each do |value| %>
+      <p><%= custom_field_tag_with_label :dmsf_folder, value %></p>
+    <% end %>    
+  </div>
+  <div class="form-actions">
+    <%= submit_tag create ? l(:button_create) : l(:submit_save), class: 'button-positive',
+                   data: { cy: "button__submit--dmsf_folder" } %>
+  </div>
+<% end %>
+
+<%= wikitoolbar_for 'dmsf_folder_description' %>

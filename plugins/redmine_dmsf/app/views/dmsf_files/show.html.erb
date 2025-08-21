@@ -1,0 +1,196 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Vít Jonáš <vit.jonas@gmail.com>, Daniel Munn <dan.munn@munnster.co.uk>, Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% html_title l(:dmsf) %>
+
+<div class="contextual">
+  <% if @file_manipulation_allowed %>
+    <% if @file.locked_for_user? %>
+      <% if User.current.allowed_to?(:force_file_unlock, @project) %>
+        <%= link_to_if @file.unlockable?, sprite_icon('unlock', l(:button_unlock)),
+                       unlock_dmsf_files_path(id:  @file, back_url: dmsf_file_path(id: @file)),
+                       title: l(:title_unlock_file), class: 'icon icon-unlock' %>
+      <% end %>
+    <% else %>
+      <% if @file.locked? %>
+        <%= link_to_if @file.unlockable?, sprite_icon('unlock', l(:button_unlock)),
+                       unlock_dmsf_files_path(id: @file, back_url: dmsf_file_path(id: @file)),
+                       title: l(:title_unlock_file), class: 'icon icon-unlock' %>
+      <% else %>
+        <%= link_to sprite_icon('lock', l(:button_lock)),
+                    lock_dmsf_files_path(id: @file, back_url: dmsf_file_path(id: @file)),
+                    title: l(:title_lock_file), class: 'icon icon-lock' %>
+      <% end %>
+      <% if defined?(EasyExtensions) %>
+        <%= render partial: 'dmsf_context_menus/revisions',
+                   locals: { project: @project, file: @file, file_delete_allowed: @file_delete_allowed,
+                             notifications: @notifications, back_url: dmsf_file_path(id: @file)} %>
+      <% else %>
+        <%= actions_dropdown do %>
+          <%= render partial: 'dmsf_context_menus/revisions',
+                     locals: { project: @project, file: @file, file_delete_allowed: @file_delete_allowed,
+                               notifications: @notifications, back_url: dmsf_file_path(id: @file) } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<%= render partial: '/dmsf/path', locals: { folder: @file.dmsf_folder, filename: @file.title, title: nil } %>
+
+<% if @file_manipulation_allowed && !@file.locked_for_user? %>
+  <%= error_messages_for 'file' %>
+  <%= error_messages_for 'revision' %>
+  <%= render partial: 'file_new_revision' %>
+<% end %>
+
+<div class="dmsf-id-box">
+  <strong><%= label_tag '', l(:label_document) %></strong>
+  #<%= @file.id %>
+</div>
+
+<h3><%= l(:heading_revisions) %></h3>
+<% @file.dmsf_file_revisions.visible[@revision_pages.offset, @revision_pages.per_page].each do |revision| %>
+  <div class="dmsf-revision-box">
+    <div class="dmsf-widget-header fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix">
+      <div class="dmsf-controls contextual">
+        <% if defined?(EasyExtensions) %>
+          <%= render partial: 'dmsf_context_menus/revision_actions',
+                     locals: { project: @project, file: @file, file_delete_allowed: @file_delete_allowed,
+                               file_manipulation_allowed: @file_manipulation_allowed, revision: revision } %>
+        <% else %>
+          <%= actions_dropdown do %>
+            <%= render partial: 'dmsf_context_menus/revision_actions',
+                       locals: { project: @project, file: @file, file_delete_allowed: @file_delete_allowed,
+                                 file_manipulation_allowed: @file_manipulation_allowed, revision: revision } %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="dmsf-widget-header-text">
+        <i><%= l(:info_revision, rev: revision.id) %></i>
+        <%= (revision.source_revision.nil? ? l(:label_created) : l(:label_changed)).downcase %>
+        <%= l(:info_changed_by_user, changed: format_time(revision.updated_at)) %>
+        <%= link_to(revision.user.name, user_path(revision.user)) if revision.user %>
+      </div>
+    </div>
+    <div class="attributes dmsf-revision-inner-box">
+      <div class="splitcontent">
+        <div class="splitcontentleft">
+            <div class="status attribute">
+              <%= content_tag :div, l(:label_title), class: 'label' %>
+              <%= content_tag :div, h(revision.title), class: 'value' %>
+            </div>
+          <% if revision.description.present? %>
+            <div class="status attribute">
+              <%= content_tag :div, l(:label_description), class: 'label' %>
+              <% text = clean_wiki_text(textilizable(revision.description)) %>
+              <%= content_tag :div, text.html_safe, class: 'value wiki' %>
+            </div>
+          <% end %>
+          <div class="status attribute">
+            <%= content_tag :div, l(:label_dmsf_version), class: 'label' %>
+            <%= content_tag :div, "#{revision.version}", class: 'value' %>
+          </div>
+          <div class="status attribute">
+            <%= content_tag :div, l(:label_size), class: 'label' %>
+            <%= content_tag :div, number_to_human_size(revision.size), class: 'value' %>
+          </div>
+          <% wf = DmsfWorkflow.find_by(id: revision.dmsf_workflow_id) %>
+          <% if wf %>
+            <div class="status attribute">
+              <%= content_tag :div, l(:label_workflow), class: 'label' %>
+              <div class="value">
+                <%= "#{wf.name} - " %>
+                <%= link_to(revision.workflow_str(false),
+                  log_dmsf_workflow_path(project_id: @project.id,
+                    id: wf.id, dmsf_file_revision_id: revision.id),
+                    title: revision.workflow_tooltip,
+                    remote: true) %>
+              </div>
+            </div>
+          <% end %>
+          <% if revision.comment.present? %>
+            <div class="status attribute">
+              <%= content_tag :div, l(:label_comment), class: 'label' %>
+              <% text = clean_wiki_text(textilizable(revision.comment)) %>
+              <%= content_tag :div, text.html_safe, class: 'value wiki' %>
+            </div>
+          <% end %>
+        </div>
+        <div class="splitcontentright">
+          <div class="status attribute">
+            <%= content_tag :div, l(:label_file), class: 'label' %>
+            <div class="value">
+              <% path = "#{revision.dmsf_file.dmsf_folder.dmsf_path_str}/" if revision.dmsf_file.dmsf_folder %>
+              <%= h("#{path}#{revision.name}") %>
+            </div>
+          </div>
+          <div class="status attribute">
+            <%= content_tag :div, l(:label_mime), class: 'label' %>
+            <%= content_tag :div, revision.mime_type, class: 'value' %>
+          </div>
+          <% if revision.digest.present? %>
+            <div class="status attribute">
+              <%= content_tag :div, l(:field_digest), class: 'label' %>
+              <%= content_tag :div, "#{revision.digest_type}: #{revision.digest}", class: 'value wiki' %>
+            </div>
+          <% end %>
+          <%= render 'dmsf/custom_fields', object: revision %>
+        </div>
+      </div>
+      <div id="<%= "revision_access_#{revision.id}" %>">
+        <% if @file_manipulation_allowed %>
+          <% revision_access_query = DmsfFileRevisionAccessQuery.new %>
+          <% revision_access_query.revision_id = revision.id  %>
+          <%= render partial: 'revision_access', locals: { revision: revision, query: revision_access_query } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <br>
+<% end %>
+<span class="pagination"><%= pagination_links_full @revision_pages, @revision_count %></span>
+
+<% if @file.watchers.present? && User.current.allowed_to?(:view_dmsf_file_watchers, @project) %>
+  <% content_for :sidebar do %>
+    <div id="watchers">
+      <%= render partial: 'watchers/watchers', locals: { watched: @file } %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= late_javascript_tag do %>
+  $('a.delete-revision').click(function(event) {
+    if(!window.confirm('<%= l(:text_are_you_sure) %>')) {
+      event.preventDefault();
+    }
+  });
+  $('a.delete-entry').click(function(event) {
+    if(!window.confirm('<%= l(:text_are_you_sure) %>')) {
+      event.preventDefault();
+    }
+  });
+  $('#new_revision_form_content_toggle').click(function() {
+    let newRevisionForm = $('#new_revision_form_content');
+    let operator = newRevisionForm.is(':visible') ? '+' : '-';
+    $(this).text('[' + operator + ']');
+    newRevisionForm.toggle();
+  });
+<% end %>

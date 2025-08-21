@@ -1,0 +1,51 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% query_options = nil unless defined?(query_options) %>
+<% query_options ||= {} %>
+
+<%= form_tag({}, data: { cm_url: query.deleted ? dmsf_trash_context_menu_path : dmsf_context_menu_path(folder_id: folder) }) do %>
+  <%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
+  <%= query_columns_hidden_tags(query) %>
+  <div class="autoscroll">
+    <table class="list dmsf odd-even <%= query.css_classes %> context-menu-container" data-hascontextmenu="true">
+      <thead>
+      <tr>
+        <% if defined?(EasyExtensions) %>
+          <%# Easy checkbox %>
+          <%= content_tag :th, link_to_function('', 'EASY.contextMenu.toggleIssuesSelection($(this))',
+               title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}", class: 'icon icon-checked') %>
+        <% else %>
+          <th class="checkbox hide-when-print">
+            <%= check_box_tag 'check_all', '', false, class: 'toggle-selection', title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+          </th>
+        <% end %>
+        <% query.inline_columns.each do |column| %>
+          <%= column_header(query, column, query_options) %>
+        <% end %>
+        <th class="buttons"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <%= render partial: 'query_rows', locals: { query: query, dmsf_pages: dmsf_pages } %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

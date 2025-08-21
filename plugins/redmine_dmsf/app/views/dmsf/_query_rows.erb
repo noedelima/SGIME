@@ -1,0 +1,114 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% options = {} %>
+<% if dmsf_pages %>
+  <% options[:offset] = dmsf_pages.offset %>
+  <% options[:limit] = dmsf_pages.per_page %>
+<% end %>
+<% query.dmsf_nodes(options).each do |node| %>
+  <% case node.type %>
+  <% when 'project'%>
+    <% id = "#{node.id}pspan" %>
+  <% when 'folder' %>
+    <% id = "#{node.id}fspan" %>
+  <% else %>
+    <% id = "#{node.id}item" %>
+  <% end %>
+  <% @idnt ||= 0 %>
+  <tr id="<%= id %>" data-cy="row__<%= node.title %>--<%= node.type %>_<%= node.id %>"
+      class="<%= cycle('odd', 'even') %>
+    <%= node.css_classes(query.deleted) %> <%= params[:classes] %> <%= @idnt > 0 ? "idnt idnt-#{@idnt}" : nil %>">
+    <td class="checkbox hide-when-print">
+      <%= check_box_tag('ids[]', "#{node.type}-#{node.id}", false, id: nil) unless node.system %>
+    </td>
+    <% query.inline_columns.each do |column| %>
+      <%= content_tag 'td', column_content(column, node), class: column.css_classes %>
+    <% end %>
+    <td class="buttons">
+      <% unless node.system %>
+        <% if defined?(EasyExtensions) %>
+          <%= link_to '', '#', title: l(:button_actions),
+                      class: 'icon-only icon-actions js-contextmenu icon-more-horiz',
+                      data: { cy: "icon__more_horiz--#{node.type}_#{node.id}" } %>
+        <% else %>
+          <%= link_to_context_menu %>
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+
+<% unless query.deleted || query&.project.nil? %>
+  <%= late_javascript_tag do %>
+    $(function() {
+      $("table.dmsf tr").removeClass("ui-draggable-dragging ui-droppable-active ui-droppable-hover ui-draggable-handle");
+      $(".dmsf-draggable").draggable({
+        helper: function(event, ui) {
+          var ret = $(this).clone();
+          var width = $(this)[0].offsetWidth;
+          var myHelper = [];
+          myHelper.push('<table style="width: ' + width + 'px; background-color: #ffffdd;">');
+          myHelper.push(ret.html());
+          myHelper.push('</table>');
+          helper = myHelper.join('');
+          return helper;
+        },
+        axis: "y",
+        revert: "invalid"
+      });
+      $(".dmsf-droppable" ).droppable({
+        drop: function(event, ui) {
+          let handle = $(this);
+          let dragObjectId = ui.draggable.find("td").find("input").val()
+          let dropObjectId = handle.attr('id');
+          let data = {};
+          handle.addClass("ui-state-highlight ajax-loading")
+          data['dmsf_folder'] = { drag_id: dragObjectId, drop_id: dropObjectId};
+          $.ajax({
+            url: '<%= dmsf_folder_url(query.project) %>',
+            type: 'put',
+            dataType: 'script',
+            data: data,
+            error: function(jqXHR, textStatus, errorThrown){
+              alert(errorThrown);
+              ui.draggable.animate(ui.draggable.data("ui-draggable").originalPosition, "slow");
+            },
+            complete: function(jqXHR, textStatus, errorThrown){
+              handle.removeClass("ui-state-highlight ajax-loading")
+              if(textStatus == 'success'){
+                if(!handle.hasClass('dmsf-not-loaded')){
+                  var m = handle.attr("id").match(/^(\d+)span$/);
+                  if(m){
+                    $('.' + m[1]).remove();
+                    handle.removeClass("dmsf-expanded");
+                    handle.addClass("dmsf-collapsed dmsf-not-loaded");
+                  }
+                  ui.draggable.remove();
+                }
+                window.location.reload();
+              }
+            }
+          });
+        }
+      });
+    });
+  <% end %>
+<% end %>

@@ -1,0 +1,86 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% if @project %>
+  <% @status = params[:status] || 1 %>
+  <% @workflows = DmsfWorkflow.status(@status).where(project_id: @project.id).sorted %>
+  <% @path = settings_project_path(@project, tab: 'dmsf_workflow') %>
+  <p>
+    <%= link_to sprite_icon('add', l(:label_dmsf_workflow_new)), new_dmsf_workflow_path(project_id: @project&.id),
+                class: 'icon icon-add', data: { cy: "button__new--dmsf-workflow" } %>
+  </p>
+<% else %>
+  <div class="contextual">
+    <%= link_to sprite_icon('add', l(:label_dmsf_workflow_new)), new_dmsf_workflow_path(project_id: @project&.id),
+                class: 'icon icon-add', data: { cy: "button__new--dmsf-workflow" } %>
+  </div>
+  <h2><%= l(:label_dmsf_workflow_plural) %></h2>
+<% end %>
+
+<%= form_tag(@path, method: :get) do %>
+  <fieldset>
+    <legend><%= l(:label_filter_plural) %></legend>
+    <label for='status'><%= l(:field_status) %>:</label>
+    <%
+    worflows_count_by_status = DmsfWorkflow.where(project_id: @project&.id).group(:status).count.to_hash
+    options = options_for_select([[l(:label_all), ''],
+      ["#{l(:status_active)} (#{worflows_count_by_status[DmsfWorkflow::STATUS_ACTIVE].to_i})",
+      DmsfWorkflow::STATUS_ACTIVE.to_s],
+      ["#{l(:status_locked)} (#{worflows_count_by_status[DmsfWorkflow::STATUS_LOCKED].to_i})",
+      DmsfWorkflow::STATUS_LOCKED.to_s]], @status.to_s)
+    %>
+    <%= select_tag 'status', options, class: 'small', onchange: 'this.form.submit(); return false;' %>
+  </fieldset>
+<% end %>&nbsp;
+
+<% if @workflows.any? %>
+  <table class="list">
+    <thead><tr>
+      <th><%= l(:field_name) %></th>
+      <th></th>
+    </tr></thead>
+    <tbody>
+      <% @workflows.each do |workflow| %>
+        <tr id="workflow-<%= workflow.id %>" class="dmsf-workflows <%= workflow.active? ? 'active' : 'locked' %>">
+          <td class="name"><%= link_to(h(workflow.name), dmsf_workflow_path(workflow)) %></td>
+          <td class="buttons">
+            <% url = { controller: 'dmsf_workflows', action: 'update', id: workflow.id } %>
+            <% if workflow.locked? %>
+            <%= link_to sprite_icon('unlock', l(:button_unlock)),
+                        url.merge(dmsf_workflow: { status: DmsfWorkflow::STATUS_ACTIVE }), method: :put,
+                        class: 'icon icon-unlock' %>
+            <% else %>
+              <%= link_to sprite_icon('lock', l(:button_lock)),
+                          url.merge(dmsf_workflow: { status: DmsfWorkflow::STATUS_LOCKED }), method: :put,
+                          class: 'icon icon-lock' %>
+            <% end %>
+            <%= delete_link dmsf_workflow_path(workflow, back_url: @path) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% unless @project %>
+  <span class="pagination"><%= pagination_links_full @workflow_pages %></span>
+<% end %>

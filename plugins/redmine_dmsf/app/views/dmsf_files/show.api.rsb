@@ -1,0 +1,43 @@
+api.dmsf_file do
+  api.id @file.id
+  api.title @file.title
+  api.name @file.name
+  api.project_id @file.project_id
+  api.dmsf_folder_id @file.dmsf_folder_id if @file.dmsf_folder_id
+  api.content_url download_dmsf_file_url(@file)
+  api.array :dmsf_file_revisions do
+    @file.dmsf_file_revisions.each do |r|
+      api.dmsf_file_revision do
+        api.id r.id
+        api.source_dmsf_file_revision_id r.source_dmsf_file_revision_id
+        api.name r.name
+        api.dmsf_string "{{dmsf(#{@file.id},#{@file.name},#{r.id})}}"
+        api.content_url view_dmsf_file_url(@file, download: r)
+        api.size r.size
+        api.mime_type r.mime_type
+        api.title r.title
+        api.description r.description
+        api.workflow r.workflow
+        if r.patch_version.present?
+          api.version "#{r.major_version}.#{r.minor_version}.#{r.patch_version}"
+        elsif r.minor_version.present?
+          api.version "#{r.major_version}.#{r.minor_version}"
+        else
+          api.version r.major_version
+        end
+        api.comment r.comment
+        api.user_id r.user_id
+        api.created_at r.created_at
+        api.updated_at r.updated_at
+        api.dmsf_workflow_id r.dmsf_workflow_id
+        api.dmsf_workflow_assigned_by_user_id r.dmsf_workflow_assigned_by_user_id
+        api.dmsf_workflow_assigned_at r.dmsf_workflow_assigned_at
+        api.dmsf_workflow_started_by_user_id r.dmsf_workflow_started_by_user_id
+        api.dmsf_workflow_started_at r.dmsf_workflow_started_at
+        api.dmsf_worklfow_state r.workflow_str(false)
+        api.digest r.digest
+        render_api_custom_values r.visible_custom_field_values, api
+      end
+    end
+  end
+end

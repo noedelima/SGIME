@@ -1,0 +1,127 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Vít Jonáš <vit.jonas@gmail.com>, Daniel Munn <dan.munn@munnster.co.uk>, Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% html_title l(:dmsf) %>
+<% if @project %>
+  <div class="contextual">
+    <% unless @locked || @system_folder %>
+      <% if @file_manipulation_allowed %>
+        <%= link_to sprite_icon('add', l(:label_document_new)),
+                    multi_dmsf_upload_path(id: @project, folder_id: @folder), class: 'icon icon-add',
+                    data: { cy: 'button__new-file--dmsf' } %>
+      <% end %>
+      <% if @folder_manipulation_allowed %>
+        <%= link_to sprite_icon('add', l(:link_create_folder)), new_dmsf_path(id: @project, parent_id: @folder),
+                    class: 'icon icon-add', data: { cy: 'button__create-folder--dmsf' } %>
+      <% end %>
+    <% end %>
+    <% if defined?(EasyExtensions) %>
+      <%= render partial: 'dmsf_context_menus/main', locals: {
+          folder_manipulation_allowed: @folder_manipulation_allowed,
+          system_folder: @system_folder,
+          folder: @folder,
+          project: @project,
+          locked: @locked,
+          file_manipulation_allowed: @file_manipulation_allowed,
+          trash_enabled: @trash_enabled,
+          notifications: @notifications } %>
+    <% else %>
+      <%= actions_dropdown do %>
+        <%= render partial: 'dmsf_context_menus/main', locals: {
+            folder_manipulation_allowed: @folder_manipulation_allowed,
+            system_folder: @system_folder,
+            folder: @folder,
+            project: @project,
+            locked: @locked,
+            file_manipulation_allowed: @file_manipulation_allowed,
+            trash_enabled: @trash_enabled,
+            notifications: @notifications} %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render partial: 'path', locals: { folder: @folder, filename: nil, title: nil } %>
+
+<%= render partial: 'description' %>
+
+<%= form_tag(@project ? dmsf_folder_path(id: @project, folder_id: @folder) : dmsf_index_path,
+             method: :get, id: 'query_form', class: 'dmsf-query-form') do %>
+  <%= hidden_field_tag('folder_id', @folder.id) if @folder %>
+  <div id="dmsf-query-form">
+    <%= render partial: 'queries/query_form' %>
+  </div>
+<% end %>
+<% if @query.valid? %>
+  <% if @dmsf_count == 0 %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <%= render partial: 'query_list', locals: { query: @query, dmsf_pages: @dmsf_pages, folder: @folder } %>
+    <span class="pagination"><%= pagination_links_full @dmsf_pages, @dmsf_count %></span>
+  <% end %>
+<% end %>
+
+<%= context_menu %>
+
+<% if !@folder&.system && (@project || RedmineDmsf.dmsf_webdav?) %>
+    <% other_formats_links do |f| %>
+      <% if @project %>
+        <%= f.link_to 'CSV', url: { action: :show, id: @project, folder_id: @folder, encoding: Encoding::UTF_8 } %>
+      <% end %>
+      <% if RedmineDmsf.dmsf_webdav? %>
+        <span>
+          <%= link_to 'WebDAV', webdav_url(@project, @folder), class: 'webdav' %>
+        </span>
+      <% end %>
+    <% end %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render partial: 'dmsf/sidebar' %>
+
+  <% project_or_folder = @folder? @folder : @project %>
+  <% if project_or_folder&.watchers.present? && User.current.allowed_to?(:view_dmsf_folder_watchers, @project) %>
+    <div id="watchers">
+      <%= render partial: 'watchers/watchers', locals: { watched: @folder ? @folder : @project } %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if defined?(EasyExtensions) %>
+  <%= late_javascript_tag do %>
+    $(function() {
+      $("p.buttons").addClass("filter-buttons form-actions");
+      let buttonApply = $("p.filter-buttons > a.icon-checked");
+      buttonApply.addClass("button-positive");
+      buttonApply.text("<%= l('easy_query.button_apply.issue') %>");
+      let buttonClear = $("p.filter-buttons > a.icon-reload");
+      buttonClear.addClass("button-negative");
+      buttonClear.text("<%= l('easy_query.label.default_filters') %>");
+      $("p.filter-buttons > a.icon-save").addClass("button");
+      $("p.filter-buttons > a.icon-edit").addClass("button");
+      $("p.filter-buttons > a.icon-del").addClass("button");
+      $("#query_form_with_buttons > p.buttons").show();
+    });
+  <% end %>
+<% end %>
+
+<% late_javascript_tag do %>
+  "$('#ajax-indicator').hide();"
+<% end %>

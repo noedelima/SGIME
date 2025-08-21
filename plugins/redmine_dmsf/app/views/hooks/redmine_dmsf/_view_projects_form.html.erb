@@ -1,0 +1,42 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Vít Jonáš <vit.jonas@gmail.com>, Daniel Munn <dan.munn@munnster.co.uk>, Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% if @project.new_record? && @source_project %>
+  <p>
+    <% counts = @source_project.dmsf_count %>
+    <label class="block">
+      <% value = params['only'].blank? || params['only'].include?('dmsf') %>
+      <%= check_box_tag 'only_dmsf', 'dmsf', value, name: 'only[]',
+                        onfocus: "$('#only_dmsf_folders').prop('checked', false);" %>
+      <%= l(:label_copy_dmsf, counts) %>
+    </label>
+    <label class="block">
+      <% value = params['only'].present? && params['only'].include?('dmsf_folders') %>
+      <%= check_box_tag 'only_dmsf_folders', 'dmsf_folders', value, name: 'only[]',
+                        onfocus: "$('#only_dmsf').prop('checked', false);" %>
+      <%= l(:label_copy_only_dmsf_folders, counts) %>
+    </label>
+    <label class="block">
+      <% value = params['only'].blank? || params['only'].include?('approval_workflows') %>
+      <%= check_box_tag 'only[]', 'approval_workflows', value %>
+      <%= l(:label_dmsf_workflow_plural_num, @source_project.dmsf_workflows.count) %>
+    </label>
+  </p>
+<% end %>

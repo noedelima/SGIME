@@ -1,0 +1,28 @@
+api.dmsf do
+
+  api.array :dmsf_nodes, api_meta(total_count: @query.dmsf_nodes(offset: @offset, limit: @limit).count) do
+    @query.dmsf_nodes(offset: @offset, limit: @limit).each do |node|
+      api.node do
+        api.id node.id
+        api.title node.title
+        api.type node.type
+        case node.type
+        when 'file', 'url-link'
+            api.filename node.filename
+        when 'file-link', 'folder-link'
+            api.target_id node.revision_id.to_i
+            api.target_project_id node.project_id
+        end
+      end
+    end
+  end
+
+  if @folder
+    api.found_folder do
+      api.id @folder.id
+      api.title @folder.title
+      render_api_custom_values @folder.visible_custom_field_values, api
+    end
+  end
+
+end

@@ -1,0 +1,48 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+/* Get all checked users */
+var checkedBoxes = $('input[name="user_ids[]"]:checked');
+
+/* Get all hidden tags */
+var hiddenTags = $('input[name="user_ids[]"]:hidden');
+
+/* Draw the form */
+usersForDelegate = $('#dmsf_users_for_delegate');
+
+usersForDelegate.html('<%= escape_javascript(
+  render_principals_for_new_dmsf_workflow_users(
+    @dmsf_workflow, params[:dmsf_workflow_step_assignment_id], params[:dmsf_file_revision_id])) %>');
+
+/* Add all checked users from previous page as hidden tags */
+checkedBoxes.each(function() {
+    usersForDelegate.append('<input type="hidden" name="user_ids[]" value="' + $(this).val() + '">');
+});
+
+/* Re-add all hidden tags and re-check displayed users */
+hiddenTags.each(function() {
+    let userCheckBox = $("input[value='" + $(this).val() + "']");
+    if(userCheckBox.length) {
+        userCheckBox.prop('checked', true);
+    }
+    else {
+        usersForDelegate.append('<input type="hidden" name="user_ids[]" value="' + $(this).val() + '">');
+    }
+});

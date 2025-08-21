@@ -1,0 +1,43 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Vít Jonáš <vit.jonas@gmail.com>, Daniel Munn <dan.munn@munnster.co.uk>, Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
+  <p>
+    <% options = [[l(:label_none), nil]] %>
+    <% options.concat DmsfQuery.only_public.where(project_id: nil).or(DmsfQuery.where(user_id: @user.id)).
+        pluck(:name, :id) %>
+    <%= pref_fields.select :default_dmsf_query,
+                   options_for_select(options, selected: @user.pref.default_dmsf_query) %>
+  </p>
+  <p><%= pref_fields.check_box :receive_download_notification %></p>
+<% end %>
+<% if RedmineDmsf.dmsf_webdav_authentication == 'Digest' %>
+  <p>
+    <label for='webdav_digest_reset'><%= l(:label_dmsf_webdav_digest) %></label>
+    <% token = Token.find_by(user_id: @user.id, action: 'dmsf_webdav_digest') %>
+    <% if token %>
+      <%= l(:label_dmsf_webdav_digest_created_on, distance_of_time_in_words(Time.now, token.created_on)) %>
+      (<%= link_to l(:button_reset), dmsf_digest_path, remote: true, id: 'webdav_digest_reset' %>)
+    <% else %>
+      <%= l(:label_missing_dmsf_webdav_digest) %>
+      (<%= link_to l(:button_add), dmsf_digest_path, remote: true, id: 'webdav_digest_reset' %>)
+    <% end %>
+  </p>
+<% end %>

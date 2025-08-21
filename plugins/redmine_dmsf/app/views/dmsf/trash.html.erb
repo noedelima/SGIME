@@ -1,0 +1,61 @@
+<%
+  # Redmine plugin for Document Management System "Features"
+  #
+  # Karel Pičman <karel.picman@kontron.com>
+  #
+  # This program is free software; you can redistribute it and/or
+  # modify it under the terms of the GNU General Public License
+  # as published by the Free Software Foundation; either version 2
+  # of the License, or (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program; if not, write to the Free Software
+  # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%>
+
+<% html_title l(:dmsf) %>
+
+<div class="contextual">
+  <% if @file_delete_allowed %>
+    <%= delete_link empty_trash_path(id: @project), {}, l(:label_empty_trash_bin) %>
+  <% end %>
+</div>
+
+<h2><%= l(:link_trash_bin) %></h2>
+
+<%= form_tag(trash_dmsf_path(id: @project), method: :get, id: 'query_form', class: 'dmsf-query-form') do %>
+  <div id="dmsf-query-form">
+    <%= render partial: 'queries/query_form' %>
+  </div>
+<% end %>
+<%= render partial: 'query_list', locals: { query: @query, dmsf_pages: @dmsf_pages } %>
+<span class="pagination"><%= pagination_links_full @dmsf_pages, @dmsf_count %></span>
+
+<%= context_menu %>
+
+<% content_for :sidebar do %>
+  <%= render partial: 'dmsf/sidebar' %>
+<% end %>
+
+<% if defined?(EasyExtensions) %>
+  <%= late_javascript_tag do %>
+    $(function() {
+      $("p.buttons").addClass("filter-buttons form-actions");
+      let buttonApply = $("p.filter-buttons > a.icon-checked");
+      buttonApply.addClass("button-positive");
+      buttonApply.text("<%= l('easy_query.button_apply.issue') %>");
+      let buttonClear = $("p.filter-buttons > a.icon-reload");
+      buttonClear.addClass("button-negative");
+      buttonClear.text("<%= l('easy_query.label.default_filters') %>");
+      $("p.filter-buttons > a.icon-save").addClass("button");
+      $("p.filter-buttons > a.icon-edit").addClass("button");
+      $("p.filter-buttons > a.icon-del").addClass("button");
+      $("#query_form_with_buttons > p.buttons").show();
+    });
+  <% end %>
+<% end %>
