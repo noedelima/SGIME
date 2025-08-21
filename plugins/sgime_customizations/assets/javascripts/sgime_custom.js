@@ -675,6 +675,7 @@ document.head.appendChild(style);
      */
     enhanceNavigation: function() {
       // Ícones consistentes no menu principal (todos os botões da mesma linha)
+      const defaultIcon = '🔷';
       const menuIcons = {
         'Página inicial': '🏠',
         'Minha página': '🏡',
@@ -686,18 +687,37 @@ document.head.appendChild(style);
         'Conta': '👤',
         'Sair': '🔒',
         'Entrar': '🔓',
-        'Registrar': '📝'
+        'Registrar': '📝',
+        // Específicos solicitados
+        'Tarefas recorrentes': '📆'
       };
-
-      const defaultIcon = '🔹';
 
       $('#top-menu a').each(function() {
         const $link = $(this);
         // Evitar duplicar
         if ($link.find('.cpii-menu-icon').length > 0) return;
         const text = $link.text().trim();
-  const icon = menuIcons[text] || defaultIcon;
-  $link.prepend('<span class="cpii-menu-icon" aria-hidden="true">' + icon + '</span> ');
+
+        const href = ($link.attr('href') || '');
+
+        // Caso especial: DMS/DMSF -> usar 📄 e remover o sprite CSS do plugin
+        if (text === 'DMS' || text === 'DMSF' || $link.hasClass('icon-dmsf') || /\/dmsf(\/|$)/.test(href)) {
+          // remover classes que aplicam sprite
+          $link.removeClass('icon-dmsf icon');
+          // garantir que nenhum background sprite permaneça
+          $link.css({ backgroundImage: 'none', paddingLeft: '' });
+          $link.prepend('<span class="cpii-menu-icon" aria-hidden="true">📄</span> ');
+          return;
+        }
+
+        // Caso especial alternativo: Recurring tasks pela rota
+        if (/\/recurring_tasks(\/|$)/.test(href)) {
+          $link.prepend('<span class="cpii-menu-icon" aria-hidden="true">📆</span> ');
+          return;
+        }
+
+        const icon = menuIcons[text] || defaultIcon;
+        $link.prepend('<span class="cpii-menu-icon" aria-hidden="true">' + icon + '</span> ');
       });
     },
     

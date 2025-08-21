@@ -99,3 +99,5 @@ html body #top-menu ul li {
   position: relative !important;
   z-index: 1003 !important;
 }
+
+/* (removido override específico do DMS; a correção foi feita no JS para não injetar ícone) */

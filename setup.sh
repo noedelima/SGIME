@@ -285,7 +285,8 @@ setup_initial_data() {
     # Executar configuração inicial
     info "Executando migrações e configuração inicial..."
     $DOCKER_COMPOSE_CMD exec -T redmine bash -lc "
-        bundle exec rake db:migrate RAILS_ENV=production &&
+        export SECRET_KEY_BASE=\"$REDMINE_SECRET_KEY_BASE\" && \
+        bundle exec rake db:migrate RAILS_ENV=production && \
         bundle exec rake redmine:load_default_data RAILS_ENV=production REDMINE_LANG=pt-BR
     " || true
     

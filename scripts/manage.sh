@@ -40,9 +40,15 @@ else
     error "Docker Compose não encontrado. Instale docker compose ou docker compose plugin."
 fi
 
-# Verificar se estamos no diretório correto
-if [ ! -f "docker compose.yml" ]; then
-    error "Arquivo docker compose.yml não encontrado. Execute este script no diretório raiz do SGIME."
+# Verificar se estamos no diretório correto (aceitar docker-compose.yml/.yaml)
+if [ -f "docker-compose.yml" ]; then
+    COMPOSE_FILE="docker-compose.yml"
+elif [ -f "docker-compose.yaml" ]; then
+    COMPOSE_FILE="docker-compose.yaml"
+elif [ -f "docker-compose-simple.yml" ]; then
+    COMPOSE_FILE="docker-compose-simple.yml"
+else
+    error "Arquivo docker-compose.yml não encontrado. Execute este script no diretório raiz do SGIME."
 fi
 
 # Função para mostrar ajuda
