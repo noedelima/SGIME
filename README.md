@@ -9,7 +9,7 @@ O SGIME (Sistema de Gestão Integrada de Engenharia) é uma solução completa d
 
 **Sistema de Gestão Integrada de Engenharia para Colégio Pedro II**
 
-### 🎯 Destaques da v1.8
+### 🎯 Destaques da v1.8 (Stable)
 - **🔧 Compatibilidade Completa com Rails 7**: Todos os plugins atualizados e funcionais
 - **🧹 Código Limpo**: Documentação consolidada e arquivos temporários removidos
 - **📦 6 Plugins Completos**: Conjunto completo e 100% funcional
@@ -24,41 +24,7 @@ O SGIME (Sistema de Gestão Integrada de Engenharia) é uma solução completa d
 - ✅ **Redmine Recurring Tasks** - Tarefas recorrentes
 - ✅ **Redmine More Previews** - Visualizações avançadas (10 converters ativos) - Sistema de Gestão Integrada de Engenharia
 
-## � Versão 1.7 (Rails 7 Ready) - Estável
-
-**Sistema de Gestão Integrada de Engenharia para Colégio Pedro II**
-
-### 🎯 Destaques da v1.7
-- **🔧 Compatibilidade Completa com Rails 7**: Todos os plugins atualizados e funcionais
-- **🧹 Código Limpo**: Remoção de arquivos desnecessários e versões de backup
-- **📦 6 Plugins Essenciais**: Conjunto completo e funcional para operação
-- **🔐 Sistema Estável**: Pronto para produção com Redmine 6.0 + Rails 7.2
-
-### �📊 Status dos Plugins
-- ✅ **Redmine Dashboard** - Dashboard personalizado (funcional)
-- ✅ **SGIME Customizations** - Tema Colégio Pedro II (funcional)  
-- ✅ **Redmine Checklists** - Sistema de checklists (funcional)
-- ✅ **Redmine DMSF** - Gestão de documentos (funcional)
-- ✅ **Redmine Recurring Tasks** - Tarefas recorrentes (funcional)
-- ✅ **Redmine More Previews** - Visualizações avançadas (funcional)
-
-## 🚀 Versão 1.7 (Rails 7 Ready) - Estável
-
-**Sistema de Gestão Integrada de Engenharia para Colégio Pedro II**
-
-### 🎯 Destaques da v1.7
-- **🔧 Compatibilidade Completa com Rails 7**: Todos os plugins atualizados e funcionais
-- **🧹 Código Limpo**: Remoção de arquivos desnecessários e versões de backup
-- **📦 5 Plugins Essenciais**: Conjunto mínimo e funcional para operação
-- **🔐 Sistema Estável**: Pronto para produção com Redmine 6.0 + Rails 7.2
-
-### 📊 Status dos Plugins
-- ✅ **Redmine Dashboard** - Dashboard personalizado (funcional)
-- ✅ **SGIME Customizations** - Tema Colégio Pedro II (funcional)  
-- ✅ **Redmine Checklists** - Sistema de checklists (funcional)
-- ✅ **Redmine DMSF** - Gestão de documentos (funcional)
-- ✅ **Redmine Recurring Tasks** - Tarefas recorrentes (funcional)
-- � **Redmine More Previews** - Visualizações avançadas (90% implementado)
+> Histórico de versões anteriores (v1.7) foi consolidado e removido para manter o README objetivo. Consulte CHANGELOG para detalhes.
 
 ## Descrição Geral
 
@@ -150,13 +116,6 @@ Para mais detalhes, consulte: `plugins/sgime_customizations/README.md`
 - ✅ **Redmine Checklists** - Sistema de checklists (RedmineUP Light)
 - ✅ **Redmine DMSF** - Sistema completo de gestão de documentos
 - ✅ **Redmine Recurring Tasks** - Tarefas recorrentes para manutenção
-
-### Plugins Removidos (Para Instalação Simplificada)
-> **� Nota**: Os plugins abaixo foram removidos para manter apenas os recursos essenciais.
-
-- **Redmine Issue Templates** - Templates predefinidos para issues (opcional)
-- **Redmine More Previews** - Preview avançado de arquivos (opcional)
-- **Simple Checklists** - Sistema básico de checklists (substituído pelo oficial)
 
 Para mais informações sobre plugins, consulte: [docs/plugins.md](docs/plugins.md)
 
