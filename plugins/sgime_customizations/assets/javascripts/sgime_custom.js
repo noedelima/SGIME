@@ -725,11 +725,6 @@ document.head.appendChild(style);
      * Adiciona branding do CPII
      */
     addCPIIBranding: function() {
-      // Adiciona favicon se suportado
-      if (!$('link[rel="icon"]').length) {
-        $('head').append('<link rel="icon" type="image/x-icon" href="/plugin_assets/sgime_customizations/images/favicon.ico">');
-      }
-      
       // Adiciona meta tags institucionais
       if (!$('meta[name="institution"]').length) {
         $('head').append('<meta name="institution" content="Colégio Pedro II">');
@@ -846,11 +841,7 @@ document.head.appendChild(style);
 
   // Header: não alterar via JS para evitar flashes; a Home é tratada por CSS condicional
     
-    // Adicionar favicon se não existir
-    if (!$('link[rel="icon"]').length && !$('link[rel="shortcut icon"]').length) {
-      $('head').append('<link rel="icon" type="image/x-icon" href="/plugin_assets/sgime_customizations/images/favicon.ico">');
-      $('head').append('<link rel="shortcut icon" type="image/x-icon" href="/plugin_assets/sgime_customizations/images/favicon.ico">');
-    }
+  // Favicon já é injetado no head server-side (data URL); evitar duplicar via JS
     
     // Garantir que os links do menu superior sejam visíveis
     $('#top-menu ul li').show();

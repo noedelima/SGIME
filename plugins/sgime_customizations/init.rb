@@ -1,3 +1,5 @@
+require 'base64'
+
 Redmine::Plugin.register :sgime_customizations do
   name 'SGIME Customizations Plugin - Colégio Pedro II'
   author 'SGIME Team - Colégio Pedro II'
@@ -49,29 +51,50 @@ end
 # Hook para adicionar CSS customizado e modificar elementos
 class SgimeThemeHook < Redmine::Hook::ViewListener
   def view_layouts_base_html_head(context={})
+    # Preparar favicons como data URL para evitar dependência de /plugin_assets
+    svg_data = begin
+      path = Rails.root.join('plugins', 'sgime_customizations', 'assets', 'images', 'cpii-favicon.svg')
+      Base64.strict_encode64(File.binread(path))
+    rescue
+      nil
+    end
+    ico_data = begin
+      path = Rails.root.join('plugins', 'sgime_customizations', 'assets', 'images', 'favicon.ico')
+      Base64.strict_encode64(File.binread(path))
+    rescue
+      nil
+    end
+
     stylesheet_link_tag('sgime_custom', plugin: 'sgime_customizations') +
     stylesheet_link_tag('cpii_brasao', plugin: 'sgime_customizations') +
     stylesheet_link_tag('sgime_menu_fix', plugin: 'sgime_customizations') +
     stylesheet_link_tag('sgime_contrast_max', plugin: 'sgime_customizations') +
     stylesheet_link_tag('sgime_layout_fixes', plugin: 'sgime_customizations') +
     javascript_include_tag('sgime_custom', plugin: 'sgime_customizations') +
+    # Favicons inline no head via data URL (prioriza SVG + fallback ICO)
+    (<<~HTML).html_safe +
+  <script>(function(){function purgeFav(){try{document.querySelectorAll('head link[rel="icon"], head link[rel="shortcut icon"]').forEach(function(l){var h=l.getAttribute('href')||''; if(h && !h.startsWith('data:image/')) l.remove();});}catch(e){console.warn('Falha limpeza favicons',e);} }purgeFav();try{new MutationObserver(function(m){purgeFav();}).observe(document.head,{childList:true,subtree:true});}catch(e){/* ignore */}})();</script>
+      #{svg_data ? "<link rel=\"icon\" type=\"image/svg+xml\" href=\"data:image/svg+xml;base64,#{svg_data}\">" : ''}
+      #{ico_data ? "<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"data:image/x-icon;base64,#{ico_data}\">" : ''}
+    HTML
     javascript_tag(<<~JS.html_safe)
       document.addEventListener('DOMContentLoaded', function() {
-        
-        // === FAVICON OFICIAL DO COLÉGIO PEDRO II ===
-        // Remove favicons existentes
-        var existingFavicons = document.querySelectorAll('link[rel*="icon"]');
-        existingFavicons.forEach(function(favicon) {
-          favicon.remove();
-        });
-        
-  // Favicon: utilizar o padrão do Redmine; se um SVG institucional existir em /images, ele será carregado por tema
-  var cb = Date.now(); // cache-buster simples
-  var faviconIco = document.createElement('link');
-  faviconIco.rel = 'shortcut icon';
-  faviconIco.type = 'image/x-icon';
-  faviconIco.href = '/favicon.ico?v=' + cb;
-  document.head.appendChild(faviconIco);
+        // === NORMALIZAÇÃO DE FAVICONS ===
+        // Remove qualquer favicon pré-existente servido por /assets (ex: favicon gerado padrão do Redmine)
+        // mantendo apenas os inlines (data:) injetados pelo hook.
+        (function ensureOnlyInstitutionalFavicons() {
+          try {
+            var links = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+            links.forEach(function(l){
+              var href = (l.getAttribute('href')||'');
+              if(href && !href.startsWith('data:image/')) {
+                l.parentNode && l.parentNode.removeChild(l);
+              }
+            });
+            // Se por algum motivo nossos favicons não existirem (ex: erro de leitura no servidor), não recriamos aqui
+            // para evitar lógica duplicada; fallback visual será o favicon padrão removido.
+          } catch(e) { console.warn('Falha ao normalizar favicons', e); }
+        })();
         
         // === TÍTULO DA PÁGINA COM IDENTIDADE INSTITUCIONAL ===
         function updatePageTitle() {
@@ -167,5 +190,13 @@ class SgimeThemeHook < Redmine::Hook::ViewListener
   
   def view_layouts_base_content(context={})
     # Adicionar conteúdo customizado se necessário
+  end
+end
+
+# Override para suprimir o favicon padrão do Redmine (evita emissão do link /assets/favicon-*.ico)
+module ::ApplicationHelper
+  def favicon
+    # Retorna string vazia pois os favicons institucionais são injetados via hook do plugin.
+    ''.html_safe
   end
 end
