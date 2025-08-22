@@ -2,7 +2,7 @@
 # Script de Setup Rápido do SGIME
 # Sistema de Gestão Integrada de Engenharia
 # Colégio Pedro II - Seção de Engenharia
-# Versão: 1.8 - Final Stable Release
+# Versão: 1.9 - Final Stable Release
 # Licença: GPLv3
 
 set -e
@@ -52,7 +52,7 @@ show_banner() {
 ║                                                                  ║
 ║   Sistema de Gestão Integrada de Engenharia                      ║
 ║   Colégio Pedro II - Seção de Engenharia                         ║
-║   Versão 1.8 - Agosto 2025 (Final Stable)                       ║
+║   Versão 1.9 - Agosto 2025 (Final Stable)                       ║
 ║                                                                  ║
 ║   Setup Rápido e Inteligente                                     ║
 ║   Licença: GPLv3                                                 ║
@@ -358,7 +358,7 @@ show_final_info() {
     echo -e "   • URL Principal: ${BLUE}http://localhost${NC} ou ${BLUE}https://localhost${NC}"
     echo -e "   • URL Alternativa: ${BLUE}http://sgime.cp2.g12.br${NC} (adicione ao /etc/hosts)"
     echo -e "   • Usuário padrão: ${GREEN}admin${NC}"
-    echo -e "   • Senha padrão: ${GREEN}admin123${NC}"
+    echo -e "   • Senha padrão: ${GREEN}admin${NC}"
     echo ""
     echo -e "${YELLOW}⚠️  IMPORTANTE:${NC}"
     echo -e "   • ${RED}ALTERE A SENHA DO ADMIN IMEDIATAMENTE${NC} após o primeiro login"
@@ -401,7 +401,7 @@ main() {
     fi
     
     echo ""
-    log "Iniciando setup do SGIME v1.8 (Final Stable)..."
+    log "Iniciando setup do SGIME v1.9 (Final Stable)..."
     
     # Executar etapas do setup
     check_prerequisites
