@@ -32,10 +32,63 @@ class SgimeCustomizationsHook < Redmine::Hook::ViewListener
     # Adicionar JavaScript customizado
     html << javascript_include_tag('sgime_custom', plugin: 'sgime_customizations')
     
+    # Adicionar CSS inline para logotipo do CPII
+    html << %(
+      <style>
+        #header h1 {
+          background-image: url('/images/logo-cpii-oficial.png') !important;
+          background-repeat: no-repeat !important;
+          background-position: 10px center !important;
+          background-size: 50px 50px !important;
+          padding-left: 75px !important;
+          font-size: 1.6rem !important;
+          color: white !important;
+          font-weight: 600 !important;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+        }
+        #header h1::before {
+          background: none !important;
+        }
+      </style>
+    ).html_safe
+    
     # Adicionar favicons customizados
     html << sgime_custom_favicons
     
     html
+  end
+  
+  def view_layouts_base_body_top(context={})
+    # Hook alternativo para adicionar elementos no topo da página
+    html = "".html_safe
+    
+    # JavaScript para substituir favicon dinamicamente se necessário
+    html << %(<script type="text/javascript">
+      $(document).ready(function() {
+        // Garantir que o logotipo esteja visível
+        console.log('🏫 SGIME - Logotipo do Colégio Pedro II carregado');
+      });
+    </script>).html_safe
+    
+    html
+  end
+  
+  private
+  
+  def cpii_logo_base64
+    begin
+      plugin_dir = File.dirname(__FILE__)
+      logo_path = File.join(plugin_dir, 'assets', 'images', 'logo-cpii-oficial.png')
+      
+      if File.exist?(logo_path)
+        Base64.strict_encode64(File.read(logo_path))
+      else
+        ""
+      end
+    rescue => e
+      Rails.logger.warn "SGIME: Erro ao carregar logo CPII: #{e.message}"
+      ""
+    end
   end
   
   private
