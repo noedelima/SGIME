@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-# # # # # # require 'simple_enum'  # Commented temporarily to resolve dependency issues  # Commented temporarily to resolve dependency issues  # Commented temporarily to resolve dependency issues  # Commented temporarily to resolve dependency issues  # Temporariamente comentado para evitar dependência ausente
+# # # # # # # require 'simple_enum'  # Commented temporarily to resolve dependency issues  # Commented temporarily to resolve dependency issues  # Commented temporarily to resolve dependency issues  # Commented temporarily to resolve dependency issues  # Commented temporarily to resolve dependency issues  # Temporariamente comentado para evitar dependência ausente
 
 # Lock
 class DmsfLock < ApplicationRecord
@@ -28,8 +28,8 @@ class DmsfLock < ApplicationRecord
   belongs_to :user
 
   # At the moment apparently we're only supporting a write lock?
-  # # # # # # as_enum :lock_type, %i[type_write type_other]  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Temporariamente desabilitado
-  # # # # # # as_enum :lock_scope, %i[scope_exclusive scope_shared]  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Temporariamente desabilitado
+  # # # # # # # as_enum :lock_type, %i[type_write type_other]  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Temporariamente desabilitado
+  # # # # # # # as_enum :lock_scope, %i[scope_exclusive scope_shared]  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Commented temporarily  # Temporariamente desabilitado
 
   # We really loosely bind the value in the belongs_to above
   # here we just ensure the data internal to the model is correct
