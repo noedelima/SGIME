@@ -14,87 +14,65 @@ Redmine::Plugin.register :sgime_customizations do
     'custom_js_enabled' => true,
     'sgime_theme_enabled' => true,
     'cpii_branding_enabled' => true
-    # Assets principais + favicons institucionais inline (sem JS de limpeza redundante)
-    html = +
-      stylesheet_link_tag('sgime_custom', plugin: 'sgime_customizations') +
-      stylesheet_link_tag('cpii_brasao', plugin: 'sgime_customizations') +
-      stylesheet_link_tag('sgime_menu_fix', plugin: 'sgime_customizations') +
-      stylesheet_link_tag('sgime_contrast_max', plugin: 'sgime_customizations') +
-      stylesheet_link_tag('sgime_layout_fixes', plugin: 'sgime_customizations') +
-      javascript_include_tag('sgime_custom', plugin: 'sgime_customizations')
+  }
+end
 
-    # Injetar somente se leitura dos arquivos foi bem sucedida
-    if svg_data
-      html << %(<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,#{svg_data}">)
-    end
-    if ico_data
-      html << %(<link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,#{ico_data}">)
-    end
-    html.html_safe
-            link.style.setProperty('visibility', 'visible', 'important');
-            link.style.setProperty('opacity', '1', 'important');
-            link.style.setProperty('padding', '0.5rem 1rem', 'important');
-            link.style.setProperty('border-radius', '5px', 'important');
-            link.style.setProperty('border', '2px solid #DAA520', 'important'); // Borda dourada
-            link.style.setProperty('text-shadow', '0 1px 3px rgba(0,0,0,0.8)', 'important'); // Sombra forte
-            link.style.setProperty('font-weight', '600', 'important'); // Mais negrito
-            link.style.setProperty('text-decoration', 'none', 'important');
-            link.style.setProperty('transition', 'all 0.3s ease', 'important');
-            link.style.setProperty('margin', '0 0.5rem', 'important');
-            link.style.setProperty('box-shadow', '0 2px 6px rgba(0,0,0,0.3)', 'important'); // Sombra destaque
-            link.style.setProperty('min-width', '80px', 'important');
-            link.style.setProperty('text-align', 'center', 'important');
-          });
-          
-          // Garante estrutura do menu com fundo contrastante
-          var topMenu = document.querySelector('#top-menu');
-          if (topMenu) {
-            topMenu.style.setProperty('background', 'rgba(0, 51, 102, 0.9)', 'important'); // Azul forte
-            topMenu.style.setProperty('padding', '0.8rem', 'important');
-            topMenu.style.setProperty('border-radius', '8px', 'important');
-            topMenu.style.setProperty('border', '2px solid rgba(218, 165, 32, 0.5)', 'important'); // Borda dourada
-            topMenu.style.setProperty('box-shadow', '0 4px 15px rgba(0,0,0,0.3)', 'important');
-            topMenu.style.setProperty('backdrop-filter', 'blur(10px)', 'important');
-          }
-          
-          var topMenuUl = document.querySelector('#top-menu ul');
-          if (topMenuUl) {
-            topMenuUl.style.setProperty('display', 'block', 'important');
-            topMenuUl.style.setProperty('visibility', 'visible', 'important');
-            topMenuUl.style.setProperty('opacity', '1', 'important');
-          }
-          
-          var topMenuLis = document.querySelectorAll('#top-menu ul li');
-          topMenuLis.forEach(function(li) {
-            li.style.setProperty('display', 'inline-block', 'important');
-            li.style.setProperty('margin', '0', 'important');
-            li.style.setProperty('visibility', 'visible', 'important');
-            li.style.setProperty('opacity', '1', 'important');
-          });
-        }
-        
-        // Executa imediatamente e depois de um delay
-        enforceMenuVisibility();
-        setTimeout(enforceMenuVisibility, 100);
-        setTimeout(enforceMenuVisibility, 500);
-        setTimeout(enforceMenuVisibility, 1000);
-        
-  // Observer removido pois não há substituição global de texto.
-        
-        console.log('🏫 SGIME - Sistema carregado com identidade do Colégio Pedro II');
-      });
-    JS
+# Hook para adicionar assets customizados no head da página
+class SgimeCustomizationsHook < Redmine::Hook::ViewListener
+  def view_layouts_base_html_head(context={})
+    html = "".html_safe
+    
+    # Adicionar CSS customizado
+    html << stylesheet_link_tag('sgime_custom', plugin: 'sgime_customizations')
+    html << stylesheet_link_tag('cpii_brasao', plugin: 'sgime_customizations')
+    html << stylesheet_link_tag('sgime_menu_fix', plugin: 'sgime_customizations')
+    html << stylesheet_link_tag('sgime_contrast_max', plugin: 'sgime_customizations')
+    html << stylesheet_link_tag('sgime_layout_fixes', plugin: 'sgime_customizations')
+    
+    # Adicionar JavaScript customizado
+    html << javascript_include_tag('sgime_custom', plugin: 'sgime_customizations')
+    
+    # Adicionar favicons customizados
+    html << sgime_custom_favicons
+    
+    html
   end
   
-  def view_layouts_base_content(context={})
-    # Adicionar conteúdo customizado se necessário
+  private
+  
+  def sgime_custom_favicons
+    html = "".html_safe
+    
+    # Tentar ler os arquivos de favicon
+    begin
+      plugin_dir = File.dirname(__FILE__)
+      svg_path = File.join(plugin_dir, 'assets', 'images', 'favicon.svg')
+      ico_path = File.join(plugin_dir, 'assets', 'images', 'favicon.ico')
+      
+      if File.exist?(svg_path)
+        svg_data = Base64.strict_encode64(File.read(svg_path))
+        html << %(<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,#{svg_data}">).html_safe
+      end
+      
+      if File.exist?(ico_path)
+        ico_data = Base64.strict_encode64(File.read(ico_path))
+        html << %(<link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,#{ico_data}">).html_safe
+      end
+    rescue => e
+      Rails.logger.warn "SGIME: Erro ao carregar favicons: #{e.message}"
+    end
+    
+    html
   end
 end
 
-# Override para suprimir o favicon padrão do Redmine (evita emissão do link /assets/favicon-*.ico)
+# Registrar o hook
+Redmine::Hook.add_listener(SgimeCustomizationsHook)
+
+# Override para suprimir o favicon padrão do Redmine
 module ::ApplicationHelper
   def favicon
-    # Retorna string vazia pois os favicons institucionais são injetados via hook do plugin.
+    # Retorna string vazia pois os favicons institucionais são injetados via plugin
     ''.html_safe
   end
 end
