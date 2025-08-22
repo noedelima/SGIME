@@ -1,8 +1,8 @@
-# 📦 PLUGINS DO SGIME v1.8
+# 📦 PLUGINS DO SGIME v1.9
 
 ## 🎯 Visão Geral
 
-O SGIME v1.8 inclui **6 plugins essenciais** que fornecem funcionalidade completa para gestão de engenharia do Colégio Pedro II. Todos os plugins são **100% compatíveis com Rails 7** e **totalmente funcionais**.
+O SGIME v1.9 inclui **6 plugins essenciais** que fornecem funcionalidade completa para gestão de engenharia do Colégio Pedro II. Todos os plugins são **100% compatíveis com Rails 7** e **totalmente funcionais**.
 
 ---
 

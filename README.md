@@ -2,7 +2,8 @@
 
 **Sistema de Gestão Integrada de Engenharia para o Colégio Pedro II**
 
-### 🎯 Destaques da v1.8 (Stable)
+### 🎯 Destaques da v1.9 (Final Stable)
+- **🎨 Logotipo Institucional**: Brasão oficial do CPII integrado ao header
 - **🔧 Compatibilidade Completa com Rails 7**: Todos os plugins atualizados e funcionais
 - **🧹 Código Limpo**: Documentação consolidada e arquivos temporários removidos
 - **📦 6 Plugins Completos**: Conjunto completo e 100% funcional
@@ -71,7 +72,8 @@ O SGIME (Sistema de Gestão Integrada de Engenharia) é uma solução completa d
 O SGIME implementa a **identidade visual oficial do Colégio Pedro II** através de um tema personalizado que inclui:
 
 - **🏛️ Favicon Oficial**: Baseado no brasão do CPII com cores institucionais
-- **🎨 Logo no Header**: Brasão integrado com texto "SGIME - Colégio Pedro II"
+- **🎨 Logotipo no Header**: Brasão oficial do CPII (50x50px) integrado ao cabeçalho
+- **🔄 Substituição da Lupa**: Logo institucional substitui a lupa padrão do Redmine
 - **🌈 Paleta Institucional**: Azul institucional (#003366) e dourado oficial (#DAA520)
 - **📱 Interface Responsiva**: Adaptação para dispositivos móveis
 - **♿ Alto Contraste**: Menu com visibilidade máxima e acessibilidade
@@ -83,10 +85,12 @@ plugins/sgime_customizations/
 │   ├── sgime_custom.css         # CSS principal
 │   ├── cpii_brasao.css          # Elementos do brasão
 │   ├── sgime_menu_fix.css       # Correções de visibilidade
-│   └── sgime_contrast_max.css   # Contraste máximo
+│   ├── sgime_contrast_max.css   # Contraste máximo
+│   └── sgime_layout_fixes.css   # Correções de layout
 └── assets/images/
     ├── cpii-favicon.svg         # Favicon oficial
-    └── favicon.ico              # Fallback
+    ├── favicon.ico              # Fallback
+    └── logo-cpii-oficial.png    # Logotipo oficial do CPII
 ```
 
 Para mais detalhes, consulte: `plugins/sgime_customizations/README.md`
@@ -308,6 +312,6 @@ Este projeto está licenciado sob a GNU General Public License v3.0 - veja o arq
 
 ---
 
-**SGIME v1.8.0** - Final Stable Release  
+**SGIME v1.9.0** - Final Stable Release  
 **Colégio Pedro II** - Seção de Engenharia  
 **Data**: Agosto de 2025

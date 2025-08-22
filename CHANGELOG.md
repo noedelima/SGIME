@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.9.0] - 2025-08-22 - Final Stable Release
+
+### ✨ Added
+- **🎨 Logotipo Institucional**: Brasão oficial do Colégio Pedro II integrado ao header
+  - Substituição da lupa padrão por logotipo oficial (50x50px)
+  - CSS otimizado com posicionamento preciso e tipografia melhorada
+  - Asset pipeline integrado para carregamento eficiente
+
+### 🔧 Fixed
+- **Correções de Compatibilidade DMSF**: Aplicadas automaticamente pelo setup.sh
+  - Desabilitação de dependências nativas problemáticas (ox, xapian-ruby)
+  - Comentários em simple_enum para resolver conflitos de dependências
+  - Plugin DMSF totalmente funcional em ambiente Docker
+- **Documentação**: Correção da senha padrão (admin → admin, não admin123)
+- **Sintaxe Ruby**: Correção de string literal malformada em sgime_customizations
+
+### 🧹 Improved
+- **Documentação Consolidada**: Revisão completa e atualização para v1.9
+- **Estrutura do Tema**: Documentação atualizada com novos assets
+- **Ambiente Docker**: Validação completa através de rebuild total
+- **Persistência**: Confirmação de que customizações sobrevivem a rebuilds
+
+### 📦 Assets Added
+- `plugins/sgime_customizations/assets/images/logo-cpii-oficial.png` (277KB)
+
+### 🎯 Versão Final Estável
+Esta é a versão final estável do SGIME, pronta para produção com todos os recursos implementados e documentação completa.
+
+---
+
 ## [1.8.0] - 2025-08-08 - Final Stable Release
 
 ### ✨ Added

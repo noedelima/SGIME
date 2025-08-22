@@ -108,7 +108,7 @@
 - **Logs**: ✅ Rotação configurada
 
 #### Autenticação
-- **Admin padrão**: ✅ Configurado (admin/admin123)
+- **Admin padrão**: ✅ Configurado (admin/admin)
 - **LDAP/AD**: 🔄 Preparado para configuração
 - **SSO Azure**: 🔄 Template disponível
 

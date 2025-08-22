@@ -11,7 +11,8 @@ Este diretório contém a implementação completa do tema personalizado do SGIM
 O tema implementa uma identidade visual completa e autêntica baseada nos logos oficiais do Colégio Pedro II, incluindo:
 
 - ✅ **Favicon oficial** baseado no brasão CPII
-- ✅ **Logo institucional** no cabeçalho do sistema
+- ✅ **Logotipo institucional** no cabeçalho (50x50px)
+- ✅ **Substituição da lupa** por brasão oficial
 - ✅ **Paleta de cores oficial** da instituição
 - ✅ **Menu de navegação** com alto contraste e visibilidade
 - ✅ **Tipografia institucional** consistente
@@ -36,7 +37,8 @@ O tema implementa uma identidade visual completa e autêntica baseada nos logos 
 
 ### 2. Favicon e Logo Oficial
 - **Favicon SVG** baseado no brasão oficial com gradientes institucionais
-- **Logo no header** integrado com texto "SGIME - Colégio Pedro II"
+- **Logotipo 50x50px** no header substituindo a lupa padrão do Redmine
+- **CSS otimizado** com posicionamento preciso e tipografia melhorada
 - **Substituição automática** de "Redmine" por "SGIME" via JavaScript
 
 ### 3. Menu de Navegação de Alto Contraste
@@ -64,7 +66,8 @@ plugins/sgime_customizations/
 │   └── images/
 │       ├── cpii-favicon.svg             # Favicon oficial
 │       ├── favicon.svg                  # Favicon alternativo
-│       └── favicon.ico                  # Fallback ICO
+│       ├── favicon.ico                  # Fallback ICO
+│       └── logo-cpii-oficial.png        # Logotipo oficial (50x50px)
 └── README_IDENTIDADE_VISUAL.md          # Documentação detalhada
 ```
 
@@ -88,7 +91,7 @@ docker compose restart redmine
 ### 3. Verificação
 Após reiniciar, verifique:
 - ✅ Favicon do CPII na aba do navegador
-- ✅ Logo oficial no cabeçalho
+- ✅ Logotipo oficial no cabeçalho (substituindo a lupa)
 - ✅ Menu superior com botões dourados visíveis
 - ✅ Título "SGIME - Colégio Pedro II"
 

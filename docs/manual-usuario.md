@@ -36,7 +36,7 @@ O SGIME é uma plataforma integrada para gestão completa das atividades de enge
 1. Acesse: `https://sgime.cp2.g12.br`
 2. Use suas credenciais do Active Directory ou:
    - Usuário: `admin`
-   - Senha: `admin123` (apenas primeira instalação)
+   - Senha: `admin` (apenas primeira instalação)
 
 ### Navegação Básica
 

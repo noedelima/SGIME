@@ -1,4 +1,4 @@
-# 🔧 INSTALAÇÃO DO SGIME v1.8
+# 🔧 INSTALAÇÃO DO SGIME v1.9
 
 ## 🎯 Instalação Automatizada (Recomendada)
 
@@ -13,8 +13,8 @@
 
 ```bash
 # 1. Clone do repositório
-git clone https://github.com/colegiopedro2/sgime.git
-cd sgime
+git clone https://github.com/noedelima/SGIME.git
+cd SGIME
 
 # 2. Executar setup automatizado
 ./setup.sh
@@ -41,8 +41,8 @@ cd sgime
 
 ```bash
 # Clone do repositório
-git clone https://github.com/colegiopedro2/sgime.git
-cd sgime
+git clone https://github.com/noedelima/SGIME.git
+cd SGIME
 
 # Copiar arquivo de configuração
 cp config/env.example .env
@@ -128,7 +128,7 @@ sudo -u postgres psql -c "ALTER USER sgime PASSWORD 'sgime123';"
 
 ```bash
 # Clone e configuração
-git clone https://github.com/colegiopedro2/sgime.git /opt/sgime
+git clone https://github.com/noedelima/SGIME.git /opt/SGIME
 cd /opt/sgime
 
 # Instalar dependências Ruby

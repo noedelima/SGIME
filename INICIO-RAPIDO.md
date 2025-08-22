@@ -2,8 +2,8 @@
 
 ## Sistema de Gestão Integrada de Engenharia
 **Colégio Pedro II - Seção de Engenharia**  
-**Versão:** 1.6  
-**Data:** Julho de 2025  
+**Versão:** 1.9  
+**Data:** Agosto de 2025  
 **Licença:** GPLv3
 
 ---
@@ -42,7 +42,7 @@ cd SGIME
 
 1. **Abra o navegador:** http://localhost ou https://localhost
 2. **Usuário:** admin
-3. **Senha:** admin123
+3. **Senha:** admin
 4. **⚠️ IMPORTANTE:** Altere a senha imediatamente!
 
 ---
